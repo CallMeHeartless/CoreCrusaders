@@ -1,0 +1,23 @@
+- Menu Controls
+W to move up
+S to move down
+E to select an option
+
+- Gameplay Controls
+WASD to move your character
+Spacebar to shoot bullets at the enemies
+P to see all other player's scores and Lives
+
+Powerups
+Sphere will provide the player with 100 extra points
+Cubes will provide the player with temporary invincibility
+Pyramids will allow the player to temporarily shoot faster
+
+
+-If the multiplayer client takes you back to the menu screen when you select join server, you are not connected to any server and you will need to reload all the exe's that you have open, especially the server's exe
+- If you are a client on the connected screen and there is only one player, you aren't connected
+- While looking for an avalible server, the client will be stuck in a while loop until it finds a server
+- The game may bug out if you try to turn a server into a client or vice versa.
+
+- Only the server can start the game, by pressing E
+

@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Constants">
+      <UniqueIdentifier>{d2236118-f69a-4b82-bb71-64c933d16c7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Complete">
+      <UniqueIdentifier>{69679764-bb18-4b5b-987c-8f724fcc1e21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Network">
+      <UniqueIdentifier>{9720903f-a412-4073-8947-2c9740248362}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Network">
+      <UniqueIdentifier>{43a4a231-36ba-4fdd-ab68-e766d0f73260}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Complete">
+      <UniqueIdentifier>{c1783201-748a-4d14-874c-df3837ee1409}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="cubeMap.cpp">
+      <Filter>Source Files\Complete</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderLoader.cpp">
+      <Filter>Source Files\Complete</Filter>
+    </ClCompile>
+    <ClCompile Include="Sphere.cpp">
+      <Filter>Source Files\Complete</Filter>
+    </ClCompile>
+    <ClCompile Include="TextLabel.cpp">
+      <Filter>Source Files\Complete</Filter>
+    </ClCompile>
+    <ClCompile Include="camera.cpp">
+      <Filter>Source Files\Complete</Filter>
+    </ClCompile>
+    <ClCompile Include="images.cpp">
+      <Filter>Source Files\Complete</Filter>
+    </ClCompile>
+    <ClCompile Include="socket.cpp">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="server.cpp">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="network.cpp">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="client.cpp">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="path.cpp">
+      <Filter>Source Files\Complete</Filter>
+    </ClCompile>
+    <ClCompile Include="Logging.cpp">
+      <Filter>Source Files\Complete</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>Source Files\Complete</Filter>
+    </ClCompile>
+    <ClCompile Include="entity.cpp">
+      <Filter>Source Files\Complete</Filter>
+    </ClCompile>
+    <ClCompile Include="moveTypes.cpp">
+      <Filter>Source Files\Complete</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="menuScreen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Constants.h">
+      <Filter>Header Files\Constants</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstantsShapes.h">
+      <Filter>Header Files\Constants</Filter>
+    </ClInclude>
+    <ClInclude Include="Sphere.h">
+      <Filter>Header Files\Complete</Filter>
+    </ClInclude>
+    <ClInclude Include="TextLabel.h">
+      <Filter>Header Files\Complete</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.h">
+      <Filter>Header Files\Complete</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderLoader.h">
+      <Filter>Header Files\Complete</Filter>
+    </ClInclude>
+    <ClInclude Include="cubeMap.h">
+      <Filter>Header Files\Complete</Filter>
+    </ClInclude>
+    <ClInclude Include="client.h">
+      <Filter>Header Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="network.h">
+      <Filter>Header Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="networkentity.h">
+      <Filter>Header Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="server.h">
+      <Filter>Header Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="socket.h">
+      <Filter>Header Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>Header Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="WorkQueue.h">
+      <Filter>Header Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelMesh.h">
+      <Filter>Header Files\Complete</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Header Files\Complete</Filter>
+    </ClInclude>
+    <ClInclude Include="path.h">
+      <Filter>Header Files\Complete</Filter>
+    </ClInclude>
+    <ClInclude Include="Logging.h">
+      <Filter>Header Files\Complete</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>Header Files\Complete</Filter>
+    </ClInclude>
+    <ClInclude Include="moveTypes.h">
+      <Filter>Header Files\Complete</Filter>
+    </ClInclude>
+    <ClInclude Include="images.h">
+      <Filter>Header Files\Complete</Filter>
+    </ClInclude>
+    <ClInclude Include="entity.h">
+      <Filter>Header Files\Complete</Filter>
+    </ClInclude>
+    <ClInclude Include="manager.h">
+      <Filter>Header Files\Complete</Filter>
+    </ClInclude>
+    <ClInclude Include="menuScreen.h">
+      <Filter>Header Files\Complete</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Shaders\cubeMapFragment.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Shaders\cubeMapVertex.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Shaders\Fragment.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Shaders\FragText.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Shaders\Vertex.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Shaders\VertText.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="FragmentModel.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="VertexModel.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
+</Project>
