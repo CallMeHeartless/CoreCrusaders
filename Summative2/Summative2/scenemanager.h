@@ -2,51 +2,140 @@
 Bachelor of Software Engineering   Media Design School   Auckland   New Zealand
 (c) 2018 Media Design School
 File Name   :	scenemanager.h
-Description :	Scene Manager header file
+Description :	CSceneManager class header file
 Author      :   Kerry Pellett BE(Hons)
 Mail        :   kerry.pel7420@mediadesign.school.nz
 ********************/
+
 #ifndef __SCENEMANAGER_H__
 #define __SCENEMANAGER_H__
 
-#include "game.h"
-#include "utility.h"
+// Library includes
+#include <vector>
+#include <memory>
+#include <thread>
+#include <string>
 
-enum ESTATE {
-	MENU,
-	GAME,
-	END
+// Local includes
+#include "utility.h"
+#include "network.h"
+#include "client.h"
+#include "server.h"
+
+// Forward declaration
+class CScene;
+class CMenu;
+class Model;
+
+enum EMENUTYPE {
+	MENU_MAIN,
+	MENU_NETWORK,
+	MENU_GAME_OVER,
+	MENU_SERVER_LIST,
+	MENU_LOBBY
 };
 
 class CSceneManager {
 	private:
-		ESTATE m_eState;
 		CSceneManager();
-		//static std::shared_ptr<CSceneManager> m_pSceneManager;
-		static CSceneManager* m_pSceneManager;
-		std::shared_ptr<CCamera> m_pCamera;
-		FMOD::System* m_pAudio;
-		unsigned int m_uiKeyState[255];
-		std::vector<std::string> m_MainMenu = { "Play", "Exit" };
-		std::vector<std::string> m_EndMenu = { "Play Again", "Exit" };
-		std::vector<std::unique_ptr<TextLabel>> m_vecMenuItems;
-		int m_iMenuSelection = 0;
+		CSceneManager(const CSceneManager&) = delete;
+		CSceneManager& operator=(const CSceneManager&) = delete;
+		static CSceneManager* m_pInstance;
+
+		// Network variables
+		float m_fLockStepTimer = 0.0f;
+
+		char* m_pcPacketData = nullptr;
+		char m_cIPAddress[MAX_ADDRESS_LENGTH];
+		std::string m_strServerName;
+		std::string m_strClientName;
+		CClient* m_pClient = nullptr;
+		CServer* m_pServer = nullptr;
+		std::thread m_tServerReceiveThread, m_tClientReceiveThread;
+
+		std::vector<std::string> m_vecstrPlayerNames;
+		bool m_bReadyToLaunch = false;
+		unsigned int m_uiClientInstance = 0;
+		bool m_bInProgress = false;
+		bool m_bIsOnline = false;
+
+		std::unique_ptr<CScene> m_pActiveScene;
+
 		int m_iScore = 0;
-		std::unique_ptr<TextLabel> m_pGameOverScore;
-		std::unique_ptr<TextLabel> m_pTitle;
+		bool m_bPlayMusic = false;
+		bool m_bGodMode = true;
+		bool m_bAITest = false;
+
 
 	public:
 		~CSceneManager();
+
+		void Process(float _fDeltaTick);
+		void Render();
+
 		static CSceneManager* GetInstance();
 		static void DestroyInstance();
 
-		void SetState(ESTATE _eState);
-		void Initialise(CCamera& _rCamera, FMOD::System* _pAudio);
-		void Process();
-		void Render();
+		bool LoadLevel(int _iMap);
+		bool LoadGameMenu(EMENUTYPE _eMenu);
 
-		void SetKeyState(unsigned char _cKey, Utility::EInputState _eState);
-		unsigned int GetKeyState(unsigned char _cKey);
+		std::map<std::string, std::shared_ptr<Model>> m_pModels;
+		void PreloadModels();
+		void SetScore(int _iScore);
+		int GetScore()const;
+		void ToggleMusic();
+		bool CheckForMusic()const;
+		void ToggleGodMode();
+		bool CheckForGodMode()const;
+		void ToggleAITest();
+		bool CheckForAITest()const;
+
+		// Networking
+		void SetServerName(std::string _strServerName);
+		std::string GetServerName()const;
+		std::vector<std::string> GetPlayerNames()const;
+
+		bool HostServer();
+		bool CreateClient();
+		void LaunchClientDataThread();
+		bool IsServerReadyToLaunch()const;
+		void LaunchServer();
+		bool IsDedicatedServer()const;
+		void ProcessWork();
+
+		CClient* GetClientInstance();
+		void SetInProgress(bool _bState);
+		bool CheckIfInProgress()const;
+		unsigned int GetNumberOfPlayers()const;
+
+		bool IsOnline()const;
+		void SetOnline(bool _bState);
+		void SendPlayerList();
+		void SetPlayerIndex(unsigned int _iIndex);
+		unsigned int GetPlayerIndex()const;
+
+		// Data exchange functions
+		void SendGameData(char* _cPacketData);
+		void SetPlayerLobbyNameList(std::vector<std::string> _vecStrNames);
+		void UpdateServerPlayerLobbyReadyState(int _iPlayerIndex, bool _bState);
+		void SetPlayerLobbyReadyState(int _iPlayerIndex, bool _bState);
+		// Gamestates
+		void DeserialisePlayerPosition(int _iPlayerIndex, std::string _strPosition);
+		void DeserialisePlayerVelocity(int _iPlayerIndex, std::string _strVelocity);
+		void DeserialisePlayerData(unsigned int _uiPlayerIndex, std::string _strData);
+		void DeserialisePickupData(unsigned int _iPickupIndex, std::string _strPickupData);
+		void DeserialisePickupPosition(unsigned int _iPickupIndex, std::string _strPickupPosition);
+		void DeserialiseSoloAgentPosition(unsigned int _iAgentPosition, std::string _strAgentPosition);
+		void DeserialiseGroupAgentPosition(unsigned int _iGroupIndex, unsigned int _iAgentIndex, std::string _strAgentPosition);
+		void DeserialiseBulletPosition(unsigned int _iBulletIndex, std::string _strData);
+		void DeserialiseBulletData(unsigned int _uiBulletIndex, std::string _strData);
+		void DeserialiseBulletVelocity(unsigned int _uiBulletIndex, std::string _strData);
+		void DeserialiseSoloAgentData(unsigned int _uiAgentIndex, std::string _strData);
+		void DeserialiseGroupAgentData(unsigned int _uiGroupIndex, unsigned int _uiAgentIndex, std::string _strData);
+		void AffirmBulletCount(unsigned int _uiBulletCount);
+		void DeserialiseAndCreateBullet(std::string _strBullet);
+		void RemovePlayer(unsigned int _iPlayerIndex, unsigned int _uiNewLocalPlayerIndex);
+		void LoadMap(unsigned int _uiMapIndex);
 };
 
 #endif // !__SCENEMANAGER_H__
