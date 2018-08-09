@@ -99,7 +99,7 @@ void CEntity::Process(float _fDeltaTick) {
 * @parameter: const CCamera& _Camera (const reference to a camera)
 * @return: void
 ********************/
-void CEntity::Render(const CCamera& _Camera) {
+void CEntity::Render(const CCamera* const _Camera) {
 	m_pSprite->Render(_Camera);
 }
 
@@ -121,4 +121,8 @@ int CEntity::GetHeight()const {
 ********************/
 int CEntity::GetWidth()const {
 	return m_pSprite->GetWidth();
+}
+
+const CSprite* CEntity::GetSprite()const {
+	return m_pSprite.get();
 }

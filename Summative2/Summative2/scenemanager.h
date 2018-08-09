@@ -66,9 +66,6 @@ class CSceneManager {
 		bool CheckForMusic()const;
 		void ToggleGodMode();
 		bool CheckForGodMode()const;
-		void ToggleAITest();
-		bool CheckForAITest()const;
-
 };
 
 #endif // !__SCENEMANAGER_H__

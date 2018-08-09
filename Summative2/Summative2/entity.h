@@ -40,6 +40,7 @@ class CEntity {
 		// Accessors and mutators
 		void SetPosition(glm::vec3 _newPosition);
 		glm::vec3 GetPosition()const;
+		const CSprite* GetSprite()const;
 		void UpdatePosition(float _fdX, float _fdY);
 		void SetActive(bool _bState);
 		bool CheckIfActive()const;
@@ -47,7 +48,7 @@ class CEntity {
 		int GetHeight()const;
 
 		virtual void Process(float _fDeltaTick);
-		virtual void Render(const CCamera& _Camera);
+		virtual void Render(const CCamera* const _Camera);
 
 };
 

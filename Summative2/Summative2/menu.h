@@ -69,8 +69,6 @@ class CMenu : public CScene {
 		bool m_bAITestOn = false;
 		unsigned int m_uiPlayerIndex = 0;
 
-		std::vector<std::pair<sockaddr_in, std::string>> m_vecServers;
-		std::vector<std::unique_ptr<TextLabel>> m_vecpServerNames;
 		std::vector<TButton> m_vecJoinButtons;
 		std::vector<int> m_veciPlayerReadyState;
 		std::vector<std::string> m_vecstrPlayerReadyButtonPaths = { "Resources/Textures/button_ready.png", "Resources/Textures/button_ready-off.png" };
@@ -78,10 +76,6 @@ class CMenu : public CScene {
 		std::vector<std::unique_ptr<TextLabel>> m_vecpPlayerNames;
 		std::vector<TButton> m_vecReadyButtons;
 
-
-		void ClearServerOptions();
-		void UpdateReadyButtons();
-		inline bool CheckIfAllReady()const;
 
 	public:
 		CMenu();
@@ -91,9 +85,6 @@ class CMenu : public CScene {
 		void Render();
 		void Process(float _fDeltaTick);
 		
-		void SetPlayerIndex(unsigned int _uiIndex);
-		void SetPlayerLobbyNames(std::vector<std::string> _vecStrNames);
-		void SetPlayerLobbyReadyState(unsigned int _iPlayerIndex, bool _bState);
 };
 
 #endif // !__MENU_H__

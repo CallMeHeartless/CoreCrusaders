@@ -25,10 +25,10 @@ class CPlayer;
 class CAIManager;
 class CCubeMap;
 class CCube;
-class CBullet;
 class CPickup;
 class CMesh;
 class CParticleSystem;
+class CEntity;
 
 class CScene {
 	protected:
@@ -67,7 +67,7 @@ class CScene {
 		std::vector<FMOD::Sound*> m_vecpAudioExplosion = { nullptr, nullptr, nullptr };
 		FMOD::Sound* m_pAudioPowerup;
 		// Bullets
-		std::vector<std::unique_ptr<CBullet>> m_vecpBullets;
+		//std::vector<std::unique_ptr<CBullet>> m_vecpBullets;
 		// Pickups
 		std::vector<std::unique_ptr<CPickup>> m_vecpPickups;
 		// Group scores

@@ -18,6 +18,7 @@ Mail        :   kerry.pel7420@mediadesign.school.nz
 #include "scenemanager.h"
 #include "particlesystem.h"
 #include "outputlog.h"
+#include "camera.h"
 
 CScene::CScene() {}
 
@@ -148,9 +149,9 @@ glm::vec3 CScene::MouseRayToWorldSpace() {
 * @return: void
 ********************/
 void CScene::SpawnBullet(glm::vec3 _vfPosition, glm::vec3 _vfVelocity, bool _bIsEnemy, unsigned int _uiOwner = 0) {
-	auto bullet = std::make_unique<CBullet>(_vfPosition, _vfVelocity, _bIsEnemy);
-	bullet->SetOwnerIndex(_uiOwner);
-	m_vecpBullets.push_back(std::move(bullet));
+	//auto bullet = std::make_unique<CBullet>(_vfPosition, _vfVelocity, _bIsEnemy);
+	//bullet->SetOwnerIndex(_uiOwner);
+	//m_vecpBullets.push_back(std::move(bullet));
 }
 
 /***********************
@@ -165,18 +166,18 @@ void CScene::SpawnPickup() {
 		return;
 	}
 
-	// Select a random spawn location
-	int iIndex = rand() % m_vecPickupSpawnPoints.size();
-	EPICKUPTYPE eType = static_cast<EPICKUPTYPE>(rand() % 5);
-	auto pickup = std::make_unique<CPickup>(eType);
-	pickup->SetPosition(m_vecPickupSpawnPoints[iIndex] + glm::vec3(0, 1, 0));
+	//// Select a random spawn location
+	//int iIndex = rand() % m_vecPickupSpawnPoints.size();
+	//EPICKUPTYPE eType = static_cast<EPICKUPTYPE>(rand() % 5);
+	//auto pickup = std::make_unique<CPickup>(eType);
+	//pickup->SetPosition(m_vecPickupSpawnPoints[iIndex] + glm::vec3(0, 1, 0));
 
-	if (m_bAITestReference) {
-		pickup->SetType(FEAR);
-		m_iPickupCount = 0;
-	}
+	//if (m_bAITestReference) {
+	//	pickup->SetType(FEAR);
+	//	m_iPickupCount = 0;
+	//}
 
-	m_vecpPickups.push_back(std::move(pickup));
+	//m_vecpPickups.push_back(std::move(pickup));
 }
 
 /***********************
@@ -190,14 +191,14 @@ bool CScene::CheckForCollision(const CEntity* const _kpMesh1, const CEntity* con
 	// Obtain data for object A
 	float fObjectAX = _kpMesh1->GetPosition().x;
 	float fObjectAY = _kpMesh1->GetPosition().z;
-	float fObjectAW = _kpMesh1->GetScale().x;			// Change functionality here
-	float fObjectAH = _kpMesh1->GetScale().z;
+	float fObjectAW = _kpMesh1->GetSprite()->GetScale().x;			// Change functionality here
+	float fObjectAH = _kpMesh1->GetSprite()->GetScale().z;
 
 	// Obtain data for object B
 	float fObjectBX = _kpMesh2->GetPosition().x;
 	float fObjectBY = _kpMesh2->GetPosition().z;
-	float fObjectBW = _kpMesh2->GetScale().x;
-	float fObjectBH = _kpMesh2->GetScale().z;
+	float fObjectBW = _kpMesh2->GetSprite()->GetScale().x;
+	float fObjectBH = _kpMesh2->GetSprite()->GetScale().z;
 
 	// Check for overlap
 	if ((fObjectAX + fObjectAW  > fObjectBX - fObjectBW ) &&		// Object's right side > target's left

@@ -49,7 +49,7 @@ class CSprite {
 		CSprite& operator=(const CSprite& _source);
 
 		// Operational functions
-		void Render(const CCamera& _Camera);
+		void Render(const CCamera* const _kpCamera);
 		//void Process(float _fDeltaTick);
 		void Initialise(const char* _TextureName);
 		void InitialiseRepeating(const char* _kcTexturePath, float _fXUnits, float _fYUnits);

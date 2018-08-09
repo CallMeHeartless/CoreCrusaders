@@ -45,7 +45,7 @@ void CParticleSystem::Process(float _fDeltaTick) {
 * @parameter: const CCamera& _camera (the game camera)
 * @return: void
 ********************/
-void CParticleSystem::Render(const CCamera& _camera) {
+void CParticleSystem::Render(const CCamera* const _camera) {
 	for (auto& particle : m_lpParticles) {
 		particle->Render(_camera);
 	}

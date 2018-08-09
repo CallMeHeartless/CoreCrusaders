@@ -11,6 +11,8 @@ Mail        :   kerry.pel7420@mediadesign.school.nz
 
 #include <ctime>
 #include <cstdlib>
+#include <string>
+#include <strstream>
 
 #include "Dependencies\glew\glew.h"
 #include "Dependencies\freeglut\freeglut.h"
@@ -38,6 +40,14 @@ namespace Utility {
 		return glm::vec3(static_cast<float>(iX), static_cast<float>(iY), 0.0f);
 	}
 
+	template<typename T>
+	static std::string ToString(const T& _value)
+	{
+		std::strstream theStream;
+		theStream << _value << std::ends;
+		return (theStream.str());
+	}
+
 	static bool InitFMod(FMOD::System** _pManage) {
 		FMOD_RESULT result;
 		result = FMOD::System_Create(_pManage);
@@ -59,9 +69,9 @@ namespace Utility {
 		glBindTexture(GL_TEXTURE_2D, texture);
 		int width, height;
 		// Load image to memory
-		unsigned char* image = SOIL_load_image(filename, &width, &height, 0, SOIL_LOAD_RGB);
+		unsigned char* image = SOIL_load_image(filename, &width, &height, 0, SOIL_LOAD_RGBA);
 		// Generate texture from image data
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
 
 		// Create MIPMAP and release memory
 		glGenerateMipmap(GL_TEXTURE_2D);

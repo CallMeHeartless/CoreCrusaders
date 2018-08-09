@@ -24,7 +24,7 @@ class CParticleSystem : public CEntity {
 		virtual ~CParticleSystem();
 
 		virtual void Process(float _fDeltaTick);
-		virtual void Render(const CCamera& _camera);
+		virtual void Render(const CCamera* const _camera);
 		void SpawnParticle(glm::vec3 _position, int _iMinIndex, int _iMaxIndex);
 };
 

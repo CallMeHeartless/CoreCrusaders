@@ -163,7 +163,7 @@ void CSprite::InitialiseRepeating(const char* _kcTexturePath, float _fXUnits, fl
 * @parameter: const CCamera& _Camera (the game's camera)
 * @return: void
 ********************/
-void CSprite::Render(const CCamera& _Camera) {
+void CSprite::Render(const CCamera* const _kpCamera) {
 	// Select program
 	glUseProgram(m_PROGRAM);
 
@@ -175,7 +175,7 @@ void CSprite::Render(const CCamera& _Camera) {
 	glm::mat4 Model = Translate * Rotation * Scale;
 
 	// Create MVP matrix from Camera
-	glm::mat4 MVP = _Camera.GetProjection() * _Camera.GetView() * Model;
+	glm::mat4 MVP = _kpCamera->GetProjection() * _kpCamera->GetView() * Model;
 
 	// Send MVP to shader
 	GLuint transformLocation = glGetUniformLocation(m_PROGRAM, "MVP");
