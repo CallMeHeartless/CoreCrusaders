@@ -7,6 +7,7 @@ Author      :   Kerry Pellett BE(Hons)
 Mail        :   kerry.pel7420@mediadesign.school.nz
 ********************/
 #include "player.h"
+#include "input.h"
 
 CPlayer::CPlayer(){
 	// Create sprite
@@ -25,12 +26,13 @@ CPlayer::~CPlayer(){}
 /***********************
 * Process: Handle the player for the current frame
 * @author: Kerry Pellett (2018)
-* @parameter: float _fDeltaTick (milliseconds between frames), unsigned int* _uipInput (WASD input this frame)
+* @parameter: float _fDeltaTick (seconds between frames)
 * @return: void
 ********************/
-void CPlayer::Process(float _fDeltaTick, unsigned int* _uipInput) {
+void CPlayer::Process(float _fDeltaTick) {
 	// Create movement vector.
 	m_vfMovementVector = glm::vec3(0.0f, 0.0f, 0.0f);
+	std::vector<unsigned int> _uipInput = CInput::GetInstance()->GetPlayerMovement(true);
 	// Add up component
 	if (_uipInput[0] > 1) {
 		m_vfMovementVector.y = 1.0f;
@@ -50,8 +52,13 @@ void CPlayer::Process(float _fDeltaTick, unsigned int* _uipInput) {
 	}
 
 	// Adjust for speed and time
-	m_vfMovementVector *= (m_fSpeed *  _fDeltaTick/1000.0f);
+	if (glm::length(m_vfMovementVector) != 0) {
+		m_vfMovementVector = glm::normalize(m_vfMovementVector);
+	}
 
+	m_vfMovementVector *= (m_fSpeed *  _fDeltaTick);
+
+	
 	// Move
 	if (m_vfMovementVector.x != 0.0f || m_vfMovementVector.y != 0.0f) {
 		m_bIsMoving = true;

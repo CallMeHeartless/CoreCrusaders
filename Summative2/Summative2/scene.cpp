@@ -33,7 +33,10 @@ CScene::~CScene(){}
 ********************/
 void CScene::Process(float _fDeltaTick) {
 	
-	
+	// Process players
+	for (auto& player : m_vecpPlayers) {
+		player->Process(_fDeltaTick);
+	}
 
 }
 
@@ -44,7 +47,11 @@ void CScene::Process(float _fDeltaTick) {
 * @return: void
 ********************/
 void CScene::Render() {
-	
+	// Render player
+
+	for (auto& player : m_vecpPlayers) {
+		player->Render(m_pUICamera.get());
+	}
 }
 
 /***********************
@@ -64,8 +71,13 @@ bool CScene::Initialise(int _iMap) {
 
 	
 	// Create Camera
-	m_pGameCamera = std::make_unique<CCamera>(45.0f, (GLfloat)Utility::SCR_WIDTH / (GLfloat)Utility::SCR_HEIGHT, 0.1f, 5000.0f);
+	//m_pGameCamera = std::make_unique<CCamera>(45.0f, (GLfloat)Utility::SCR_WIDTH / (GLfloat)Utility::SCR_HEIGHT, 0.1f, 5000.0f);
 	m_pUICamera = std::make_unique<CCamera>(Utility::SCR_WIDTH, Utility::SCR_HEIGHT);
+
+	// Create player
+	auto player1 = std::make_unique<CPlayer>();
+	player1->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f, 0.0f));
+	m_vecpPlayers.push_back(std::move(player1));
 	
 
 	// Create Audio

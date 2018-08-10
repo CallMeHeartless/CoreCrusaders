@@ -87,12 +87,12 @@ namespace Utility {
 		return texture;
 	}
 
-	enum EInputState {
-		INPUT_FIRST_RELEASED,
-		INPUT_RELEASED,
-		INPUT_FIRST_PRESSED,
-		INPUT_PRESSED
-	};
+	//enum EInputState {
+	//	INPUT_FIRST_RELEASED,
+	//	INPUT_RELEASED,
+	//	INPUT_FIRST_PRESSED,
+	//	INPUT_PRESSED
+	//};
 	
 }
 

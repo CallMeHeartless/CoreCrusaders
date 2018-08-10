@@ -111,6 +111,113 @@ void CInput::KeyUp(unsigned char _ucKey, int _iX, int _iY) {
 	m_vfMousePosition = glm::vec2(_iX, _iY);
 }
 
+void ProcessSpecialKeyDown(int _iKey, int _iX, int _iY) {
+	CInput::GetInstance()->SpecialKeyDown(_iKey, _iX, _iY);
+}
+
+void CInput::SpecialKeyDown(int _iKey, int _iX, int _iY) {
+	// Determine index based on arrow key
+	int iIndex;
+	switch (_iKey) {
+		case GLUT_KEY_UP: {
+			iIndex = 0;
+			break;
+		}
+
+		case GLUT_KEY_LEFT: {
+			iIndex = 1;
+			break;
+		}
+
+		case GLUT_KEY_DOWN: {
+			iIndex = 2;
+			break;
+		}
+
+		case GLUT_KEY_RIGHT: {
+			iIndex = 3;
+			break;
+		}
+
+		default:break;
+	}
+
+	// Process key down
+	switch (m_uiArrowKeyState[_iKey]) {
+		case INPUT_FIRST_RELEASED: {
+			// Fall through
+		}
+
+		case INPUT_RELEASED: {
+			m_uiArrowKeyState[_iKey] = INPUT_FIRST_PRESSED;
+			break;
+		}
+
+		case INPUT_FIRST_PRESSED: {
+			m_uiArrowKeyState[_iKey] = INPUT_PRESSED;
+			break;
+		}
+
+		default:break;
+	}
+
+	m_vfMousePosition = glm::vec2(_iX, _iY);
+
+}
+
+void ProcessSpecialKeyUp(int _iKey, int _iX, int _iY) {
+	CInput::GetInstance()->SpecialKeyUp(_iKey, _iX, _iY);
+}
+
+void CInput::SpecialKeyUp(int _iKey, int _iX, int _iY) {
+	// Determine index based on arrow key
+	int iIndex;
+	switch (_iKey) {
+		case GLUT_KEY_UP: {
+			iIndex = 0;
+			break;
+		}
+
+		case GLUT_KEY_LEFT: {
+			iIndex = 1;
+			break;
+		}
+
+		case GLUT_KEY_DOWN: {
+			iIndex = 2;
+			break;
+		}
+
+		case GLUT_KEY_RIGHT: {
+			iIndex = 3;
+			break;
+		}
+
+		default:break;
+	}
+
+	// Process key down
+	switch (m_uiArrowKeyState[_iKey]) {
+		case INPUT_FIRST_PRESSED: {
+			// Fall through
+		}
+
+		case INPUT_PRESSED: {
+			m_uiArrowKeyState[_iKey] = INPUT_FIRST_RELEASED;
+			break;
+		}
+
+		case INPUT_FIRST_RELEASED: {
+			m_uiArrowKeyState[_iKey] = INPUT_RELEASED;
+			break;
+		}
+
+		default:break;
+	}
+
+	m_vfMousePosition = glm::vec2(_iX, _iY);
+}
+
 unsigned int CInput::GetKeyState(unsigned char _ucKey)const {
 	return m_uiKeyState[_ucKey];
 }
@@ -122,16 +229,28 @@ void CInput::Initialise() {
 	// Keyboard buttons
 	glutKeyboardFunc(ProcessKeyDown);
 	glutKeyboardUpFunc(ProcessKeyUp);
+	glutSpecialFunc(ProcessSpecialKeyDown);
+	glutSpecialUpFunc(ProcessSpecialKeyUp);
 
 	glutIgnoreKeyRepeat(1);
 }
 
-std::vector<unsigned int> CInput::GetPlayerMovement() {
+std::vector<unsigned int> CInput::GetPlayerMovement(bool _bIsPlayer1) {
 	std::vector<unsigned int> vecPlayerMovement(4);
-	vecPlayerMovement[0] = m_uiKeyState['w'];
-	vecPlayerMovement[1] = m_uiKeyState['a'];
-	vecPlayerMovement[2] = m_uiKeyState['s'];
-	vecPlayerMovement[3] = m_uiKeyState['d'];
+	if (_bIsPlayer1) {
+		vecPlayerMovement[0] = m_uiKeyState['w'];
+		vecPlayerMovement[1] = m_uiKeyState['a'];
+		vecPlayerMovement[2] = m_uiKeyState['s'];
+		vecPlayerMovement[3] = m_uiKeyState['d'];
+	}
+	else {
+		vecPlayerMovement[0] = m_uiArrowKeyState[0];
+		vecPlayerMovement[1] = m_uiArrowKeyState[1];
+		vecPlayerMovement[2] = m_uiArrowKeyState[2];
+		vecPlayerMovement[3] = m_uiArrowKeyState[3];
+	}
+
+
 
 	return vecPlayerMovement;
 }

@@ -26,7 +26,8 @@ std::unique_ptr<CClock> g_pClock;
 * @return: void
 ********************/
 void Update() {
-	float fDeltaTick = g_pClock->GetDeltaTick();
+	g_pClock->Process();
+	float fDeltaTick = g_pClock->GetDeltaTick()/1000.0f;
 	CSceneManager::GetInstance()->Process(fDeltaTick);
 
 	// Update input keys
@@ -79,6 +80,7 @@ int main(int argc, char** argv) {
 	
 	// Initialise Scene Manager and launch menu scene
 	//CSceneManager::GetInstance()->SetState(MENU);
+	CSceneManager::GetInstance()->LoadLevel(0);
 
 	// Enable face culling
 	glCullFace(GL_BACK);

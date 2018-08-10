@@ -42,6 +42,7 @@ class CInput {
 
 		unsigned int m_uiKeyState[255] = { INPUT_RELEASED };
 		unsigned int m_uiMouseState[3] = { INPUT_RELEASED };
+		unsigned int m_uiArrowKeyState[4] = { INPUT_RELEASED };
 		glm::vec2 m_vfMousePosition;
 
 	public:
@@ -64,7 +65,9 @@ class CInput {
 		void KeyDown(unsigned char _cKey, int _iX, int _iY);
 		void KeyUp(unsigned char _cKey, int _iX, int _iY);
 		unsigned int GetKeyState(unsigned char _ucKey)const;
-		std::vector<unsigned int> GetPlayerMovement();
+		std::vector<unsigned int> GetPlayerMovement(bool _bPlayer1);
+		void SpecialKeyDown(int _iKey, int _iX, int _iY);
+		void SpecialKeyUp(int _iKey, int _iX, int _iY);
 
 		void MakePressedOrReleased();
 

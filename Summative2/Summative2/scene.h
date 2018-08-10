@@ -39,10 +39,10 @@ class CScene {
 		std::unique_ptr<CCamera> m_pGameCamera;
 		glm::vec3 m_vfCameraOffset = glm::vec3(0.0f, 75.0f, 20.0f);
 		int m_iPlayerScore = 0;
-		std::unique_ptr<TextLabel> m_pScore = std::make_unique<TextLabel>(std::string("Score: 0"), "Resources/Fonts/calibri.ttf", glm::vec2(250, Utility::SCR_HEIGHT - 50));
-		std::unique_ptr<TextLabel> m_pLife = std::make_unique<TextLabel>(std::string("Life: 10"), "Resources/Fonts/calibri.ttf", glm::vec2(0, Utility::SCR_HEIGHT - 50));
-		std::unique_ptr<TextLabel> m_pWaveInformation = std::make_unique<TextLabel>(std::string("Wave: 1 - Enemies: "), "Resources/Fonts/calibri.ttf", glm::vec2(0,0));
-		std::unique_ptr<TextLabel> m_pPowerUpText = std::make_unique<TextLabel>(std::string("Powerup: "), "Resources/Fonts/calibri.ttf", glm::vec2(600, 0));
+		//std::unique_ptr<TextLabel> m_pScore = std::make_unique<TextLabel>(std::string("Score: 0"), "Resources/Fonts/calibri.ttf", glm::vec2(250, Utility::SCR_HEIGHT - 50));
+		//std::unique_ptr<TextLabel> m_pLife = std::make_unique<TextLabel>(std::string("Life: 10"), "Resources/Fonts/calibri.ttf", glm::vec2(0, Utility::SCR_HEIGHT - 50));
+		//std::unique_ptr<TextLabel> m_pWaveInformation = std::make_unique<TextLabel>(std::string("Wave: 1 - Enemies: "), "Resources/Fonts/calibri.ttf", glm::vec2(0,0));
+		//std::unique_ptr<TextLabel> m_pPowerUpText = std::make_unique<TextLabel>(std::string("Powerup: "), "Resources/Fonts/calibri.ttf", glm::vec2(600, 0));
 		bool m_bGodModeReference = false;
 		bool m_bAITestReference = false;
 		bool m_bIsOnlineReference = false;
