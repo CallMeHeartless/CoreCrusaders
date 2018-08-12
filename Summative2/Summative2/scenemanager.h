@@ -23,14 +23,10 @@ Mail        :   kerry.pel7420@mediadesign.school.nz
 // Forward declaration
 class CScene;
 class CMenu;
-class Model;
 
 enum EMENUTYPE {
 	MENU_MAIN,
-	MENU_NETWORK,
 	MENU_GAME_OVER,
-	MENU_SERVER_LIST,
-	MENU_LOBBY
 };
 
 class CSceneManager {
@@ -59,7 +55,6 @@ class CSceneManager {
 		bool LoadLevel(int _iMap);
 		bool LoadGameMenu(EMENUTYPE _eMenu);
 
-		std::map<std::string, std::shared_ptr<Model>> m_pModels;
 		void SetScore(int _iScore);
 		int GetScore()const;
 		void ToggleMusic();

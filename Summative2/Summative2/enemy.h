@@ -29,13 +29,6 @@ class CEnemy : public CEntity {
 		bool m_bForward = true;
 		float m_fMoveSpeed = 150.0f;
 		glm::vec3 m_vfTarget;
-		float m_fRange = 300.0f;
-		bool m_bPlayerInRange = false;
-		bool m_bPlayerMoving = false;
-		float m_fWarpTimer = 0.0f;
-		float m_fWarpDelay = 2.0f;
-		bool m_bIsWarping = false;
-
 
 
 	public:
@@ -46,9 +39,7 @@ class CEnemy : public CEntity {
 		virtual void Process(float _fDeltaTick, glm::vec3 _vecPlayerPosition);
 		EDIRECTION FindBearing(glm::vec3 _vecPlayerPosition);
 		float DistanceToPlayer(glm::vec3 _vecPlayerPosition);
-		void NotifyIsPlayerMoving(bool _bState);
 
-		bool IsWarping()const;
 
 };
 

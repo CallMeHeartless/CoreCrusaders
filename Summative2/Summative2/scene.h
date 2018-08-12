@@ -71,8 +71,7 @@ class CScene {
 		// Pickups
 		std::vector<std::unique_ptr<CPickup>> m_vecpPickups;
 		// Group scores
-		std::vector<std::unique_ptr<TextLabel>> m_vecpScores;
-		bool m_bShowScores = false;
+
 
 	public:
 		CScene();
