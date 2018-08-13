@@ -20,7 +20,7 @@ class CPlayer : public CEntity {
 		float m_fAnimationTimer = 0.0f;
 		float m_fAnimationSwitchCue = 1.0f;
 		bool m_bForward = false;
-		float m_fSpeed = 75.0f;
+		float m_fSpeed = 250.0f;
 		glm::vec3 m_vfMovementVector;
 		
 

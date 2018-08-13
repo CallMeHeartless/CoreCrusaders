@@ -59,7 +59,7 @@ int main(int argc, char** argv) {
 	srand(static_cast<unsigned>(time(0)));
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
-	glutInitWindowPosition(500, 0);
+	glutInitWindowPosition(250, 0);
 	glutInitWindowSize(Utility::SCR_WIDTH, Utility::SCR_HEIGHT);
 	glutCreateWindow("Core Crusaders");
 	glewInit();

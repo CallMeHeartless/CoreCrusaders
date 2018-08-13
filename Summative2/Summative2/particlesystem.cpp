@@ -25,7 +25,7 @@ void CParticleSystem::Process(float _fDeltaTick) {
 	}
 
 	// Clear up particles
-	for (int i = 0; i < m_lpParticles.size(); ++i) {
+	for (unsigned i = 0; i < m_lpParticles.size(); ++i) {
 		if (m_lpParticles.empty()) {
 			break;
 		}
