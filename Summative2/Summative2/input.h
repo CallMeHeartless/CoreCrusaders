@@ -38,7 +38,7 @@ class CInput {
 		CInput();
 		CInput(const CInput&) = delete;
 		CInput& operator=(const CInput&) = delete;
-		static CInput* m_pInstance;
+		static CInput* s_pInstance;
 
 		unsigned int m_uiKeyState[255] = { INPUT_RELEASED };
 		unsigned int m_uiMouseState[3] = { INPUT_RELEASED };

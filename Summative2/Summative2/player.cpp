@@ -11,14 +11,14 @@ Mail        :   kerry.pel7420@mediadesign.school.nz
 
 CPlayer::CPlayer(){
 	// Create sprite
-	m_pSprite = std::make_unique<CSprite>();
+	/*m_pSprite = std::make_unique<CSprite>();
 	m_pSprite->Initialise("Resources/Textures/Player.png");
 
 	m_pSprite->SetFrameWidth(m_pSprite->GetWidth() / 3.0f);
 
 	m_pSprite->SetFrameHeight(m_pSprite->GetHeight() / 4.0f);
 
-	m_pSprite->SetIndex(1, 2);
+	m_pSprite->SetIndex(1, 2);*/
 }
 
 CPlayer::~CPlayer(){}
@@ -30,84 +30,7 @@ CPlayer::~CPlayer(){}
 * @return: void
 ********************/
 void CPlayer::Process(float _fDeltaTick) {
-	// Create movement vector.
-	m_vfMovementVector = glm::vec3(0.0f, 0.0f, 0.0f);
-	std::vector<unsigned int> _uipInput = CInput::GetInstance()->GetPlayerMovement(true);
-	// Add up component
-	if (_uipInput[0] > 1) {
-		m_vfMovementVector.y = 1.0f;
-		m_eDirection = NORTH;
-	}
-	else if (_uipInput[2] > 1) {
-		m_vfMovementVector.y = -1.0f;
-		m_eDirection = SOUTH;
-	}
-	if (_uipInput[1] > 1) {
-		m_vfMovementVector.x = -1.0f;
-		m_eDirection = WEST;
-	}
-	else if (_uipInput[3] > 1) {
-		m_vfMovementVector.x = 1.0f;
-		m_eDirection = EAST;
-	}
 
-	// Adjust for speed and time
-	if (glm::length(m_vfMovementVector) != 0) {
-		m_vfMovementVector = glm::normalize(m_vfMovementVector);
-	}
-
-	m_vfMovementVector *= (m_fSpeed *  _fDeltaTick);
-
-	
-	// Move
-	if (m_vfMovementVector.x != 0.0f || m_vfMovementVector.y != 0.0f) {
-		m_bIsMoving = true;
-		UpdatePosition(m_vfMovementVector.x, m_vfMovementVector.y);
-		// Update animation
-		m_fAnimationTimer += _fDeltaTick / 100.0f;
-		if (m_fAnimationTimer >= m_fAnimationSwitchCue) {
-			m_fAnimationTimer = 0.0f;
-
-			m_fAnimationTimer = 0.0f;
-			if (m_bForward) {
-				++m_iAnimationIndex;
-			}
-			else {
-				--m_iAnimationIndex;
-			}
-
-			if (m_iAnimationIndex > 2) {
-				--m_iAnimationIndex;
-				m_bForward = !m_bForward;
-			}
-			else if (m_iAnimationIndex < 0) {
-				++m_iAnimationIndex;
-				m_bForward = !m_bForward;
-			}
-			m_pSprite->SetIndex(m_iAnimationIndex, m_eDirection);
-		}
-	}
-	else {
-		m_bIsMoving = false;
-	}
-
-	// Keep player within bounds
-	if (m_vfPosition.x < (float)Utility::iBoundary) {
-		m_vfPosition.x = (float)Utility::iBoundary;
-		SetPosition(m_vfPosition);
-	}
-	if (m_vfPosition.x > (Utility::SCR_WIDTH - Utility::iBoundary)) {
-		m_vfPosition.x = (float)(Utility::SCR_WIDTH - Utility::iBoundary);
-		SetPosition(m_vfPosition);
-	}
-	if (m_vfPosition.y < 1.5f * Utility::iBoundary) {
-		m_vfPosition.y = 1.5f * (float)Utility::iBoundary;
-		SetPosition(m_vfPosition);
-	}
-	if (m_vfPosition.y > (Utility::SCR_HEIGHT - Utility::iBoundary)) {
-		m_vfPosition.y = (float)(Utility::SCR_HEIGHT - Utility::iBoundary);
-		SetPosition(m_vfPosition);
-	}
 }
 
 /***********************

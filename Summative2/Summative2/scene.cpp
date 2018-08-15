@@ -13,7 +13,8 @@ Mail        :   kerry.pel7420@mediadesign.school.nz
 // Local includes
 #include "scene.h"
 #include "input.h"
-#include "player.h"
+#include "playerone.h"
+#include "playertwo.h"
 #include "pickup.h"
 #include "scenemanager.h"
 #include "particlesystem.h"
@@ -71,13 +72,16 @@ bool CScene::Initialise(int _iMap) {
 
 	
 	// Create Camera
-	//m_pGameCamera = std::make_unique<CCamera>(45.0f, (GLfloat)Utility::SCR_WIDTH / (GLfloat)Utility::SCR_HEIGHT, 0.1f, 5000.0f);
 	m_pUICamera = std::make_unique<CCamera>(Utility::SCR_WIDTH, Utility::SCR_HEIGHT);
 
-	// Create player
-	auto player1 = std::make_unique<CPlayer>();
+	// Create players
+	auto player1 = std::make_unique<CPlayerOne>();
 	player1->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f, 0.0f));
 	m_vecpPlayers.push_back(std::move(player1));
+
+	auto player2 = std::make_unique<CPlayerTwo>();
+	player2->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f + 20.0f, (float)Utility::SCR_HEIGHT / 2.0f + 20.0f, 0.0f));
+	m_vecpPlayers.push_back(std::move(player2));
 	
 
 	// Create Audio
@@ -180,14 +184,6 @@ void CScene::SpawnPickup() {
 
 	//// Select a random spawn location
 	//int iIndex = rand() % m_vecPickupSpawnPoints.size();
-	//EPICKUPTYPE eType = static_cast<EPICKUPTYPE>(rand() % 5);
-	//auto pickup = std::make_unique<CPickup>(eType);
-	//pickup->SetPosition(m_vecPickupSpawnPoints[iIndex] + glm::vec3(0, 1, 0));
-
-	//if (m_bAITestReference) {
-	//	pickup->SetType(FEAR);
-	//	m_iPickupCount = 0;
-	//}
 
 	//m_vecpPickups.push_back(std::move(pickup));
 }

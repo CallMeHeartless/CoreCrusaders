@@ -22,6 +22,8 @@ Mail        :   kerry.pel7420@mediadesign.school.nz
 
 // Forward declaration
 class CPlayer;
+class CPlayerOne;
+class CPlayerTwo;
 class CAIManager;
 class CCubeMap;
 class CCube;

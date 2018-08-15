@@ -12,26 +12,43 @@ Mail        :   kerry.pel7420@mediadesign.school.nz
 #include "camera.h"
 
 // Static instance
-CInput* CInput::m_pInstance = nullptr;
+CInput* CInput::s_pInstance = nullptr;
 
 CInput::CInput(){}
 
 CInput::~CInput(){}
 
+/***********************
+* GetInstance: Returns the singleton input instance, creating it if it does not exist
+* @author: Kerry Pellett (2018)
+* @parameter: void 
+* @return: CInput* (s_pInstance)
+********************/
 CInput* CInput::GetInstance() {
-	if (!m_pInstance) {
-		m_pInstance = new CInput();
+	if (!s_pInstance) {
+		s_pInstance = new CInput();
 	}
 
-	return m_pInstance;
+	return s_pInstance;
 }
 
+/***********************
+* DestroyInstance: Destroys the singleton instance
+* @author: Kerry Pellett (2018)
+* @parameter: void
+* @return: void
+********************/
 void CInput::DestroyInstance() {
-	delete m_pInstance;
-	m_pInstance = nullptr;
+	delete s_pInstance;
+	s_pInstance = nullptr;
 }
 
-
+/***********************
+* ProcessMouseButton: Auxilliary function for OpenGL mouse buttons
+* @author: Kerry Pellett (2018)
+* @parameter:
+* @return: void
+********************/
 void ProcessMouseButton(int _iButton, int _iButtonState, int _iX, int _iY) {
 	CInput::GetInstance()->MouseButton(_iButton, _iButtonState, _iX, _iY);
 }
@@ -330,6 +347,22 @@ void CInput::MakePressedOrReleased() {
 
 		default:break;
 	}
+
+	// Arrow keys
+	for (unsigned int i = 0; i < 4; ++i) {
+		switch (m_uiArrowKeyState[i]) {
+			case INPUT_FIRST_PRESSED: {
+				m_uiArrowKeyState[i] = INPUT_PRESSED;
+				break;
+			}
+			case INPUT_FIRST_RELEASED: {
+				m_uiArrowKeyState[i] = INPUT_RELEASED;
+				break;
+			}
+			default:break;
+		}
+	}
+
 }
 
 glm::vec3 CInput::MouseRay(const CCamera* const _kpCamera) {

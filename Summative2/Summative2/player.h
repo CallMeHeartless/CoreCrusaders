@@ -12,7 +12,7 @@ Mail        :   kerry.pel7420@mediadesign.school.nz
 #include "entity.h"
 
 class CPlayer : public CEntity {
-	private:
+	protected:
 		bool m_bIsAlive = true;
 		bool m_bIsMoving = false;
 		int m_iAnimationIndex = 0;
@@ -30,7 +30,7 @@ class CPlayer : public CEntity {
 		CPlayer(const CPlayer&) = delete;
 		CPlayer& operator=(const CPlayer&) = delete;
 
-		virtual void Process(float _fDeltaTick);
+		virtual void Process(float _fDeltaTick) = 0;
 
 		// Accessor and Mutator
 		void SetAlive(bool _state);

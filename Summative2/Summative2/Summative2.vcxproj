@@ -134,6 +134,8 @@
     <ClCompile Include="particlesystem.cpp" />
     <ClCompile Include="pickup.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="playerone.cpp" />
+    <ClCompile Include="playertwo.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="scenemanager.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
@@ -152,6 +154,8 @@
     <ClInclude Include="particlesystem.h" />
     <ClInclude Include="pickup.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="playerone.h" />
+    <ClInclude Include="playertwo.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="scenemanager.h" />
     <ClInclude Include="ShaderLoader.h" />
