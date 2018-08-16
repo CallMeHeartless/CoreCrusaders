@@ -136,6 +136,7 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="playerone.cpp" />
     <ClCompile Include="playertwo.cpp" />
+    <ClCompile Include="projectile.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="scenemanager.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
@@ -145,7 +146,7 @@
   <ItemGroup>
     <ClInclude Include="camera.h" />
     <ClInclude Include="clock.h" />
-    <ClInclude Include="CProjectile.h" />
+    <ClInclude Include="projectile.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="input.h" />

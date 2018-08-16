@@ -231,7 +231,7 @@ bool CScene::CheckForCollision(const CEntity* const _kpMesh1, const CEntity* con
 	// Obtain data for object A
 	float fObjectAX = _kpMesh1->GetPosition().x;
 	float fObjectAY = _kpMesh1->GetPosition().z;
-	float fObjectAW = _kpMesh1->GetSprite()->GetScale().x;			// Change functionality here
+	float fObjectAW = _kpMesh1->GetSprite()->GetScale().x;			
 	float fObjectAH = _kpMesh1->GetSprite()->GetScale().z;
 
 	// Obtain data for object B
@@ -298,10 +298,7 @@ bool CScene::LoadSounds() {
 * @return: std::unqiue_ptr& (the closest player object)
 ********************/
 std::unique_ptr<CPlayer>& CScene::FindClosestPlayer(glm::vec3 _AIPosition) {
-	if (!m_bIsOnlineReference) {
-		// There is only one player in a singleplayer game
-		return m_vecpPlayers[0];
-	}
+	
 	int iClosest = 0;
 	float fDistance = 100.0f;
 	for (unsigned int i = 0; i < m_vecpPlayers.size(); ++i) {

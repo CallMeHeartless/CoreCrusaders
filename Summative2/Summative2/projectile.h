@@ -20,6 +20,7 @@ class CProjectile : public CEntity {
 
 		bool CheckIfExpired()const;
 		void MarkAsExpired();
+		bool CheckIfBeyondBoundary()const;
 };
 
 
