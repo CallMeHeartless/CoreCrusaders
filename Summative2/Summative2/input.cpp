@@ -158,20 +158,20 @@ void CInput::SpecialKeyDown(int _iKey, int _iX, int _iY) {
 
 		default:break;
 	}
-
+	
 	// Process key down
-	switch (m_uiArrowKeyState[_iKey]) {
+	switch (m_uiArrowKeyState[iIndex]) {
 		case INPUT_FIRST_RELEASED: {
 			// Fall through
 		}
 
 		case INPUT_RELEASED: {
-			m_uiArrowKeyState[_iKey] = INPUT_FIRST_PRESSED;
+			m_uiArrowKeyState[iIndex] = INPUT_FIRST_PRESSED;
 			break;
 		}
 
 		case INPUT_FIRST_PRESSED: {
-			m_uiArrowKeyState[_iKey] = INPUT_PRESSED;
+			m_uiArrowKeyState[iIndex] = INPUT_PRESSED;
 			break;
 		}
 
@@ -214,18 +214,18 @@ void CInput::SpecialKeyUp(int _iKey, int _iX, int _iY) {
 	}
 
 	// Process key down
-	switch (m_uiArrowKeyState[_iKey]) {
+	switch (m_uiArrowKeyState[iIndex]) {
 		case INPUT_FIRST_PRESSED: {
 			// Fall through
 		}
 
 		case INPUT_PRESSED: {
-			m_uiArrowKeyState[_iKey] = INPUT_FIRST_RELEASED;
+			m_uiArrowKeyState[iIndex] = INPUT_FIRST_RELEASED;
 			break;
 		}
 
 		case INPUT_FIRST_RELEASED: {
-			m_uiArrowKeyState[_iKey] = INPUT_RELEASED;
+			m_uiArrowKeyState[iIndex] = INPUT_RELEASED;
 			break;
 		}
 

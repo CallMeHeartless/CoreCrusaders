@@ -16,25 +16,20 @@ void CPlayerTwo::Process(float _fDeltaTick) {
 	// Add up component
 	if (vecuiInput[0] > 1) {
 		m_vfMovementVector.y = 1.0f;
-		m_eDirection = NORTH;
+		//m_eDirection = NORTH;
 	}
 	else if (vecuiInput[2] > 1) {
 		m_vfMovementVector.y = -1.0f;
-		m_eDirection = SOUTH;
+		//m_eDirection = SOUTH;
 	}
 	if (vecuiInput[1] > 1) {
 		m_vfMovementVector.x = -1.0f;
-		m_eDirection = WEST;
+		//m_eDirection = WEST;
 	}
 	else if (vecuiInput[3] > 1) {
 		m_vfMovementVector.x = 1.0f;
-		m_eDirection = EAST;
+		//m_eDirection = EAST;
 	}
-
-	for (unsigned int i = 0; i < 4; ++i) {
-		std::cout << vecuiInput[i] << " ";
-	}
-	std::cout << std::endl;
 
 	// Adjust for speed and time
 	if (glm::length(m_vfMovementVector) != 0) {
@@ -43,14 +38,23 @@ void CPlayerTwo::Process(float _fDeltaTick) {
 
 	m_vfMovementVector *= (m_fSpeed *  _fDeltaTick);
 
-	// Move
-	if (m_vfMovementVector.x != 0.0f || m_vfMovementVector.y != 0.0f) {
+	// Move only orthogonaly
+	if (m_vfMovementVector.x != 0.0f && CanMoveHorizontal()) {
 		m_bIsMoving = true;
-		UpdatePosition(m_vfMovementVector.x, m_vfMovementVector.y);
-		// Update animation
+		UpdatePosition(m_vfMovementVector.x, 0);
+	}
+	else if (m_vfMovementVector.y != 0.0f && CanMoveVertical()) {
+		m_bIsMoving = true;
+		UpdatePosition(0, m_vfMovementVector.y);
+	}
+	else {
+		m_bIsMoving = false;
+	}
+
+	// Movement animation
+	if (m_bIsMoving) {
 		m_fAnimationTimer += _fDeltaTick;
 		if (m_fAnimationTimer >= m_fAnimationSwitchCue) {
-			m_fAnimationTimer = 0.0f;
 
 			m_fAnimationTimer = 0.0f;
 			if (m_bForward) {
@@ -71,25 +75,39 @@ void CPlayerTwo::Process(float _fDeltaTick) {
 			m_pSprite->SetIndex(m_iAnimationIndex, m_eDirection);
 		}
 	}
-	else {
-		m_bIsMoving = false;
-	}
 
 	// Keep player within bounds
-	if (m_vfPosition.x < (float)Utility::iBoundary) {
-		m_vfPosition.x = (float)Utility::iBoundary;
+	if (m_vfPosition.x < m_vecvfRailCorners[0].x) {
+		m_vfPosition.x = m_vecvfRailCorners[0].x;
 		SetPosition(m_vfPosition);
 	}
-	if (m_vfPosition.x >(Utility::SCR_WIDTH - Utility::iBoundary)) {
-		m_vfPosition.x = (float)(Utility::SCR_WIDTH - Utility::iBoundary);
+	if (m_vfPosition.x > m_vecvfRailCorners[1].x) {
+		m_vfPosition.x = m_vecvfRailCorners[1].x;
 		SetPosition(m_vfPosition);
 	}
-	if (m_vfPosition.y < 1.5f * Utility::iBoundary) {
-		m_vfPosition.y = 1.5f * (float)Utility::iBoundary;
+	if (m_vfPosition.y < m_vecvfRailCorners[2].y) {
+		m_vfPosition.y = m_vecvfRailCorners[2].y;
 		SetPosition(m_vfPosition);
 	}
-	if (m_vfPosition.y >(Utility::SCR_HEIGHT - Utility::iBoundary)) {
-		m_vfPosition.y = (float)(Utility::SCR_HEIGHT - Utility::iBoundary);
+	if (m_vfPosition.y > m_vecvfRailCorners[0].y) {
+		m_vfPosition.y = m_vecvfRailCorners[0].y;
 		SetPosition(m_vfPosition);
 	}
+}
+
+void CPlayerTwo::SetRailCorners(std::vector<glm::vec3> _vecvfRailCorners) {
+	// Ensure that four points are being given to the player
+	assert(_vecvfRailCorners.size() == 4);
+	m_vecvfRailCorners = _vecvfRailCorners;
+	// Set player to first position
+	SetPosition(m_vecvfRailCorners[0]);
+}
+
+// Utility function to check if the player can move left/right
+bool CPlayerTwo::CanMoveHorizontal()const {
+	return (m_vfPosition.y == m_vecvfRailCorners[0].y) || (m_vfPosition.y == m_vecvfRailCorners[3].y);
+}
+
+bool CPlayerTwo::CanMoveVertical()const {
+	return (m_vfPosition.x == m_vecvfRailCorners[0].x) || (m_vfPosition.x == m_vecvfRailCorners[3].x);
 }

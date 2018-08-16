@@ -81,6 +81,7 @@ bool CScene::Initialise(int _iMap) {
 
 	auto player2 = std::make_unique<CPlayerTwo>();
 	player2->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f + 20.0f, (float)Utility::SCR_HEIGHT / 2.0f + 20.0f, 0.0f));
+	player2->SetRailCorners(m_vecRailLocations);
 	m_vecpPlayers.push_back(std::move(player2));
 	
 
