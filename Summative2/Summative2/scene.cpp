@@ -20,6 +20,8 @@ Mail        :   kerry.pel7420@mediadesign.school.nz
 #include "particlesystem.h"
 #include "outputlog.h"
 #include "camera.h"
+#include "projectile.h"
+#include "enemy.h"
 
 CScene::CScene() {}
 
@@ -39,6 +41,31 @@ void CScene::Process(float _fDeltaTick) {
 		player->Process(_fDeltaTick);
 	}
 
+	// Process bullets
+	for (auto& bullet : m_vecpBullets) {
+		bullet->Process(_fDeltaTick);
+	}
+
+	/// COLLISIONS
+
+	// Bullet - enemy collision
+	for (auto& bullet : m_vecpBullets) {
+		for (auto& enemy : m_vecpEnemies) {
+			if (CheckForCollision(bullet.get(), enemy.get())) {
+				// Mark bullet as expired
+				bullet->MarkAsExpired();
+
+				// Damage enemy
+			}
+		}
+	}
+
+
+	// Remove expired bullets
+	if (!m_vecpBullets.empty()) {
+		m_vecpBullets.erase(std::remove_if(m_vecpBullets.begin(), m_vecpBullets.end(),
+			[](const std::unique_ptr<CProjectile>& bullet) {return bullet->CheckIfExpired(); }), m_vecpBullets.end());
+	}
 }
 
 /***********************
@@ -48,10 +75,14 @@ void CScene::Process(float _fDeltaTick) {
 * @return: void
 ********************/
 void CScene::Render() {
-	// Render player
-
+	// Render players
 	for (auto& player : m_vecpPlayers) {
-		player->Render(m_pUICamera.get());
+		player->Render(m_pGameCamera.get());
+	}
+
+	// Render projectiles
+	for (auto& bullet : m_vecpBullets) {
+		bullet->Render(m_pGameCamera.get());
 	}
 }
 
