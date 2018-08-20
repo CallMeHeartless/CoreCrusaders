@@ -103,7 +103,7 @@ bool CScene::Initialise(int _iMap) {
 
 	
 	// Create Camera
-	m_pUICamera = std::make_unique<CCamera>(Utility::SCR_WIDTH, Utility::SCR_HEIGHT);
+	m_pGameCamera = std::make_unique<CCamera>(Utility::SCR_WIDTH, Utility::SCR_HEIGHT);
 
 	// Create players
 	auto player1 = std::make_unique<CPlayerOne>();

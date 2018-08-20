@@ -365,6 +365,7 @@ void CInput::MakePressedOrReleased() {
 
 }
 
+// Projects from camera to mouse position in world space
 glm::vec3 CInput::MouseRay(const CCamera* const _kpCamera) {
 	// Obtain coordinates of mouse
 	glm::vec2 vfMouse = CInput::GetInstance()->GetMousePosition();
