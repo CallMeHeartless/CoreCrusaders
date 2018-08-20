@@ -46,6 +46,7 @@ private:
 	bool m_bGodModeReference = false;
 	// Player Variables
 	std::vector<std::unique_ptr<CPlayer>> m_vecpPlayers;
+	std::vector < std::unique_ptr<CEntity>> m_vecpEntities;
 	std::vector<glm::vec3> m_vecRailLocations = { glm::vec3(250, 750, 0), glm::vec3(750, 750, 0), glm::vec3(250, 250, 0), glm::vec3(750, 250, 0) };
 	//std::vector<glm::vec3> m_vecPlayerSpawnPoints;
 	// Enemy variables

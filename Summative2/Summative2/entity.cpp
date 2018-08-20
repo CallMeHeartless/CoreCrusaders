@@ -26,6 +26,8 @@ void CEntity::Initialise(const char* _spriteName) {
 	// Create sprite and initialise it
 	m_pSprite = std::make_unique<CSprite>();
 	m_pSprite->Initialise(_spriteName);
+
+	m_vfScale = glm::vec3(1.0f, 1.0f, 1.0f);
 }
 
 /***********************
@@ -47,6 +49,28 @@ void CEntity::SetPosition(glm::vec3 _newPosition) {
 ********************/
 glm::vec3 CEntity::GetPosition()const {
 	return m_vfPosition;
+}
+
+/***********************
+* SetPosition: Sets the position of the entity and it's sprite to the argument
+* @author: Sally Gillbanks (2018)
+* @parameter: glm::vec3 _newScale
+* @return: void
+********************/
+void CEntity::SetScale(glm::vec3 _newScale)
+{
+	m_pSprite->SetScale(_newScale);
+}
+
+/***********************
+* GetPosition: Returns the position of the entity
+* @author: Sally Gillbanks (2018)
+* @parameter: void
+* @return: glm::vec3 that is m_vfScale
+********************/
+glm::vec3 CEntity::GetScale()const
+{
+	return(m_vfScale);
 }
 
 /***********************

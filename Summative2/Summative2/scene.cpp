@@ -46,6 +46,10 @@ void CScene::Process(float _fDeltaTick) {
 		bullet->Process(_fDeltaTick);
 	}
 
+	for (auto& entity : m_vecpEntities){
+		entity->Process(_fDeltaTick);
+	}
+
 	/// COLLISIONS
 
 	// Bullet - enemy collision
@@ -75,6 +79,11 @@ void CScene::Process(float _fDeltaTick) {
 * @return: void
 ********************/
 void CScene::Render() {
+	//Render Entities
+	for (auto& entity : m_vecpEntities) {
+		entity->Render(m_pGameCamera.get());
+	}
+
 	// Render players
 	for (auto& player : m_vecpPlayers) {
 		player->Render(m_pGameCamera.get());
@@ -84,6 +93,7 @@ void CScene::Render() {
 	for (auto& bullet : m_vecpBullets) {
 		bullet->Render(m_pGameCamera.get());
 	}
+
 }
 
 /***********************
@@ -97,6 +107,8 @@ bool CScene::Initialise(int _iMap) {
 	//COutputLog::GetInstance()->LogMessage("Beginning level intialisation.");
 	// Clear variables and reset timers
 	m_vecpPlayers.clear();
+	m_vecpEntities.clear();
+
 	m_fEnemySpawnTimer = 0.0f;
 	m_fPickupSpawnTimer = 0.0f;
 	m_iEnemyWaveCount = 0;
@@ -114,8 +126,15 @@ bool CScene::Initialise(int _iMap) {
 	player2->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f + 20.0f, (float)Utility::SCR_HEIGHT / 2.0f + 20.0f, 0.0f));
 	player2->SetRailCorners(m_vecRailLocations);
 	m_vecpPlayers.push_back(std::move(player2));
-	
 
+	//Create Entities - Rails
+	auto rails = std::make_unique<CEntity>();
+	rails->Initialise("Resources/Textures/Rails.png");
+	rails->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f, 0.0f));
+	//rails->UpdateScale(glm::vec3(0.0f, 0.0f, 0.0f));
+	rails->SetScale(glm::vec3(567.0f, 567.0f, 0.0f));
+	m_vecpEntities.push_back(std::move(rails));
+	
 	// Create Audio
 	if (Utility::InitFMod(&m_pAudioManager)) {
 		COutputLog::GetInstance()->LogMessage("Audio manager successfully loaded.");
