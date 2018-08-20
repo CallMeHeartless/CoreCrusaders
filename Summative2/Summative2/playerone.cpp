@@ -4,7 +4,7 @@
 CPlayerOne::CPlayerOne() {
 	// Initialise sprite
 	m_pSprite = std::make_unique<CSprite>();
-	m_pSprite->Initialise("Resources/Textures/inca_black2-5.png");
+	m_pSprite->Initialise("Resources/Textures/inca_back2-5.png");
 }
 
 CPlayerOne::~CPlayerOne(){}
@@ -34,6 +34,13 @@ void CPlayerOne::Process(float _fDeltaTick) {
 	// Adjust for speed and time
 	if (glm::length(m_vfMovementVector) != 0) {
 		m_vfMovementVector = glm::normalize(m_vfMovementVector);
+		glm::vec3 vDefaultAngle = glm::vec3(0.0f, 1.0f, 0.0f);
+		float fDot = glm::dot(vDefaultAngle, m_vfMovementVector);
+		float fAngle = acosf(fDot);// / (vDefaultAngle.length() * m_vfMovementVector.length());
+		if (m_vfMovementVector.x > 0) {
+			fAngle = glm::radians(360 - glm::degrees(fAngle));
+		}
+		m_pSprite->SetAngle(fAngle);
 	}
 
 	m_vfMovementVector *= (m_fSpeed *  _fDeltaTick);
