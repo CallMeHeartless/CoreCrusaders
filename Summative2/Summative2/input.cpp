@@ -173,9 +173,9 @@ void CInput::SpecialKeyDown(int _iKey, int _iX, int _iY) {
 			break;
 		}
 
-		default:break;
+		default:return;
 	}
-	
+
 	// Process key down
 	switch (m_uiArrowKeyState[iIndex]) {
 		case INPUT_FIRST_RELEASED: {
