@@ -96,3 +96,23 @@ void CPlayerOne::Process(float _fDeltaTick) {
 		SetPosition(m_vfPosition);
 	}
 }
+
+void CPlayerOne::Attack()
+{
+	if (m_bCanAttack)
+	{
+		//Do attack code
+
+		m_bCanAttack = false;
+	}
+}
+
+bool CPlayerOne::AttackReady()
+{
+	return(m_bCanAttack);
+}
+
+void CPlayerOne::SetAttackReady(bool _bValue)
+{
+	m_bCanAttack = _bValue;
+}

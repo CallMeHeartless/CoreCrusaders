@@ -22,6 +22,7 @@ class CPlayer : public CEntity {
 		bool m_bForward = false;
 		float m_fSpeed = 250.0f;
 		glm::vec3 m_vfMovementVector;
+		bool m_bCanAttack = true;
 		
 
 	public:
@@ -31,6 +32,9 @@ class CPlayer : public CEntity {
 		CPlayer& operator=(const CPlayer&) = delete;
 
 		virtual void Process(float _fDeltaTick) = 0;
+		virtual void Attack() = 0;
+		virtual bool AttackReady() = 0;
+		virtual void SetAttackReady(bool _bValue) = 0;
 
 		// Accessor and Mutator
 		void SetAlive(bool _state);

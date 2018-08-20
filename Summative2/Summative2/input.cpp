@@ -84,6 +84,23 @@ void ProcessKeyDown(unsigned char _cKey, int _iX, int _iY) {
 	CInput::GetInstance()->KeyDown(_cKey, _iX, _iY);
 }
 
+bool CInput::KeyDown(unsigned char _cKey)
+{
+	switch (m_uiKeyState[_cKey]) {
+	case INPUT_FIRST_PRESSED: {
+		return true;
+		break;
+	}
+	case INPUT_PRESSED: {
+		return true;
+		break;
+	}
+	default:
+		break;
+	}
+	return false;
+}
+
 void CInput::KeyDown(unsigned char _cKey, int _iX, int _iY) {
 	switch (m_uiKeyState[_cKey]) {
 		case INPUT_FIRST_RELEASED: {

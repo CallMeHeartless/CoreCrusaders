@@ -62,6 +62,7 @@ class CInput {
 		glm::vec3 MouseIntersectionWithPlane(glm::vec3 _vfMouseRay, glm::vec3 _vfCameraPosition, glm::vec3 _vfPlaneNormal, glm::vec3 _vfPlanePoint);
 
 		// Keyboard
+		bool KeyDown(unsigned char _cKey);
 		void KeyDown(unsigned char _cKey, int _iX, int _iY);
 		void KeyUp(unsigned char _cKey, int _iX, int _iY);
 		unsigned int GetKeyState(unsigned char _ucKey)const;

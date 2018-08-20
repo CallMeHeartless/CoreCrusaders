@@ -50,6 +50,13 @@ void CScene::Process(float _fDeltaTick) {
 		entity->Process(_fDeltaTick);
 	}
 
+	//Attacking - Somewhere needs to call m_vecpPlayers[0]->SetAttackReady(true); to say that player one can attack
+	// Right now it is never ready to attack again
+	if (m_vecpPlayers[0]->AttackReady() && CInput::GetInstance()->KeyDown(' '))
+	{
+		m_vecpPlayers[0]->Attack();
+	}
+
 	/// COLLISIONS
 
 	// Bullet - enemy collision

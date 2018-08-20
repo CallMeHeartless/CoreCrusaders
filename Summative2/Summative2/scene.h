@@ -74,6 +74,12 @@ private:
 	std::vector<std::unique_ptr<CPickup>> m_vecpPickups;
 	// Group scores
 
+	//Attack
+	float m_fPlayerOneAttackCoolDown = 0.0f;
+	const float m_kfPlayerOneAttackCoolDown = 5.0f;
+	float m_fPlayerTwoAttackCoolDown = 0.0f;
+	const float m_kfPlayerTwoAttackCoolDown = 5.0f;
+
 
 	public:
 		CScene();

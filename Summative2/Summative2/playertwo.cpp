@@ -95,6 +95,26 @@ void CPlayerTwo::Process(float _fDeltaTick) {
 	}
 }
 
+void CPlayerTwo::Attack()
+{
+	if (m_bCanAttack)
+	{
+		//Do attack code
+
+		m_bCanAttack = false;
+	}
+}
+
+bool CPlayerTwo::AttackReady()
+{
+	return(m_bCanAttack);
+}
+
+void CPlayerTwo::SetAttackReady(bool _bValue)
+{
+	m_bCanAttack = _bValue;
+}
+
 void CPlayerTwo::SetRailCorners(std::vector<glm::vec3> _vecvfRailCorners) {
 	// Ensure that four points are being given to the player
 	assert(_vecvfRailCorners.size() == 4);
