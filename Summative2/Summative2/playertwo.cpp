@@ -93,6 +93,20 @@ void CPlayerTwo::Process(float _fDeltaTick) {
 		m_vfPosition.y = m_vecvfRailCorners[0].y;
 		SetPosition(m_vfPosition);
 	}
+
+	// Update player's orientation
+	glm::vec3 vfMousePos = glm::vec3(CInput::GetInstance()->GetMousePosition(), 0);
+	vfMousePos.y = (float)Utility::SCR_HEIGHT - vfMousePos.y;
+	glm::vec3 vfAimTarget = vfMousePos - m_vfPosition;
+	if (glm::length(vfAimTarget) != 0) {
+		vfAimTarget = glm::normalize(vfAimTarget);
+	}
+	float fAngle = acosf(glm::dot(glm::vec3(0.0f, 1.0f, 0.0f), vfAimTarget));
+	if (vfAimTarget.x > 0) {
+		fAngle = 2.0f * glm::pi<float>() - fAngle;
+	}
+	m_pSprite->SetAngle(fAngle);
+
 }
 
 void CPlayerTwo::SetRailCorners(std::vector<glm::vec3> _vecvfRailCorners) {
