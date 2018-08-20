@@ -15,6 +15,7 @@ Mail        :   kerry.pel7420@mediadesign.school.nz
 #include "input.h"
 #include "playerone.h"
 #include "playertwo.h"
+#include "homebase.h"
 #include "pickup.h"
 #include "scenemanager.h"
 #include "particlesystem.h"
@@ -71,6 +72,20 @@ void CScene::Process(float _fDeltaTick) {
 		}
 	}
 
+	//Base collision with player
+	if (CheckForCollision(m_pHomeBase.get(), m_vecpPlayers[0].get()))
+	{
+		//pushes player away
+		glm::vec3 desiredVel = m_vecpPlayers[0].get()->GetPosition() - m_pHomeBase.get()->GetPosition();
+
+		if (glm::length(desiredVel) != 0.0f)
+			desiredVel = (glm::normalize(desiredVel) * 4.1f);
+		else
+			desiredVel = glm::vec3();
+
+		m_vecpPlayers[0].get()->SetPosition((m_vecpPlayers[0].get()->GetPosition() + desiredVel));
+	}
+
 
 	// Remove expired bullets
 	if (!m_vecpBullets.empty()) {
@@ -101,6 +116,8 @@ void CScene::Render() {
 		bullet->Render(m_pGameCamera.get());
 	}
 
+	// Render Base
+	m_pHomeBase->Render(m_pGameCamera.get());
 }
 
 /***********************
@@ -120,9 +137,8 @@ bool CScene::Initialise(int _iMap) {
 	m_fPickupSpawnTimer = 0.0f;
 	m_iEnemyWaveCount = 0;
 
-	
 	// Create Camera
-	m_pGameCamera = std::make_unique<CCamera>(Utility::SCR_WIDTH, Utility::SCR_HEIGHT);
+	m_pGameCamera = std::make_unique<CCamera>((float)Utility::SCR_WIDTH, (float)Utility::SCR_HEIGHT);
 
 	// Create players
 	auto player1 = std::make_unique<CPlayerOne>();
@@ -133,6 +149,9 @@ bool CScene::Initialise(int _iMap) {
 	player2->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f + 20.0f, (float)Utility::SCR_HEIGHT / 2.0f + 20.0f, 0.0f));
 	player2->SetRailCorners(m_vecRailLocations);
 	m_vecpPlayers.push_back(std::move(player2));
+
+	m_pHomeBase = std::make_unique<CHomeBase>();
+	m_pHomeBase->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f, 0.0f));
 
 	//Create Entities - Rails
 	auto rails = std::make_unique<CEntity>();
@@ -252,25 +271,25 @@ void CScene::SpawnPickup() {
 * @parameter: const CMesh* const _kpMesh1, const CMesh* const _kpMesh2
 * @return: bool (true if the meshes overlap)
 ********************/
-bool CScene::CheckForCollision(const CEntity* const _kpMesh1, const CEntity* const _kpMesh2){
+bool CScene::CheckForCollision(const CEntity* const _kpMesh1, const CEntity* const _kpMesh2) {
 
 	// Obtain data for object A
 	float fObjectAX = _kpMesh1->GetPosition().x;
-	float fObjectAY = _kpMesh1->GetPosition().z;
-	float fObjectAW = _kpMesh1->GetSprite()->GetScale().x;			
-	float fObjectAH = _kpMesh1->GetSprite()->GetScale().z;
+	float fObjectAY = _kpMesh1->GetPosition().y;
+	float fObjectAW = _kpMesh1->GetSprite()->GetScale().x;
+	float fObjectAH = _kpMesh1->GetSprite()->GetScale().y;
 
 	// Obtain data for object B
 	float fObjectBX = _kpMesh2->GetPosition().x;
-	float fObjectBY = _kpMesh2->GetPosition().z;
+	float fObjectBY = _kpMesh2->GetPosition().y;
 	float fObjectBW = _kpMesh2->GetSprite()->GetScale().x;
-	float fObjectBH = _kpMesh2->GetSprite()->GetScale().z;
+	float fObjectBH = _kpMesh2->GetSprite()->GetScale().y;
 
 	// Check for overlap
-	if ((fObjectAX + fObjectAW  > fObjectBX - fObjectBW ) &&		// Object's right side > target's left
-		(fObjectAX - fObjectAW  < fObjectBX + fObjectBW ) &&		// Object's left side < target's right
-		(fObjectAY + fObjectAH > fObjectBY - fObjectBH ) &&		// Object's top > target's bottom
-		(fObjectAY - fObjectAH  < fObjectBY + fObjectBH )) {		// Object's bottom < target's top
+	if ((fObjectAX + fObjectAW / 2.0f  > fObjectBX - fObjectBW / 2.0f) &&		// Object's right side > target's left
+		(fObjectAX - fObjectAW / 2.0f  < fObjectBX + fObjectBW / 2.0f) &&		// Object's left side < target's right
+		(fObjectAY + fObjectAH / 2.0f > fObjectBY - fObjectBH / 2.0f) &&		// Object's top > target's bottom
+		(fObjectAY - fObjectAH / 2.0f  < fObjectBY + fObjectBH / 2.0f)) {		// Object's bottom < target's top
 		return true;
 	}
 
