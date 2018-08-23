@@ -22,22 +22,26 @@ CEnemy::CEnemy(ETYPE _eType):m_eType(_eType) {
 		case STALKER: {
 			Initialise("Resources/Textures/Stalker1.png");
 			m_pSprite->AddTexture("Resources/Textures/Stalker2.png");
+			m_eTarget = ETARGET_PLAYER_ONE; // Or ETARGET_PLAYER_TWO
 			break;
 		}
 
 		case WARPER: {
 			Initialise("Resources/Textures/Warper2.png");
+			m_eTarget = ETARGET_BASE;
 			break;
 		}
 
 		case RUNNER: {
 			Initialise("Resources/Textures/Runner1.png");
 			m_pSprite->AddTexture("Resources/Textures/Runner2.png");
+			m_eTarget = ETARGET_BASE;
 			break;
 		}
 
 		default: {
 			std::cout << "ERROR: Enemy type not recognised." << std::endl;
+			m_eTarget = ETARGET_BASE;
 			break;
 		}
 	}
@@ -58,30 +62,30 @@ CEnemy::~CEnemy(){}
 * @parameter: float _fDeltaTick (milliseconds between frames)
 * @return: void
 ********************/
-void CEnemy::Process(float _fDeltaTick, glm::vec3 _vecPlayerPosition){
+void CEnemy::Process(float _fDeltaTick, glm::vec3 _vecTargetPosition){
 
 }
 
 /***********************
 * DistanceToPlayer: Finds the distance between the player and the enemy
 * @author: Kerry Pellett (2018)
-* @parameter: glm::vec3 _vecPlayerPosition (the player's location in world space)
+* @parameter: glm::vec3 _vecTargetPosition (the target's location in world space)
 * @return: float that is the distance between the two positions
 ********************/
-float CEnemy::DistanceToPlayer(glm::vec3 _vecPlayerPosition) {
-	return glm::distance(_vecPlayerPosition, m_vfPosition);
+float CEnemy::DistanceToTarget(glm::vec3 _vecTargetPosition) {
+	return glm::distance(_vecTargetPosition, m_vfPosition);
 }
 
 /***********************
 * FindBearing: Determines which bearing a sprite should use/face
 * @author: Kerry Pellett (2018)
-* @parameter: glm::vec3 _vecPlayerPosition (position of target, usually player)
+* @parameter: glm::vec3 _vecTargetPosition (position of target, usually player)
 * @return: EDIRECTION that is the direction the enemy should face
 ********************/
-EDIRECTION CEnemy::FindBearing(glm::vec3 _vecPlayerPosition) {
+EDIRECTION CEnemy::FindBearing(glm::vec3 _vecTargetPosition) {
 	// Compare X 
-	float fDeltaX = _vecPlayerPosition.x - m_vfPosition.x;
-	float fDeltaY = _vecPlayerPosition.y - m_vfPosition.y;
+	float fDeltaX = _vecTargetPosition.x - m_vfPosition.x;
+	float fDeltaY = _vecTargetPosition.y - m_vfPosition.y;
 
 	// Determine absolute
 	float fAbsX = abs(fDeltaX);
@@ -108,6 +112,27 @@ EDIRECTION CEnemy::FindBearing(glm::vec3 _vecPlayerPosition) {
 			return EAST;
 		}
 	}
+}
+
+/***********************
+* SetTarget: Changes the target of an enemy
+* @author: Sally Gillbanks (2018)
+* @parameter: ETARGET _eTarget // Target to change to
+* @return: void
+********************/
+void CEnemy::SetTarget(ETARGET _eTarget)
+{
+	m_eTarget = _eTarget;
+}
+/***********************
+* GetTarget: Returns the current target type
+* @author: Sally Gillbanks (2018)
+* @parameter: 
+* @return: ETARGET
+********************/
+ETARGET CEnemy::GetTarget()
+{
+	return(m_eTarget);
 }
 
 /***********************

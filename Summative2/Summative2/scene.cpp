@@ -47,8 +47,32 @@ void CScene::Process(float _fDeltaTick) {
 		bullet->Process(_fDeltaTick);
 	}
 
+	// Process entities
 	for (auto& entity : m_vecpEntities){
 		entity->Process(_fDeltaTick);
+	}
+
+	// Process Enemies
+	for (auto& enemy : m_vecpEnemies) {
+		glm::vec3 vTargetPos;
+
+		switch (enemy->GetTarget())
+		{
+		case ETARGET_PLAYER_ONE:
+		{
+			vTargetPos = m_vecpPlayers[0]->GetPosition();
+			break;
+		}
+		case ETARGET_PLAYER_TWO:
+		{
+			vTargetPos = m_vecpPlayers[1]->GetPosition();
+			break;
+		}
+		default: //Base
+			vTargetPos = glm::vec3(0.0f, 0.0f, 0.0f);
+			break;
+		}
+		enemy->Process(_fDeltaTick, vTargetPos);
 	}
 
 	//Attacking - Somewhere needs to call m_vecpPlayers[0]->SetAttackReady(true); to say that player one can attack
