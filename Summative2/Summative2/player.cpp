@@ -19,6 +19,8 @@ CPlayer::CPlayer(){
 	m_pSprite->SetFrameHeight(m_pSprite->GetHeight() / 4.0f);
 
 	m_pSprite->SetIndex(1, 2);*/
+
+	m_fAttackCoolDownTimer = 0;
 }
 
 CPlayer::~CPlayer(){}

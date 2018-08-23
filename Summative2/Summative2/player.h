@@ -23,7 +23,7 @@ class CPlayer : public CEntity {
 		float m_fSpeed = 250.0f;
 		glm::vec3 m_vfMovementVector;
 		bool m_bCanAttack = true;
-		
+		float m_fAttackCoolDownTimer;
 
 	public:
 		CPlayer();

@@ -107,6 +107,12 @@ void CPlayerTwo::Process(float _fDeltaTick) {
 	}
 	m_pSprite->SetAngle(fAngle);
 
+	/* Allows the player to attack each time m_fAttackCoolDownTimer is greater than the cool down timer */
+	m_fAttackCoolDownTimer += _fDeltaTick;
+	if (5.0f < m_fAttackCoolDownTimer)
+	{
+		m_bCanAttack = true;
+	}
 }
 
 void CPlayerTwo::Attack()
@@ -115,6 +121,7 @@ void CPlayerTwo::Attack()
 	{
 		//Do attack code
 
+		m_fAttackCoolDownTimer = 0;
 		m_bCanAttack = false;
 	}
 }

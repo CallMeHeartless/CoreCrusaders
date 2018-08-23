@@ -95,6 +95,13 @@ void CPlayerOne::Process(float _fDeltaTick) {
 		m_vfPosition.y = (float)(Utility::SCR_HEIGHT - Utility::iBoundary);
 		SetPosition(m_vfPosition);
 	}
+
+	/* Allows the player to attack each time m_fAttackCoolDownTimer is greater than the cool down timer */
+	m_fAttackCoolDownTimer += _fDeltaTick;
+	if (5.0f < m_fAttackCoolDownTimer)
+	{
+		m_bCanAttack = true;
+	}
 }
 
 void CPlayerOne::Attack()
@@ -103,6 +110,7 @@ void CPlayerOne::Attack()
 	{
 		//Do attack code
 
+		m_fAttackCoolDownTimer = 0;
 		m_bCanAttack = false;
 	}
 }
