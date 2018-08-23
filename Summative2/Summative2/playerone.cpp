@@ -98,9 +98,14 @@ void CPlayerOne::Process(float _fDeltaTick) {
 
 	/* Allows the player to attack each time m_fAttackCoolDownTimer is greater than the cool down timer */
 	m_fAttackCoolDownTimer += _fDeltaTick;
-	if (5.0f < m_fAttackCoolDownTimer)
+	if (0.5f < m_fAttackCoolDownTimer)
 	{
 		m_bCanAttack = true;
+	}
+	else if (0.25 < m_fAttackCoolDownTimer && !m_bCanAttack)
+	{
+		//m_pSprite->SetTextureIndex(0);
+		//m_pSprite->SetScale(m_pSprite->GetOriginalScale());
 	}
 }
 
@@ -109,6 +114,9 @@ void CPlayerOne::Attack()
 	if (m_bCanAttack)
 	{
 		//Do attack code
+		m_pSprite->AddTexture("Resources/Textures/inca_back2-5 - Copy.png");
+		m_pSprite->SetTextureIndex(1);
+		m_pSprite->SetScale(glm::vec3(m_pSprite->GetScale().x * 2, m_pSprite->GetScale().y * 3, m_pSprite->GetScale().z));
 
 		m_fAttackCoolDownTimer = 0;
 		m_bCanAttack = false;

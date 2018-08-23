@@ -29,6 +29,7 @@ class CSprite {
 		int m_iFrameYIndex = 0;
 		glm::vec3 m_vfPosition;
 		glm::vec3 m_vfScale = glm::vec3(80.0f, 80.0f, 80.0f);
+		glm::vec3 m_vfOriginalScale = glm::vec3(80.0f, 80.0f, 80.0f);
 		glm::vec3 m_RotationAxis = glm::vec3(0.0f, 0.0f, 1.0f);
 		float m_fAngle = 0.0f;
 		GLfloat m_fVertices[32] = {
@@ -63,6 +64,8 @@ class CSprite {
 		// Scale
 		void SetScale(glm::vec3 _Scale);
 		glm::vec3 GetScale()const;
+		void SetOriginalScale(glm::vec3 _Scale);
+		glm::vec3 GetOriginalScale()const;
 		// Rotation
 		void SetAngle(float _fAngle);
 		float GetAngle()const;

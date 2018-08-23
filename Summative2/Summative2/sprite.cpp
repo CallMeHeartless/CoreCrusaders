@@ -283,6 +283,28 @@ glm::vec3 CSprite::GetScale()const {
 }
 
 /***********************
+* SetOriginalScale: Resizes the default scale of the object
+* @author: Sally Gillbanks (2018)
+* @parameter: glm::vec3 _Scale (the new scale to set the sprite to)
+* @return: void
+********************/
+void CSprite::SetOriginalScale(glm::vec3 _Scale)
+{
+	m_vfOriginalScale = _Scale;
+}
+
+/***********************
+* GetScale: Returns the default scale of the sprite
+* @author: Kerry Pellett (2018)
+* @parameter: void
+* @return: glm::vec3 that is m_vfScale
+********************/
+glm::vec3 CSprite::GetOriginalScale()const
+{
+	return(m_vfOriginalScale);
+}
+
+/***********************
 * GetHeight: Gets the height of the sprite's image
 * @author: Kerry Pellett (2018)
 * @parameter: void 
