@@ -22,29 +22,28 @@ CEnemy::CEnemy(ETYPE _eType):m_eType(_eType) {
 		case STALKER: {
 			Initialise("Resources/Textures/Stalker1.png");
 			m_pSprite->AddTexture("Resources/Textures/Stalker2.png");
-			m_eTarget = ETARGET_PLAYER_ONE; // Or ETARGET_PLAYER_TWO
+			// Just call SetTarget ETARGET_PLAYER_ONE or ETARGET_PLAYER_TWO
 			break;
 		}
 
 		case WARPER: {
 			Initialise("Resources/Textures/Warper2.png");
-			m_eTarget = ETARGET_BASE;
 			break;
 		}
 
 		case RUNNER: {
 			Initialise("Resources/Textures/Runner1.png");
 			m_pSprite->AddTexture("Resources/Textures/Runner2.png");
-			m_eTarget = ETARGET_BASE;
 			break;
 		}
 
 		default: {
 			std::cout << "ERROR: Enemy type not recognised." << std::endl;
-			m_eTarget = ETARGET_BASE;
 			break;
 		}
 	}
+
+	m_eTarget = ETARGET_BASE;
 
 	m_fFrameW = m_pSprite->GetWidth() / 3.0f;
 	m_pSprite->SetFrameWidth(m_fFrameW);

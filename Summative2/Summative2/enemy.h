@@ -17,6 +17,12 @@ enum ETYPE {
 	RUNNER
 };
 
+enum ETARGET {
+	ETARGET_BASE,
+	ETARGET_PLAYER_ONE,
+	ETARGET_PLAYER_TWO,
+};
+
 class CEnemy : public CEntity {
 	private:
 		ETYPE m_eType;
@@ -29,18 +35,19 @@ class CEnemy : public CEntity {
 		bool m_bForward = true;
 		float m_fMoveSpeed = 150.0f;
 		glm::vec3 m_vfTarget;
-
+		ETARGET m_eTarget;
 
 	public:
 		CEnemy();
 		CEnemy(ETYPE _eType);
 		virtual ~CEnemy();
 
-		virtual void Process(float _fDeltaTick, glm::vec3 _vecPlayerPosition);
-		EDIRECTION FindBearing(glm::vec3 _vecPlayerPosition);
-		float DistanceToPlayer(glm::vec3 _vecPlayerPosition);
+		virtual void Process(float _fDeltaTick, glm::vec3 _vecTargetPosition);
+		EDIRECTION FindBearing(glm::vec3 _vecTargetPosition);
+		float DistanceToTarget(glm::vec3 _vecTartgetPosition);
 
-
+		void SetTarget(ETARGET _eTarget);
+		ETARGET GetTarget();
 };
 
 #endif // !__ENEMY_H__
