@@ -104,8 +104,8 @@ void CPlayerOne::Process(float _fDeltaTick) {
 	}
 	else if (0.25 < m_fAttackCoolDownTimer && !m_bCanAttack)
 	{
-		//m_pSprite->SetTextureIndex(0);
-		//m_pSprite->SetScale(m_pSprite->GetOriginalScale());
+		m_pSprite->SetTextureIndex(0);
+		m_pSprite->SetScale(m_pSprite->GetOriginalScale());
 	}
 }
 
