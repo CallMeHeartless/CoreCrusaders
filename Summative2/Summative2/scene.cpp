@@ -108,6 +108,8 @@ void CScene::Process(float _fDeltaTick) {
 			desiredVel = glm::vec3();
 
 		m_vecpPlayers[0].get()->SetPosition((m_vecpPlayers[0].get()->GetPosition() + desiredVel));
+
+		m_pHomeBase->SetHealth(m_pHomeBase->GetHealth() - 1);
 	}
 
 	//Checking that the base health hasn't changed - If it has, resize the base health scale

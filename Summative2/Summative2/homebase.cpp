@@ -25,7 +25,7 @@ bool CHomeBase::GetAlive() const
 
 void CHomeBase::SetHealth(int _iHealth)
 {
-	m_iHealth = m_iHealth;
+	m_iHealth = _iHealth;
 }
 
 int CHomeBase::GetHealth() const
