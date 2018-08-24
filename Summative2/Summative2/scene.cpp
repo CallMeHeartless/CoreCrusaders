@@ -57,6 +57,10 @@ void CScene::Process(float _fDeltaTick) {
 		pickup->Process(_fDeltaTick);
 	}
 
+	//Process Text 
+	//Score
+	m_vecpText[0]->SetText("Score: " + std::to_string(m_iPlayerScore));
+
 	// Process Enemies
 	for (auto& enemy : m_vecpEnemies) {
 		glm::vec3 vTargetPos;
@@ -163,6 +167,12 @@ void CScene::Render() {
 		bullet->Render(m_pGameCamera.get());
 	}
 
+	//Render Text
+	for (auto& text : m_vecpText)
+	{
+		text->Render();
+	}
+
 	// Render Base
 	m_pHomeBase->Render(m_pGameCamera.get());
 }
@@ -246,6 +256,13 @@ bool CScene::Initialise(int _iMap) {
 	m_vecbPickupSpawnPointsValidity[iMyPickupLocation] = false; // Says that this spot is taken
 	m_vecpPickups.push_back(std::move(pickup));
 	
+
+	//Create Text
+	auto text = std::make_unique<TextLabel>("Score: 0", "Resources/Fonts/lunchds.ttf", glm::vec2((float)Utility::SCR_WIDTH / 2.0f - 100, (float)Utility::SCR_HEIGHT / 2.0f + 400));
+	text->SetColor(glm::vec3(1.0f, 1.0f, 1.0f));
+	text->SetScale(1.0f);
+	m_vecpText.push_back(std::move(text));
+
 
 	// Create Audio
 	if (Utility::InitFMod(&m_pAudioManager)) {

@@ -60,6 +60,8 @@ private:
 	// Enemy variables
 	std::vector<std::unique_ptr<CEnemy>> m_vecpEnemies;
 	std::vector<glm::vec3> m_vecEnemySpawnPoints;
+	//Text
+	std::vector<std::unique_ptr<TextLabel>> m_vecpText;
 	// Spawn timers
 	float m_fEnemySpawnTimer = 0.0f;
 	float m_fEnemySpawnDelay = 30.0f;
