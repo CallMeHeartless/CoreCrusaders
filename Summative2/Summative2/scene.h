@@ -52,6 +52,7 @@ private:
 	// Pickups
 	std::vector <std::unique_ptr<CPickup>> m_vecpPickups;
 	std::vector<glm::vec3> m_vecPickupSpawnPoints;
+	std::vector<bool> m_vecbPickupSpawnPointsValidity;
 	// Bullets
 	std::vector<std::unique_ptr<CProjectile>> m_vecpBullets;
 	// Base

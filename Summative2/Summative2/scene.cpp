@@ -223,11 +223,27 @@ bool CScene::Initialise(int _iMap) {
 
 
 	// PickUp Initialsations
-	// SpawnPoints
+	// SpawnPoints - Pushes back a valid spawn point and validity marks it as avalible
+	m_vecPickupSpawnPoints.push_back(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f - 200.0f, 0.0f));
+	m_vecbPickupSpawnPointsValidity.push_back(true);
+	m_vecPickupSpawnPoints.push_back(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f + 200.0f, 0.0f));
+	m_vecbPickupSpawnPointsValidity.push_back(true);
 	m_vecPickupSpawnPoints.push_back(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f - 150.0f, 0.0f));
+	m_vecbPickupSpawnPointsValidity.push_back(true);
+	m_vecPickupSpawnPoints.push_back(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f + 150.0f, 0.0f));
+	m_vecbPickupSpawnPointsValidity.push_back(true);
+
+	int iMyPickupLocation;
+
 	// PickUps
+	iMyPickupLocation = rand() % m_vecPickupSpawnPoints.size();
+	while (!m_vecbPickupSpawnPointsValidity[iMyPickupLocation])
+	{
+		iMyPickupLocation = rand() % m_vecPickupSpawnPoints.size();
+	}
 	auto pickup = std::make_unique<CPickup>();
-	pickup->SetPosition(m_vecPickupSpawnPoints[0]);
+	pickup->SetPosition(m_vecPickupSpawnPoints[iMyPickupLocation]);
+	m_vecbPickupSpawnPointsValidity[iMyPickupLocation] = false; // Says that this spot is taken
 	m_vecpPickups.push_back(std::move(pickup));
 	
 
