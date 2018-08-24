@@ -110,6 +110,12 @@ void CScene::Process(float _fDeltaTick) {
 		m_vecpPlayers[0].get()->SetPosition((m_vecpPlayers[0].get()->GetPosition() + desiredVel));
 	}
 
+	//Checking that the base health hasn't changed - If it has, resize the base health scale
+	if ((int)(m_vecpEntities[1]->GetScale().x / 3.0f) != m_pHomeBase->GetHealth())
+	{
+		m_vecpEntities[1]->SetScale(glm::vec3((float)m_pHomeBase->GetHealth() * 3.0f, 20.0f, 0.0f));
+	}
+
 
 	// Remove expired bullets
 	if (!m_vecpBullets.empty()) {
@@ -177,13 +183,20 @@ bool CScene::Initialise(int _iMap) {
 	m_pHomeBase = std::make_unique<CHomeBase>();
 	m_pHomeBase->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f, 0.0f));
 
-	//Create Entities - Rails
+	//Create Entities 
+	//Rails
 	auto rails = std::make_unique<CEntity>();
 	rails->Initialise("Resources/Textures/Rails.png");
 	rails->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f, 0.0f));
-	//rails->UpdateScale(glm::vec3(0.0f, 0.0f, 0.0f));
 	rails->SetScale(glm::vec3(567.0f, 567.0f, 0.0f));
 	m_vecpEntities.push_back(std::move(rails));
+
+	//BaseHealth
+	auto baseHealth = std::make_unique<CEntity>();
+	baseHealth->Initialise("Resources/Textures/Health.jpg");
+	baseHealth->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f - 75.0f, 0.0f));
+	baseHealth->SetScale(glm::vec3((float)m_pHomeBase->GetHealth() * 3.0f, 20.0f, 0.0f));
+	m_vecpEntities.push_back(std::move(baseHealth));
 	
 	// Create Audio
 	if (Utility::InitFMod(&m_pAudioManager)) {
