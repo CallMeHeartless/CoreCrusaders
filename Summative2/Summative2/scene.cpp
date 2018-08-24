@@ -109,7 +109,7 @@ void CScene::Process(float _fDeltaTick) {
 
 		m_vecpPlayers[0].get()->SetPosition((m_vecpPlayers[0].get()->GetPosition() + desiredVel));
 
-		//m_pHomeBase->SetHealth(m_pHomeBase->GetHealth() - 1);
+		//m_pHomeBase->SetHealth(m_pHomeBase->GetHealth() - 1); // This code will decrease the bases health by one when the player collides with the base 
 	}
 
 	//Checking that the base health hasn't changed - If it has, resize the base health scale
