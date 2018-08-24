@@ -52,6 +52,11 @@ void CScene::Process(float _fDeltaTick) {
 		entity->Process(_fDeltaTick);
 	}
 
+	for (auto& pickup : m_vecpPickups)
+	{
+		pickup->Process(_fDeltaTick);
+	}
+
 	// Process Enemies
 	for (auto& enemy : m_vecpEnemies) {
 		glm::vec3 vTargetPos;
@@ -138,9 +143,19 @@ void CScene::Render() {
 		entity->Render(m_pGameCamera.get());
 	}
 
+	// Render Pickups
+	for (auto& pickup : m_vecpPickups) {
+		pickup->Render(m_pGameCamera.get());
+	}
+
 	// Render players
 	for (auto& player : m_vecpPlayers) {
 		player->Render(m_pGameCamera.get());
+	}
+
+	// Render Enemies
+	for (auto& enemy : m_vecpEnemies) {
+		enemy->Render(m_pGameCamera.get());
 	}
 
 	// Render projectiles
@@ -164,13 +179,18 @@ bool CScene::Initialise(int _iMap) {
 	// Clear variables and reset timers
 	m_vecpPlayers.clear();
 	m_vecpEntities.clear();
+	m_vecpBullets.clear();
+	m_vecpEnemies.clear();
+	m_vecpPickups.clear();
 
 	m_fEnemySpawnTimer = 0.0f;
 	m_fPickupSpawnTimer = 0.0f;
 	m_iEnemyWaveCount = 0;
 
+
 	// Create Camera
 	m_pGameCamera = std::make_unique<CCamera>((float)Utility::SCR_WIDTH, (float)Utility::SCR_HEIGHT);
+
 
 	// Create players
 	auto player1 = std::make_unique<CPlayerOne>();
@@ -184,6 +204,7 @@ bool CScene::Initialise(int _iMap) {
 
 	m_pHomeBase = std::make_unique<CHomeBase>();
 	m_pHomeBase->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f, 0.0f));
+
 
 	//Create Entities 
 	//Rails
@@ -199,7 +220,17 @@ bool CScene::Initialise(int _iMap) {
 	baseHealth->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f - 75.0f, 0.0f));
 	baseHealth->SetScale(glm::vec3((float)m_pHomeBase->GetHealth() * 3.0f, 20.0f, 0.0f));
 	m_vecpEntities.push_back(std::move(baseHealth));
+
+
+	// PickUp Initialsations
+	// SpawnPoints
+	m_vecPickupSpawnPoints.push_back(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f - 150.0f, 0.0f));
+	// PickUps
+	auto pickup = std::make_unique<CPickup>();
+	pickup->SetPosition(m_vecPickupSpawnPoints[0]);
+	m_vecpPickups.push_back(std::move(pickup));
 	
+
 	// Create Audio
 	if (Utility::InitFMod(&m_pAudioManager)) {
 		COutputLog::GetInstance()->LogMessage("Audio manager successfully loaded.");

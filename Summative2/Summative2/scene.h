@@ -45,14 +45,20 @@ private:
 	bool m_bGodModeReference = false;
 	// Player Variables
 	std::vector<std::unique_ptr<CPlayer>> m_vecpPlayers;
-	std::vector < std::unique_ptr<CEntity>> m_vecpEntities;
 	std::vector<glm::vec3> m_vecRailLocations = { glm::vec3(250, 750, 0), glm::vec3(750, 750, 0), glm::vec3(250, 250, 0), glm::vec3(750, 250, 0) };
+	// std::vector<glm::vec3> m_vecPlayerSpawnPoints;
+	// Entities
+	std::vector <std::unique_ptr<CEntity>> m_vecpEntities;
+	// Pickups
+	std::vector <std::unique_ptr<CPickup>> m_vecpPickups;
+	std::vector<glm::vec3> m_vecPickupSpawnPoints;
+	// Bullets
+	std::vector<std::unique_ptr<CProjectile>> m_vecpBullets;
+	// Base
 	std::unique_ptr<CHomeBase> m_pHomeBase;
-	//std::vector<glm::vec3> m_vecPlayerSpawnPoints;
 	// Enemy variables
 	std::vector<std::unique_ptr<CEnemy>> m_vecpEnemies;
 	std::vector<glm::vec3> m_vecEnemySpawnPoints;
-	std::vector<glm::vec3> m_vecPickupSpawnPoints;
 	// Spawn timers
 	float m_fEnemySpawnTimer = 0.0f;
 	float m_fEnemySpawnDelay = 30.0f;
@@ -68,10 +74,6 @@ private:
 	std::vector<FMOD::Sound*> m_vecpAudioFire = { nullptr, nullptr, nullptr, nullptr };
 	std::vector<FMOD::Sound*> m_vecpAudioExplosion = { nullptr, nullptr, nullptr };
 	FMOD::Sound* m_pAudioPowerup;
-	// Bullets
-	std::vector<std::unique_ptr<CProjectile>> m_vecpBullets;
-	// Pickups
-	std::vector<std::unique_ptr<CPickup>> m_vecpPickups;
 	// Group scores
 
 	//Attack

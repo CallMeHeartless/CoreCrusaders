@@ -28,7 +28,7 @@ CPickup::~CPickup(){}
 ********************/
 void CPickup::Process(float _fDeltaTick) {
 	// Animate
-	m_fAnimationTimer += _fDeltaTick / 1000.0f;
+	m_fAnimationTimer += _fDeltaTick;// / 1000.0f;
 	if (m_fAnimationTimer >= m_fAnimationDelay) {
 		m_fAnimationTimer = 0.0f;
 		++m_iAnimationIndex;
