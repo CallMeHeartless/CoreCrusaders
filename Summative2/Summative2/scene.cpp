@@ -133,6 +133,28 @@ void CScene::Process(float _fDeltaTick) {
 		m_vecpBullets.erase(std::remove_if(m_vecpBullets.begin(), m_vecpBullets.end(),
 			[](const std::unique_ptr<CProjectile>& bullet) {return bullet->CheckIfExpired(); }), m_vecpBullets.end());
 	}
+
+	m_fSpawnNextPickUp -= _fDeltaTick;
+	if (0 >= m_fSpawnNextPickUp)
+	{
+		int iMyPickupLocation = rand() % m_vecPickupSpawnPoints.size();
+		int breakCounter = 20;
+		while (!m_vecbPickupSpawnPointsValidity[iMyPickupLocation] && 0 < breakCounter)
+		{
+			iMyPickupLocation = rand() % m_vecPickupSpawnPoints.size();
+			breakCounter -= 1;
+		}
+
+		if (0 < breakCounter)
+		{
+			auto pickup = std::make_unique<CPickup>();
+			pickup->SetPosition(m_vecPickupSpawnPoints[iMyPickupLocation]);
+			m_vecbPickupSpawnPointsValidity[iMyPickupLocation] = false; // Says that this spot is taken
+			m_vecpPickups.push_back(std::move(pickup));
+		}
+
+		m_fSpawnNextPickUp = (float)(rand() % 30); // Pickus can spawn anywhere from 0-30 seconds after
+	}
 }
 
 /***********************
@@ -234,13 +256,13 @@ bool CScene::Initialise(int _iMap) {
 
 	// PickUp Initialsations
 	// SpawnPoints - Pushes back a valid spawn point and validity marks it as avalible
-	m_vecPickupSpawnPoints.push_back(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f - 200.0f, 0.0f));
+	m_vecPickupSpawnPoints.push_back(glm::vec3((float)Utility::SCR_WIDTH / 2.0f + 300.0f, (float)Utility::SCR_HEIGHT / 2.0f - 200.0f, 0.0f));
 	m_vecbPickupSpawnPointsValidity.push_back(true);
-	m_vecPickupSpawnPoints.push_back(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f + 200.0f, 0.0f));
+	m_vecPickupSpawnPoints.push_back(glm::vec3((float)Utility::SCR_WIDTH / 2.0f - 300.0f, (float)Utility::SCR_HEIGHT / 2.0f - 200.0f, 0.0f));
 	m_vecbPickupSpawnPointsValidity.push_back(true);
-	m_vecPickupSpawnPoints.push_back(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f - 150.0f, 0.0f));
+	m_vecPickupSpawnPoints.push_back(glm::vec3((float)Utility::SCR_WIDTH / 2.0f + 300.0f, (float)Utility::SCR_HEIGHT / 2.0f + 200.0f, 0.0f));
 	m_vecbPickupSpawnPointsValidity.push_back(true);
-	m_vecPickupSpawnPoints.push_back(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f + 150.0f, 0.0f));
+	m_vecPickupSpawnPoints.push_back(glm::vec3((float)Utility::SCR_WIDTH / 2.0f - 300.0f, (float)Utility::SCR_HEIGHT / 2.0f + 200.0f, 0.0f));
 	m_vecbPickupSpawnPointsValidity.push_back(true);
 
 	int iMyPickupLocation;

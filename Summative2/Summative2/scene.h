@@ -70,6 +70,7 @@ private:
 	float m_fPickupSpawnTimer = 0.0f;
 	float m_fPickupSpawnDelay = 5.0f;
 	unsigned int m_iPickupCount = 0;
+	float m_fSpawnNextPickUp = 5.0f;
 	// Audio
 	FMOD::System* m_pAudioManager;
 	FMOD::Channel* m_pAudioChannel;
