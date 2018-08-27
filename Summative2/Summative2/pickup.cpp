@@ -10,7 +10,7 @@ Mail        :   kerry.pel7420@mediadesign.school.nz
 
 CPickup::CPickup(){
 	// Initialise
-	Initialise("Resources/Textures/Coins16x16.png");
+	Initialise("Resources/Textures/Coins.png");
 	m_pSprite->SetFrameWidth(m_pSprite->GetWidth() / 5.0f);
 
 	// Select starting animation frame
