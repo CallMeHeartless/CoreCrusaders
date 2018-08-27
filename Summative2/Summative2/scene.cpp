@@ -91,6 +91,23 @@ void CScene::Process(float _fDeltaTick) {
 		m_vecpPlayers[0]->Attack();
 	}
 
+	// PlayerTwo attack
+	if (m_vecpPlayers[1]->AttackReady() && CInput::GetInstance()->GetMouseButton(MOUSE_LEFT) == INPUT_FIRST_PRESSED) {
+		m_vecpPlayers[1]->Attack();
+		// Determine bullet direction
+		glm::vec3 vfMousePos = glm::vec3(CInput::GetInstance()->GetMousePosition(), 0);
+		vfMousePos.y = (float)Utility::SCR_HEIGHT - vfMousePos.y;
+		glm::vec3 vfPlayerTwoPosition = m_vecpPlayers[1]->GetPosition();
+		glm::vec3 vfAimTarget = vfMousePos - vfPlayerTwoPosition;
+		if (glm::length(vfAimTarget) != 0) {
+			vfAimTarget = glm::normalize(vfAimTarget);
+		}
+		// Create new bullet
+		auto bullet = std::make_unique<CProjectile>(vfPlayerTwoPosition, vfAimTarget);
+		bullet->SetPosition(vfPlayerTwoPosition);
+		m_vecpBullets.push_back(std::move(bullet));
+	}
+
 	/// COLLISIONS
 
 	// Bullet - enemy collision

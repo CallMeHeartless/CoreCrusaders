@@ -5,6 +5,8 @@ CPlayerTwo::CPlayerTwo(){
 	// Initialise sprite
 	m_pSprite = std::make_unique<CSprite>();
 	m_pSprite->Initialise("Resources/Textures/MagicSprite.png");
+
+	m_fAttackCooldown = 1.0f;
 }
 
 CPlayerTwo::~CPlayerTwo(){}
@@ -109,7 +111,7 @@ void CPlayerTwo::Process(float _fDeltaTick) {
 
 	/* Allows the player to attack each time m_fAttackCoolDownTimer is greater than the cool down timer */
 	m_fAttackCoolDownTimer += _fDeltaTick;
-	if (5.0f < m_fAttackCoolDownTimer)
+	if (m_fAttackCooldown <= m_fAttackCoolDownTimer)
 	{
 		m_bCanAttack = true;
 	}

@@ -2,7 +2,6 @@
 
 CProjectile::CProjectile(glm::vec3 _vfPosition, glm::vec3 _vfDirection) : m_vfDirection(_vfDirection) {
 	m_vfPosition = _vfPosition;
-
 	// Initialise sprite
 	m_pSprite = std::make_unique<CSprite>();
 	m_pSprite->Initialise("Resources/Textures/Coins16x16-21.png");

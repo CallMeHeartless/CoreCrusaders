@@ -24,6 +24,7 @@ class CPlayer : public CEntity {
 		glm::vec3 m_vfMovementVector;
 		bool m_bCanAttack = true;
 		float m_fAttackCoolDownTimer;
+		float m_fAttackCooldown = 1.0f;
 
 	public:
 		CPlayer();
