@@ -225,6 +225,7 @@ void CScene::HandleCollisions() {
 					case EHIGHER_ENEMY_DAMAGE:
 					{
 						std::cout << "Higher Enemy Damage" << std::endl;
+						//player->InitiateRebalance();
 						break;
 					}
 					default: // ESCORE

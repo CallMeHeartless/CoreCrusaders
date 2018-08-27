@@ -5,7 +5,7 @@ CPlayerOne::CPlayerOne() {
 	// Initialise sprite
 	m_pSprite = std::make_unique<CSprite>();
 	m_pSprite->Initialise("Resources/Textures/inca_back2-5.png");
-	m_fAttackCooldown = 1.0f;
+	m_fRapidFireTimer = 1.0f;
 }
 
 CPlayerOne::~CPlayerOne(){}
@@ -99,7 +99,7 @@ void CPlayerOne::Process(float _fDeltaTick) {
 
 	/* Allows the player to attack each time m_fAttackCoolDownTimer is greater than the cool down timer */
 	m_fAttackCoolDownTimer += _fDeltaTick;
-	if (m_fAttackCooldown < m_fAttackCoolDownTimer)
+	if (m_fRapidFireTimer < m_fAttackCoolDownTimer)
 	{
 		m_bCanAttack = true;
 	}
@@ -119,14 +119,25 @@ void CPlayerOne::Process(float _fDeltaTick) {
 		}
 	}
 
-	if (m_bSpeedAttacking)
+	if (m_bRapidAttack)
 	{
-		m_fAttackCooldownCoolDown += _fDeltaTick;
-		if (3.0f < m_fAttackCooldownCoolDown)
+		m_fRapidFireCooldown += _fDeltaTick;
+		if (3.0f < m_fRapidFireCooldown)
 		{
-			m_fAttackCooldown = 1.0f;
-			m_bSpeedAttacking = false;
+			m_fRapidFireTimer = 1.0f;
+			m_bRapidAttack = false;
 		}
+	}
+
+	if (m_bRebalance)
+	{
+		/*m_fRebalanceCoolDown += _fDeltaTick;
+		if (3.0f < m_fRebalanceCoolDown)
+		{
+			m_fRebalanceCurrentPlayer = 1.0f;
+			m_fRebalanceOtherPlayer = 1.0f;
+			m_bRapidAttack = false;
+		}*/
 	}
 }
 

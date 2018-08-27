@@ -22,14 +22,26 @@ class CPlayer : public CEntity {
 		bool m_bForward = false;
 		float m_fSpeed = 250.0f;
 		glm::vec3 m_vfMovementVector;
+
+		//Attack Timer
 		bool m_bCanAttack = true;
 		float m_fAttackCoolDownTimer;
-		float m_fAttackCooldown = 1.0f;
-		float m_fAttackCooldownCoolDown = 0.0f;
-		bool m_bSpeedAttacking = false;
+
+		//RapidFire Timmer
+		float m_fRapidFireTimer = 1.0f;
+		float m_fRapidFireCooldown = 0.0f;
+		bool m_bRapidAttack = false;
+
+		//Movement Speed Timer
 		float m_fMovementSpeed = 1.0f;
 		float m_fSpeedCoolDown = 0.0f;
 		bool m_bSpeeding = false;
+
+		//Rebalance Timer
+		float m_fRebalanceCurrentPlayer = 1.0f;
+		float m_fRebalanceOtherPlayer = 1.0f;
+		float m_fRebalanceCoolDown = 0.0f;
+		bool m_bRebalance = false;
 
 	public:
 		CPlayer();
@@ -49,6 +61,8 @@ class CPlayer : public CEntity {
 
 		void IncreaseSpeed();
 		void IncreaseAttackSpeed();
+		void InitiateRebalance();
+
 };
 
 #endif // !__PLAYER_H__
