@@ -132,6 +132,21 @@ void CScene::Process(float _fDeltaTick) {
 		}
 	}
 
+	// Pickup - Player collision
+	for (auto& player : m_vecpPlayers) {
+		for (auto& pickup : m_vecpPickups) {
+			if (CheckForCollision(player.get(), pickup.get())) {
+				if (pickup->CheckIfActive())
+				{
+					pickup->SetActive(false);
+					//Give effect
+				}
+			}
+		}
+	}
+
+
+
 	//Base collision with player
 	if (CheckForCollision(m_pHomeBase.get(), m_vecpPlayers[0].get()))
 	{
@@ -169,20 +184,18 @@ void CScene::Process(float _fDeltaTick) {
 	m_fSpawnNextPickUp -= _fDeltaTick;
 	if (0 >= m_fSpawnNextPickUp)
 	{
-		int iMyPickupLocation = rand() % m_vecPickupSpawnPoints.size();
+		int iMyPickupLocation = rand() % m_vecpPickups.size();
 		int breakCounter = 20;
-		while (!m_vecbPickupSpawnPointsValidity[iMyPickupLocation] && 0 < breakCounter)
+		while (m_vecpPickups[iMyPickupLocation]->CheckIfActive() && 0 < breakCounter)
 		{
-			iMyPickupLocation = rand() % m_vecPickupSpawnPoints.size();
+			iMyPickupLocation = rand() % m_vecpPickups.size();
 			breakCounter -= 1;
 		}
 
 		if (0 < breakCounter)
 		{
-			auto pickup = std::make_unique<CPickup>();
-			pickup->SetPosition(m_vecPickupSpawnPoints[iMyPickupLocation]);
-			m_vecbPickupSpawnPointsValidity[iMyPickupLocation] = false; // Says that this spot is taken
-			m_vecpPickups.push_back(std::move(pickup));
+			m_vecpPickups[iMyPickupLocation]->SetActive(true);
+			//Set a type 
 		}
 
 		m_fSpawnNextPickUp = (float)(rand() % 30); // Pickus can spawn anywhere from 0-30 seconds after
@@ -203,7 +216,9 @@ void CScene::Render() {
 
 	// Render Pickups
 	for (auto& pickup : m_vecpPickups) {
-		pickup->Render(m_pGameCamera.get());
+		if (pickup->CheckIfActive()) {
+			pickup->Render(m_pGameCamera.get());
+		}
 	}
 
 	// Render players
@@ -258,11 +273,11 @@ bool CScene::Initialise(int _iMap) {
 
 	// Create players
 	auto player1 = std::make_unique<CPlayerOne>();
-	player1->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f, 0.0f));
+	player1->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f + 50.0f, 0.0f));
 	m_vecpPlayers.push_back(std::move(player1));
 
 	auto player2 = std::make_unique<CPlayerTwo>();
-	player2->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f + 20.0f, (float)Utility::SCR_HEIGHT / 2.0f + 20.0f, 0.0f));
+	player2->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, m_vecRailLocations[0].y, 0.0f));
 	player2->SetRailCorners(m_vecRailLocations);
 	m_vecpPlayers.push_back(std::move(player2));
 
@@ -291,29 +306,23 @@ bool CScene::Initialise(int _iMap) {
 	m_vecpEntities.push_back(std::move(baseHealth));
 
 
-	// PickUp Initialsations
-	// SpawnPoints - Pushes back a valid spawn point and validity marks it as avalible
-	m_vecPickupSpawnPoints.push_back(m_vecRailLocations[0]);
-	m_vecbPickupSpawnPointsValidity.push_back(true);
-	m_vecPickupSpawnPoints.push_back(m_vecRailLocations[1]);
-	m_vecbPickupSpawnPointsValidity.push_back(true);
-	m_vecPickupSpawnPoints.push_back(m_vecRailLocations[2]);
-	m_vecbPickupSpawnPointsValidity.push_back(true);
-	m_vecPickupSpawnPoints.push_back(m_vecRailLocations[3]);
-	m_vecbPickupSpawnPointsValidity.push_back(true);
-
-	int iMyPickupLocation;
-
 	// PickUps
-	iMyPickupLocation = rand() % m_vecPickupSpawnPoints.size();
-	while (!m_vecbPickupSpawnPointsValidity[iMyPickupLocation])
+	for (unsigned int i{}; i < 4; ++i)
 	{
-		iMyPickupLocation = rand() % m_vecPickupSpawnPoints.size();
+		auto pickup = std::make_unique<CPickup>();
+		pickup->SetPosition(m_vecRailLocations[i]);
+		pickup->SetActive(false);
+		m_vecpPickups.push_back(std::move(pickup));
 	}
-	auto pickup = std::make_unique<CPickup>();
-	pickup->SetPosition(m_vecPickupSpawnPoints[iMyPickupLocation]);
-	m_vecbPickupSpawnPointsValidity[iMyPickupLocation] = false; // Says that this spot is taken
-	m_vecpPickups.push_back(std::move(pickup));
+
+
+	int iMyPickupLocation = rand() % m_vecpPickups.size();
+	while (m_vecpPickups[iMyPickupLocation]->CheckIfActive())
+	{
+		iMyPickupLocation = rand() % m_vecpPickups.size();
+	}
+
+	m_vecpPickups[iMyPickupLocation]->SetActive(true);
 	
 
 	//Create Text

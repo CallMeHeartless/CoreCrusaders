@@ -64,3 +64,25 @@ void CPickup::Process(float _fDeltaTick) {
 int CPickup::GetScore()const {
 	return m_iScore;
 }
+
+/***********************
+* SetType: Returns the pickup's score value
+* @author: Sally & Vivian (2018)
+* @parameter: EPICKUP_TYPES
+* @return: void
+********************/
+void CPickup::SetType(EPICKUP_TYPES _eMyType)
+{
+	m_ePickupType = m_ePickupType;
+}
+
+/***********************
+* SetType: Returns the pickup's score value
+* @author: Sally & Vivian (2018)
+* @parameter: 
+* @return: EPICKUP_TYPES
+********************/
+EPICKUP_TYPES CPickup::GetType() const
+{
+	return m_ePickupType;
+}

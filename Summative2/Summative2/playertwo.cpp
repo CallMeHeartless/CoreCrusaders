@@ -143,7 +143,7 @@ void CPlayerTwo::SetRailCorners(std::vector<glm::vec3> _vecvfRailCorners) {
 	assert(_vecvfRailCorners.size() == 4);
 	m_vecvfRailCorners = _vecvfRailCorners;
 	// Set player to first position
-	SetPosition(m_vecvfRailCorners[0]);
+	//SetPosition(m_vecvfRailCorners[0]);
 }
 
 // Utility function to check if the player can move left/right

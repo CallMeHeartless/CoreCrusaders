@@ -13,6 +13,13 @@ Mail        :   kerry.pel7420@mediadesign.school.nz
 
 #include "entity.h"
 
+enum EPICKUP_TYPES {
+	ERAPID_FIRE,
+	ESPEED,
+	EHIGHER_ENEMY_DAMAGE,
+	ESCORE,
+};
+
 class CPickup : public CEntity {
 	private:
 		int m_iScore = 10;
@@ -24,6 +31,8 @@ class CPickup : public CEntity {
 		float m_fAnimationTimer = 0.0f;
 		float m_fAnimationDelay = 0.075f;
 		int m_iColourIndex = 0;
+		EPICKUP_TYPES m_ePickupType;
+
 		std::vector<glm::vec3> m_vecColours = { glm::vec3(1.0f, 1.0f, 1.0f), // White
 												glm::vec3(1.0f, 51.0f / 255.0f, 0.0f), // Red
 												glm::vec3(102.0f/255.0f, 1.0f, 51.0f/255.0f), // Green
@@ -39,5 +48,7 @@ class CPickup : public CEntity {
 
 		int GetScore()const;
 
+		void SetType(EPICKUP_TYPES _eMyType);
+		EPICKUP_TYPES GetType() const; 
 };
 #endif // !__PICKUP_H__
