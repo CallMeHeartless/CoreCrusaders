@@ -256,13 +256,13 @@ bool CScene::Initialise(int _iMap) {
 
 	// PickUp Initialsations
 	// SpawnPoints - Pushes back a valid spawn point and validity marks it as avalible
-	m_vecPickupSpawnPoints.push_back(glm::vec3((float)Utility::SCR_WIDTH / 2.0f + 300.0f, (float)Utility::SCR_HEIGHT / 2.0f - 200.0f, 0.0f));
+	m_vecPickupSpawnPoints.push_back(m_vecRailLocations[0]);
 	m_vecbPickupSpawnPointsValidity.push_back(true);
-	m_vecPickupSpawnPoints.push_back(glm::vec3((float)Utility::SCR_WIDTH / 2.0f - 300.0f, (float)Utility::SCR_HEIGHT / 2.0f - 200.0f, 0.0f));
+	m_vecPickupSpawnPoints.push_back(m_vecRailLocations[1]);
 	m_vecbPickupSpawnPointsValidity.push_back(true);
-	m_vecPickupSpawnPoints.push_back(glm::vec3((float)Utility::SCR_WIDTH / 2.0f + 300.0f, (float)Utility::SCR_HEIGHT / 2.0f + 200.0f, 0.0f));
+	m_vecPickupSpawnPoints.push_back(m_vecRailLocations[2]);
 	m_vecbPickupSpawnPointsValidity.push_back(true);
-	m_vecPickupSpawnPoints.push_back(glm::vec3((float)Utility::SCR_WIDTH / 2.0f - 300.0f, (float)Utility::SCR_HEIGHT / 2.0f + 200.0f, 0.0f));
+	m_vecPickupSpawnPoints.push_back(m_vecRailLocations[3]);
 	m_vecbPickupSpawnPointsValidity.push_back(true);
 
 	int iMyPickupLocation;
