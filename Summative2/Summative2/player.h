@@ -25,6 +25,11 @@ class CPlayer : public CEntity {
 		bool m_bCanAttack = true;
 		float m_fAttackCoolDownTimer;
 		float m_fAttackCooldown = 1.0f;
+		float m_fAttackCooldownCoolDown = 0.0f;
+		bool m_bSpeedAttacking = false;
+		float m_fMovementSpeed = 1.0f;
+		float m_fSpeedCoolDown = 0.0f;
+		bool m_bSpeeding = false;
 
 	public:
 		CPlayer();
@@ -41,6 +46,9 @@ class CPlayer : public CEntity {
 		void SetAlive(bool _state);
 		bool GetAlive()const;
 		bool IsMoving()const;
+
+		void IncreaseSpeed();
+		void IncreaseAttackSpeed();
 };
 
 #endif // !__PLAYER_H__

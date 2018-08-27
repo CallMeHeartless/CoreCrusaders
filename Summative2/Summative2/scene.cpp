@@ -86,11 +86,11 @@ void CScene::Process(float _fDeltaTick) {
 
 		if (0 < breakCounter)
 		{
-			m_vecpPickups[iMyPickupLocation]->SetActive(true);
 			m_vecpPickups[iMyPickupLocation]->SetType(static_cast<EPICKUP_TYPES>(iRandomType));
+			m_vecpPickups[iMyPickupLocation]->SetActive(true);
 		}
 
-		m_fSpawnNextPickUp = (float)(rand() % 15) + 5; // Pickus can spawn anywhere from 5-20 seconds after
+		m_fSpawnNextPickUp = (float)(rand() % 5) + 5; // Pickus can spawn anywhere from 5-20 seconds after
 	}
 }
 
@@ -213,11 +213,13 @@ void CScene::HandleCollisions() {
 					case ERAPID_FIRE:
 					{
 						std::cout << "Rapid Fire" << std::endl;
+						player->IncreaseAttackSpeed();
 						break;
 					}
 					case ESPEED:
 					{
 						std::cout << "Spped" << std::endl;
+						player->IncreaseSpeed();
 						break;
 					}
 					case EHIGHER_ENEMY_DAMAGE:

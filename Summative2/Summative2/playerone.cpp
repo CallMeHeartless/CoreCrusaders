@@ -5,7 +5,7 @@ CPlayerOne::CPlayerOne() {
 	// Initialise sprite
 	m_pSprite = std::make_unique<CSprite>();
 	m_pSprite->Initialise("Resources/Textures/inca_back2-5.png");
-	m_fAttackCooldown = 0.5f;
+	m_fAttackCooldown = 1.0f;
 }
 
 CPlayerOne::~CPlayerOne(){}
@@ -44,7 +44,7 @@ void CPlayerOne::Process(float _fDeltaTick) {
 		m_pSprite->SetAngle(fAngle);
 	}
 
-	m_vfMovementVector *= (m_fSpeed *  _fDeltaTick);
+	m_vfMovementVector *= (m_fSpeed *  _fDeltaTick * m_fMovementSpeed);
 
 
 	// Move
@@ -107,6 +107,26 @@ void CPlayerOne::Process(float _fDeltaTick) {
 	{
 		m_pSprite->SetTextureIndex(0);
 		m_pSprite->SetScale(m_pSprite->GetOriginalScale());
+	}
+
+	if (m_bSpeeding)
+	{
+		m_fSpeedCoolDown += _fDeltaTick;
+		if (3.0f < m_fSpeedCoolDown)
+		{
+			m_fMovementSpeed = 1.0f;
+			m_bSpeeding = false;
+		}
+	}
+
+	if (m_bSpeedAttacking)
+	{
+		m_fAttackCooldownCoolDown += _fDeltaTick;
+		if (3.0f < m_fAttackCooldownCoolDown)
+		{
+			m_fAttackCooldown = 1.0f;
+			m_bSpeedAttacking = false;
+		}
 	}
 }
 

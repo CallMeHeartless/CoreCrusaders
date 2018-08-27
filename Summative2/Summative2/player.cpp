@@ -64,3 +64,29 @@ bool CPlayer::IsMoving()const {
 bool CPlayer::GetAlive()const {
 	return m_bIsAlive;
 }
+
+/***********************
+* IncreaseSpeed: Increases the speed temporarily
+* @author: Sally Gillbanks (2018)
+* @parameter: void
+* @return: 
+********************/
+void CPlayer::IncreaseSpeed()
+{
+	m_fMovementSpeed = 2.0f;
+	m_fSpeedCoolDown = 0.0f;
+	m_bSpeeding = true;
+}
+
+/***********************
+* IncreaseAttackSpeed: Increases the attack speed temporarily
+* @author: Sally Gillbanks (2018)
+* @parameter: void
+* @return:
+********************/
+void CPlayer::IncreaseAttackSpeed()
+{
+	m_fAttackCooldown = 0.5f;
+	m_bSpeedAttacking = true;
+	m_fAttackCooldownCoolDown = 0.0f;
+}

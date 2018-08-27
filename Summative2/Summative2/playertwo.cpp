@@ -38,7 +38,7 @@ void CPlayerTwo::Process(float _fDeltaTick) {
 		m_vfMovementVector = glm::normalize(m_vfMovementVector);
 	}
 
-	m_vfMovementVector *= (m_fSpeed *  _fDeltaTick);
+	m_vfMovementVector *= (m_fSpeed *  _fDeltaTick * m_fMovementSpeed);
 
 	// Move only orthogonaly
 	if (m_vfMovementVector.x != 0.0f && CanMoveHorizontal()) {
@@ -114,6 +114,26 @@ void CPlayerTwo::Process(float _fDeltaTick) {
 	if (m_fAttackCooldown <= m_fAttackCoolDownTimer)
 	{
 		m_bCanAttack = true;
+	}
+
+	if (m_bSpeeding)
+	{
+		m_fSpeedCoolDown += _fDeltaTick;
+		if (3.0f < m_fSpeedCoolDown)
+		{
+			m_fMovementSpeed = 1.0f;
+			m_bSpeeding = false;
+		}
+	}
+
+	if (m_bSpeedAttacking)
+	{
+		m_fAttackCooldownCoolDown += _fDeltaTick;
+		if (3.0f < m_fAttackCooldownCoolDown)
+		{
+			m_fAttackCooldown = 1.0f;
+			m_bSpeedAttacking = false;
+		}
 	}
 }
 
