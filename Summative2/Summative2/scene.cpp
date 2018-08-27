@@ -82,6 +82,15 @@ void CScene::Process(float _fDeltaTick) {
 			break;
 		}
 		enemy->Process(_fDeltaTick, vTargetPos);
+		// Check for collision with base
+		if (CheckForCollision(enemy.get(), m_pHomeBase.get())) {
+			// Damage core
+			m_pHomeBase->SetHealth(m_pHomeBase->GetHealth() - enemy->GetDamage());
+			// Update health bar
+			m_vecpEntities[1]->SetScale(glm::vec3((float)m_pHomeBase->GetHealth() * 3.0f, 20.0f, 0.0f));
+			// Destroy enemy
+			enemy->Kill();
+		}
 	}
 
 	//Attacking - Somewhere needs to call m_vecpPlayers[0]->SetAttackReady(true); to say that player one can attack
@@ -136,14 +145,13 @@ void CScene::Process(float _fDeltaTick) {
 
 		m_vecpPlayers[0].get()->SetPosition((m_vecpPlayers[0].get()->GetPosition() + desiredVel));
 
-		//m_pHomeBase->SetHealth(m_pHomeBase->GetHealth() - 1); // This code will decrease the bases health by one when the player collides with the base 
 	}
 
 	//Checking that the base health hasn't changed - If it has, resize the base health scale
-	if ((int)(m_vecpEntities[1]->GetScale().x / 3.0f) != m_pHomeBase->GetHealth())
-	{
-		m_vecpEntities[1]->SetScale(glm::vec3((float)m_pHomeBase->GetHealth() * 3.0f, 20.0f, 0.0f));
-	}
+	//if ((int)(m_vecpEntities[1]->GetScale().x / 3.0f) != m_pHomeBase->GetHealth())
+	//{
+	//	m_vecpEntities[1]->SetScale(glm::vec3((float)m_pHomeBase->GetHealth() * 3.0f, 20.0f, 0.0f));
+	//}
 
 
 	// Remove expired bullets

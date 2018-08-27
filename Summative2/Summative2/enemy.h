@@ -53,6 +53,7 @@ class CEnemy : public CEntity {
 		int GetDamage()const;
 		void Damage(int _iDamage, bool _bIsPlayerOne);
 		bool CheckIfAlive()const;
+		void Kill();
 };
 
 #endif // !__ENEMY_H__

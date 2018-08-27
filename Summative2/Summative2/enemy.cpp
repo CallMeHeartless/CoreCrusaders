@@ -71,7 +71,7 @@ void CEnemy::Process(float _fDeltaTick, glm::vec3 _vecTargetPosition){
 	glm::vec3 vfToTarget = _vecTargetPosition - m_vfPosition;
 	if (glm::length(vfToTarget) != 0.0f) {		// No further work done if the object has arrived at their target
 		glm::vec3 vfDesired = glm::normalize(vfToTarget) * m_fMoveSpeed;
-		glm::vec3 vfSteering = glm::normalize(vfDesired - m_vfVelocity) * 10.0f * _fDeltaTick;
+		glm::vec3 vfSteering = glm::normalize(vfDesired - m_vfVelocity) * 100.0f * _fDeltaTick;
 
 		UpdatePosition(vfSteering.x, vfSteering.y);
 	}
@@ -140,4 +140,8 @@ void CEnemy::Damage(int _iDamage, bool _bIsPlayerOne) {
 ********************/
 bool CEnemy::CheckIfAlive()const {
 	return m_bIsAlive;
+}
+
+void CEnemy::Kill() {
+	m_bIsAlive = false;
 }
