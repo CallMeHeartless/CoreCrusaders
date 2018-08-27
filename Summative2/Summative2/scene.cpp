@@ -71,6 +71,27 @@ void CScene::Process(float _fDeltaTick) {
 	//{
 	//	m_vecpEntities[1]->SetScale(glm::vec3((float)m_pHomeBase->GetHealth() * 3.0f, 20.0f, 0.0f));
 	//}
+
+	m_fSpawnNextPickUp -= _fDeltaTick;
+	if (0 >= m_fSpawnNextPickUp)
+	{
+		int iMyPickupLocation = rand() % m_vecpPickups.size();
+		int breakCounter = 20;
+		int iRandomType = rand() % 4;
+		while (m_vecpPickups[iMyPickupLocation]->CheckIfActive() && 0 < breakCounter)
+		{
+			iMyPickupLocation = rand() % m_vecpPickups.size();
+			breakCounter -= 1;
+		}
+
+		if (0 < breakCounter)
+		{
+			m_vecpPickups[iMyPickupLocation]->SetActive(true);
+			m_vecpPickups[iMyPickupLocation]->SetType(static_cast<EPICKUP_TYPES>(iRandomType));
+		}
+
+		m_fSpawnNextPickUp = (float)(rand() % 15) + 5; // Pickus can spawn anywhere from 5-20 seconds after
+	}
 }
 
 void CScene::ProcessObjects(float _fDeltaTick) {
@@ -238,28 +259,6 @@ void CScene::HandleCollisions() {
 
 	// Remove Expired Objects
 	RemoveExpiredObjects();
-
-
-	m_fSpawnNextPickUp -= _fDeltaTick;
-	if (0 >= m_fSpawnNextPickUp)
-	{
-		int iMyPickupLocation = rand() % m_vecpPickups.size();
-		int breakCounter = 20;
-		int iRandomType = rand() % 4;
-		while (m_vecpPickups[iMyPickupLocation]->CheckIfActive() && 0 < breakCounter)
-		{
-			iMyPickupLocation = rand() % m_vecpPickups.size();
-			breakCounter -= 1;
-		}
-
-		if (0 < breakCounter)
-		{
-			m_vecpPickups[iMyPickupLocation]->SetActive(true);
-			m_vecpPickups[iMyPickupLocation]->SetType(static_cast<EPICKUP_TYPES>(iRandomType));
-		}
-
-		m_fSpawnNextPickUp = (float)(rand() % 15) + 5; // Pickus can spawn anywhere from 5-20 seconds after
-	}
 }
 
 /***********************
