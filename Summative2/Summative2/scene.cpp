@@ -36,7 +36,7 @@ CScene::~CScene(){}
 * @return: void
 ********************/
 void CScene::Process(float _fDeltaTick) {
-	
+
 	// Process players
 	for (auto& player : m_vecpPlayers) {
 		player->Process(_fDeltaTick);
@@ -48,7 +48,7 @@ void CScene::Process(float _fDeltaTick) {
 	}
 
 	// Process entities
-	for (auto& entity : m_vecpEntities){
+	for (auto& entity : m_vecpEntities) {
 		entity->Process(_fDeltaTick);
 	}
 
@@ -118,6 +118,7 @@ void CScene::Process(float _fDeltaTick) {
 				bullet->MarkAsExpired();
 
 				// Damage enemy
+				enemy->Damage(1, false); // Update with damage functionality later
 			}
 		}
 	}
@@ -149,6 +150,12 @@ void CScene::Process(float _fDeltaTick) {
 	if (!m_vecpBullets.empty()) {
 		m_vecpBullets.erase(std::remove_if(m_vecpBullets.begin(), m_vecpBullets.end(),
 			[](const std::unique_ptr<CProjectile>& bullet) {return bullet->CheckIfExpired(); }), m_vecpBullets.end());
+	}
+
+	// Remove expired enemies
+	if (!m_vecpEnemies.empty()) {
+		m_vecpEnemies.erase(std::remove_if(m_vecpEnemies.begin(), m_vecpEnemies.end(),
+			[](const std::unique_ptr<CEnemy>& enemy) {return !enemy->CheckIfAlive(); }), m_vecpEnemies.end());
 	}
 
 	m_fSpawnNextPickUp -= _fDeltaTick;
@@ -481,7 +488,6 @@ bool CScene::LoadSounds() {
 
 	return bAllLoaded;
 }
-
 
 /***********************
 * FindClosestPlayer: Finds the closest player to the position (of an AI)

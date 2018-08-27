@@ -31,7 +31,7 @@ class CEnemy : public CEntity {
 		float m_fAnimationTimer = 0.0f;
 		float m_fAnimationSwitchCue = 1.0f;
 		int m_iAnimationIndex = 0;
-		bool m_bForward = true;
+		bool m_bIsAlive = true;
 		float m_fMoveSpeed = 300.0f;
 		glm::vec3 m_vfTarget;
 		ETARGET m_eTarget;
@@ -51,7 +51,8 @@ class CEnemy : public CEntity {
 		void SetTarget(ETARGET _eTarget);
 		ETARGET GetTarget()const;
 		int GetDamage()const;
-		void Damage(int _iDamage);
+		void Damage(int _iDamage, bool _bIsPlayerOne);
+		bool CheckIfAlive()const;
 };
 
 #endif // !__ENEMY_H__

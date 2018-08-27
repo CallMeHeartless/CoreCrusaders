@@ -64,6 +64,9 @@ CEnemy::~CEnemy(){}
 * @return: void
 ********************/
 void CEnemy::Process(float _fDeltaTick, glm::vec3 _vecTargetPosition){
+	if (!m_bIsAlive) {
+		return;
+	}
 	// Seek behaviour
 	glm::vec3 vfToTarget = _vecTargetPosition - m_vfPosition;
 	if (glm::length(vfToTarget) != 0.0f) {		// No further work done if the object has arrived at their target
@@ -114,4 +117,27 @@ ETARGET CEnemy::GetTarget()const
 ********************/
 int CEnemy::GetDamage()const {
 	return m_iDamage;
+}
+
+/***********************
+* Damage: Damages the enemy
+* @author: Kerry Pellett (2018)
+* @parameter: int _iDamage (damage to be done), bool _bIsPlayerOne (was the source of the damage from PlayerOne)
+* @return: void
+********************/
+void CEnemy::Damage(int _iDamage, bool _bIsPlayerOne) {
+	m_iLife -= _iDamage;
+	if (m_iLife <= 0) {
+		m_bIsAlive = false;
+	}
+}
+
+/***********************
+* CheckIfAlive: Checks if the enemy is alive
+* @author: Kerry Pellett (2018)
+* @parameter: void
+* @return: bool (m_bIsAlive)
+********************/
+bool CEnemy::CheckIfAlive()const {
+	return m_bIsAlive;
 }
