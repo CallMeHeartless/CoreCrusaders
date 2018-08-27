@@ -251,6 +251,11 @@ bool CScene::Initialise(int _iMap) {
 	player2->SetRailCorners(m_vecRailLocations);
 	m_vecpPlayers.push_back(std::move(player2));
 
+	// Test enemy
+	auto enemy = std::make_unique<CEnemy>(DRONE);
+	enemy->SetPosition(m_vecRailLocations[1]);
+	m_vecpEnemies.push_back(std::move(enemy));
+
 	m_pHomeBase = std::make_unique<CHomeBase>();
 	m_pHomeBase->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f, 0.0f));
 

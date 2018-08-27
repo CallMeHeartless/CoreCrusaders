@@ -12,9 +12,9 @@ Mail        :   kerry.pel7420@mediadesign.school.nz
 #include "entity.h"
 
 enum ETYPE {
-	WARPER,
-	STALKER,
-	RUNNER
+	DRONE,
+	TANK,
+	SPRINTER
 };
 
 enum ETARGET {
@@ -24,18 +24,20 @@ enum ETARGET {
 };
 
 class CEnemy : public CEntity {
-	private:
+	protected:
 		ETYPE m_eType;
-		EDIRECTION m_eDirection = SOUTH;
 		float m_fFrameW;
 		float m_fFrameH;
 		float m_fAnimationTimer = 0.0f;
 		float m_fAnimationSwitchCue = 1.0f;
 		int m_iAnimationIndex = 0;
 		bool m_bForward = true;
-		float m_fMoveSpeed = 150.0f;
+		float m_fMoveSpeed = 300.0f;
 		glm::vec3 m_vfTarget;
 		ETARGET m_eTarget;
+		int m_iDamage = 1;
+		int m_iLife = 1;
+		glm::vec3 m_vfVelocity = glm::vec3(0, 0, 0);
 
 	public:
 		CEnemy();
@@ -43,11 +45,13 @@ class CEnemy : public CEntity {
 		virtual ~CEnemy();
 
 		virtual void Process(float _fDeltaTick, glm::vec3 _vecTargetPosition);
-		EDIRECTION FindBearing(glm::vec3 _vecTargetPosition);
+
 		float DistanceToTarget(glm::vec3 _vecTartgetPosition);
 
 		void SetTarget(ETARGET _eTarget);
-		ETARGET GetTarget();
+		ETARGET GetTarget()const;
+		int GetDamage()const;
+		void Damage(int _iDamage);
 };
 
 #endif // !__ENEMY_H__
