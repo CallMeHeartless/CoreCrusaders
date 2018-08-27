@@ -5,6 +5,7 @@ CPlayerOne::CPlayerOne() {
 	// Initialise sprite
 	m_pSprite = std::make_unique<CSprite>();
 	m_pSprite->Initialise("Resources/Textures/inca_back2-5.png");
+	m_fAttackCooldown = 0.5f;
 }
 
 CPlayerOne::~CPlayerOne(){}
@@ -98,7 +99,7 @@ void CPlayerOne::Process(float _fDeltaTick) {
 
 	/* Allows the player to attack each time m_fAttackCoolDownTimer is greater than the cool down timer */
 	m_fAttackCoolDownTimer += _fDeltaTick;
-	if (0.5f < m_fAttackCoolDownTimer)
+	if (m_fAttackCooldown < m_fAttackCoolDownTimer)
 	{
 		m_bCanAttack = true;
 	}

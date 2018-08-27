@@ -28,21 +28,6 @@ CScene::CScene() {}
 
 CScene::~CScene(){}
 
-
-void CScene::RemoveExpiredObjects() {
-	// Remove expired bullets
-	if (!m_vecpBullets.empty()) {
-		m_vecpBullets.erase(std::remove_if(m_vecpBullets.begin(), m_vecpBullets.end(),
-			[](const std::unique_ptr<CProjectile>& bullet) {return bullet->CheckIfExpired(); }), m_vecpBullets.end());
-	}
-
-	// Remove expired enemies
-	if (!m_vecpEnemies.empty()) {
-		m_vecpEnemies.erase(std::remove_if(m_vecpEnemies.begin(), m_vecpEnemies.end(),
-			[](const std::unique_ptr<CEnemy>& enemy) {return !enemy->CheckIfAlive(); }), m_vecpEnemies.end());
-	}
-}
-
 /***********************
 * Process: Process one frame of game logic for the scene
 * @author: Kerry Pellett (2018)
@@ -50,7 +35,45 @@ void CScene::RemoveExpiredObjects() {
 * @return: void
 ********************/
 void CScene::Process(float _fDeltaTick) {
+	ProcessObjects(_fDeltaTick);
 
+	//Score
+	m_vecpText[0]->SetText("Score: " + std::to_string(m_iPlayerScore));
+
+	HandlePlayerAttacks();
+	/// COLLISIONS
+	HandleCollisions();
+
+	// Remove Expired Objects
+	RemoveExpiredObjects();
+
+	m_fSpawnNextPickUp -= _fDeltaTick;
+	if (0.0f >= m_fSpawnNextPickUp)
+	{
+		int iMyPickupLocation = rand() % m_vecpPickups.size();
+		int breakCounter = 20;
+		while (m_vecpPickups[iMyPickupLocation]->CheckIfActive() && 0 < breakCounter)
+		{
+			iMyPickupLocation = rand() % m_vecpPickups.size();
+			breakCounter -= 1;
+		}
+
+		if (0 < breakCounter)
+		{
+			m_vecpPickups[iMyPickupLocation]->SetActive(true);
+			//Set a type 
+		}
+
+		m_fSpawnNextPickUp = (float)(rand() % 30); // Pickus can spawn anywhere from 0-30 seconds after
+	}
+	//Checking that the base health hasn't changed - If it has, resize the base health scale
+	//if ((int)(m_vecpEntities[1]->GetScale().x / 3.0f) != m_pHomeBase->GetHealth())
+	//{
+	//	m_vecpEntities[1]->SetScale(glm::vec3((float)m_pHomeBase->GetHealth() * 3.0f, 20.0f, 0.0f));
+	//}
+}
+
+void CScene::ProcessObjects(float _fDeltaTick) {
 	// Process players
 	for (auto& player : m_vecpPlayers) {
 		player->Process(_fDeltaTick);
@@ -65,16 +88,11 @@ void CScene::Process(float _fDeltaTick) {
 	for (auto& entity : m_vecpEntities) {
 		entity->Process(_fDeltaTick);
 	}
-
+	// Process pickups
 	for (auto& pickup : m_vecpPickups)
 	{
 		pickup->Process(_fDeltaTick);
 	}
-
-	//Process Text 
-	//Score
-	m_vecpText[0]->SetText("Score: " + std::to_string(m_iPlayerScore));
-
 	// Process Enemies
 	for (auto& enemy : m_vecpEnemies) {
 		glm::vec3 vTargetPos;
@@ -106,9 +124,24 @@ void CScene::Process(float _fDeltaTick) {
 			enemy->Kill();
 		}
 	}
+}
 
-	//Attacking - Somewhere needs to call m_vecpPlayers[0]->SetAttackReady(true); to say that player one can attack
-	// Right now it is never ready to attack again
+void CScene::RemoveExpiredObjects() {
+	// Remove expired bullets
+	if (!m_vecpBullets.empty()) {
+		m_vecpBullets.erase(std::remove_if(m_vecpBullets.begin(), m_vecpBullets.end(),
+			[](const std::unique_ptr<CProjectile>& bullet) {return bullet->CheckIfExpired(); }), m_vecpBullets.end());
+	}
+
+	// Remove expired enemies
+	if (!m_vecpEnemies.empty()) {
+		m_vecpEnemies.erase(std::remove_if(m_vecpEnemies.begin(), m_vecpEnemies.end(),
+			[](const std::unique_ptr<CEnemy>& enemy) {return !enemy->CheckIfAlive(); }), m_vecpEnemies.end());
+	}
+}
+
+void CScene::HandlePlayerAttacks() {
+	// Player One
 	if (m_vecpPlayers[0]->AttackReady() && CInput::GetInstance()->KeyDown(' '))
 	{
 		m_vecpPlayers[0]->Attack();
@@ -130,9 +163,9 @@ void CScene::Process(float _fDeltaTick) {
 		bullet->SetPosition(vfPlayerTwoPosition);
 		m_vecpBullets.push_back(std::move(bullet));
 	}
+}
 
-	/// COLLISIONS
-
+void CScene::HandleCollisions() {
 	// Bullet - enemy collision
 	for (auto& bullet : m_vecpBullets) {
 		for (auto& enemy : m_vecpEnemies) {
@@ -159,8 +192,6 @@ void CScene::Process(float _fDeltaTick) {
 		}
 	}
 
-
-
 	//Base collision with player
 	if (CheckForCollision(m_pHomeBase.get(), m_vecpPlayers[0].get()))
 	{
@@ -174,36 +205,6 @@ void CScene::Process(float _fDeltaTick) {
 
 		m_vecpPlayers[0].get()->SetPosition((m_vecpPlayers[0].get()->GetPosition() + desiredVel));
 
-	}
-
-	//Checking that the base health hasn't changed - If it has, resize the base health scale
-	//if ((int)(m_vecpEntities[1]->GetScale().x / 3.0f) != m_pHomeBase->GetHealth())
-	//{
-	//	m_vecpEntities[1]->SetScale(glm::vec3((float)m_pHomeBase->GetHealth() * 3.0f, 20.0f, 0.0f));
-	//}
-
-	// Remove Expired Objects
-	RemoveExpiredObjects();
-
-
-	m_fSpawnNextPickUp -= _fDeltaTick;
-	if (0 >= m_fSpawnNextPickUp)
-	{
-		int iMyPickupLocation = rand() % m_vecpPickups.size();
-		int breakCounter = 20;
-		while (m_vecpPickups[iMyPickupLocation]->CheckIfActive() && 0 < breakCounter)
-		{
-			iMyPickupLocation = rand() % m_vecpPickups.size();
-			breakCounter -= 1;
-		}
-
-		if (0 < breakCounter)
-		{
-			m_vecpPickups[iMyPickupLocation]->SetActive(true);
-			//Set a type 
-		}
-
-		m_fSpawnNextPickUp = (float)(rand() % 30); // Pickus can spawn anywhere from 0-30 seconds after
 	}
 }
 
