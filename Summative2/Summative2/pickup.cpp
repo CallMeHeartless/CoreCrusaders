@@ -73,7 +73,7 @@ int CPickup::GetScore()const {
 ********************/
 void CPickup::SetType(EPICKUP_TYPES _eMyType)
 {
-	m_ePickupType = m_ePickupType;
+	m_ePickupType = _eMyType;
 }
 
 /***********************

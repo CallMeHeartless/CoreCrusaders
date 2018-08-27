@@ -14,7 +14,7 @@ Mail        :   kerry.pel7420@mediadesign.school.nz
 #include "entity.h"
 
 enum EPICKUP_TYPES {
-	ERAPID_FIRE,
+	ERAPID_FIRE = 0,
 	ESPEED,
 	EHIGHER_ENEMY_DAMAGE,
 	ESCORE,

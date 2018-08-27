@@ -153,7 +153,30 @@ void CScene::Process(float _fDeltaTick) {
 				if (pickup->CheckIfActive())
 				{
 					pickup->SetActive(false);
-					//Give effect
+
+					switch (pickup->GetType())
+					{
+					case ERAPID_FIRE:
+					{
+						std::cout << "Rapid Fire" << std::endl;
+						break;
+					}
+					case ESPEED:
+					{
+						std::cout << "Spped" << std::endl;
+						break;
+					}
+					case EHIGHER_ENEMY_DAMAGE:
+					{
+						std::cout << "Higher Enemy Damage" << std::endl;
+						break;
+					}
+					default: // ESCORE
+						std::cout << "Score" << std::endl;
+						m_iPlayerScore += 10;
+						m_vecpText[0]->SetText("Score: " + m_iPlayerScore);
+						break;
+					}
 				}
 			}
 		}
@@ -191,6 +214,7 @@ void CScene::Process(float _fDeltaTick) {
 	{
 		int iMyPickupLocation = rand() % m_vecpPickups.size();
 		int breakCounter = 20;
+		int iRandomType = rand() % 4;
 		while (m_vecpPickups[iMyPickupLocation]->CheckIfActive() && 0 < breakCounter)
 		{
 			iMyPickupLocation = rand() % m_vecpPickups.size();
@@ -200,10 +224,10 @@ void CScene::Process(float _fDeltaTick) {
 		if (0 < breakCounter)
 		{
 			m_vecpPickups[iMyPickupLocation]->SetActive(true);
-			//Set a type 
+			m_vecpPickups[iMyPickupLocation]->SetType(static_cast<EPICKUP_TYPES>(iRandomType));
 		}
 
-		m_fSpawnNextPickUp = (float)(rand() % 30); // Pickus can spawn anywhere from 0-30 seconds after
+		m_fSpawnNextPickUp = (float)(rand() % 15) + 5; // Pickus can spawn anywhere from 5-20 seconds after
 	}
 }
 
@@ -322,12 +346,14 @@ bool CScene::Initialise(int _iMap) {
 
 
 	int iMyPickupLocation = rand() % m_vecpPickups.size();
+	int iRandomType = rand() % 4;
 	while (m_vecpPickups[iMyPickupLocation]->CheckIfActive())
 	{
 		iMyPickupLocation = rand() % m_vecpPickups.size();
 	}
 
 	m_vecpPickups[iMyPickupLocation]->SetActive(true);
+	m_vecpPickups[iMyPickupLocation]->SetType(static_cast<EPICKUP_TYPES>(iRandomType));
 	
 
 	//Create Text
