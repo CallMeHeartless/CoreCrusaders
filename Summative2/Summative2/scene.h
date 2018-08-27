@@ -82,6 +82,9 @@ private:
 
 	// Helper functions
 	void RemoveExpiredObjects();
+	void HandlePlayerAttacks();
+	void ProcessObjects(float _fDeltaTick);
+	void HandleCollisions();
 
 	//Attack
 	float m_fPlayerOneAttackCoolDown = 0.0f;
