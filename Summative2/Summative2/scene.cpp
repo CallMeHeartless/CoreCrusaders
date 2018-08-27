@@ -29,6 +29,20 @@ CScene::CScene() {}
 CScene::~CScene(){}
 
 
+void CScene::RemoveExpiredObjects() {
+	// Remove expired bullets
+	if (!m_vecpBullets.empty()) {
+		m_vecpBullets.erase(std::remove_if(m_vecpBullets.begin(), m_vecpBullets.end(),
+			[](const std::unique_ptr<CProjectile>& bullet) {return bullet->CheckIfExpired(); }), m_vecpBullets.end());
+	}
+
+	// Remove expired enemies
+	if (!m_vecpEnemies.empty()) {
+		m_vecpEnemies.erase(std::remove_if(m_vecpEnemies.begin(), m_vecpEnemies.end(),
+			[](const std::unique_ptr<CEnemy>& enemy) {return !enemy->CheckIfAlive(); }), m_vecpEnemies.end());
+	}
+}
+
 /***********************
 * Process: Process one frame of game logic for the scene
 * @author: Kerry Pellett (2018)
@@ -168,18 +182,9 @@ void CScene::Process(float _fDeltaTick) {
 	//	m_vecpEntities[1]->SetScale(glm::vec3((float)m_pHomeBase->GetHealth() * 3.0f, 20.0f, 0.0f));
 	//}
 
+	// Remove Expired Objects
+	RemoveExpiredObjects();
 
-	// Remove expired bullets
-	if (!m_vecpBullets.empty()) {
-		m_vecpBullets.erase(std::remove_if(m_vecpBullets.begin(), m_vecpBullets.end(),
-			[](const std::unique_ptr<CProjectile>& bullet) {return bullet->CheckIfExpired(); }), m_vecpBullets.end());
-	}
-
-	// Remove expired enemies
-	if (!m_vecpEnemies.empty()) {
-		m_vecpEnemies.erase(std::remove_if(m_vecpEnemies.begin(), m_vecpEnemies.end(),
-			[](const std::unique_ptr<CEnemy>& enemy) {return !enemy->CheckIfAlive(); }), m_vecpEnemies.end());
-	}
 
 	m_fSpawnNextPickUp -= _fDeltaTick;
 	if (0 >= m_fSpawnNextPickUp)

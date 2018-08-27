@@ -80,6 +80,9 @@ private:
 	FMOD::Sound* m_pAudioPowerup;
 	// Group scores
 
+	// Helper functions
+	void RemoveExpiredObjects();
+
 	//Attack
 	float m_fPlayerOneAttackCoolDown = 0.0f;
 	const float m_kfPlayerOneAttackCoolDown = 5.0f;
