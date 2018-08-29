@@ -53,6 +53,9 @@ void CScene::Process(float _fDeltaTick) {
 	// Spawn pickup if needed
 	ProcessPickupSpawn(_fDeltaTick);
 
+	// Spawn more enemies if needed
+	ProcessWave(_fDeltaTick);
+
 	// Check for Game over
 	if (CheckForGameOver()) {
 		// Implement scene change to game over menu
@@ -253,6 +256,14 @@ void CScene::ProcessPickupSpawn(float _fDeltaTick) {
 	}
 }
 
+void CScene::ProcessWave(float _fDeltaTick) {
+	m_fEnemySpawnTimer += _fDeltaTick;
+	if (m_fEnemySpawnTimer > -m_fEnemySpawnDelay) {
+		m_fEnemySpawnTimer = 0.0f;
+
+	}
+}
+
 /***********************
 * Render: Renders the scene
 * @author: Kerry Pellett (2018)
@@ -314,9 +325,8 @@ bool CScene::Initialise(int _iMap) {
 	m_vecpPickups.clear();
 
 	m_fEnemySpawnTimer = 0.0f;
-	m_fPickupSpawnTimer = 0.0f;
 	m_iEnemyWaveCount = 0;
-
+	m_veciEnemiesInWave = LEVEL_INFO::SPAWNS[m_iEnemyWaveCount];
 
 	// Create Camera
 //<<<<<<< HEAD
@@ -476,24 +486,6 @@ void CScene::SpawnBullet(glm::vec3 _vfPosition, glm::vec3 _vfVelocity, bool _bIs
 }
 
 /***********************
-* SpawnPickup: Spawns a pickup
-* @author: Kerry Pellett (2018)
-* @parameter: void
-* @return: void
-********************/
-void CScene::SpawnPickup() {
-	if (m_vecPickupSpawnPoints.empty()) {
-		COutputLog::GetInstance()->LogMessage("ERROR: Could not instantiate pickup - no spawn location loaded");
-		return;
-	}
-
-	//// Select a random spawn location
-	//int iIndex = rand() % m_vecPickupSpawnPoints.size();
-
-	//m_vecpPickups.push_back(std::move(pickup));
-}
-
-/***********************
 * CheckForCollision: Performs simple collision detection between two mesh objects. Typically considers the first mesh in models
 * @author: Kerry Pellett (2018)
 * @parameter: const CMesh* const _kpMesh1, const CMesh* const _kpMesh2
@@ -561,27 +553,6 @@ bool CScene::LoadSounds() {
 
 
 	return bAllLoaded;
-}
-
-/***********************
-* FindClosestPlayer: Finds the closest player to the position (of an AI)
-* @author: Kerry Pellett (2018)
-* @parameter: glm::vec3 _AIPosition (the position of the agent in world space)
-* @return: std::unqiue_ptr& (the closest player object)
-********************/
-std::unique_ptr<CPlayer>& CScene::FindClosestPlayer(glm::vec3 _AIPosition) {
-	
-	int iClosest = 0;
-	float fDistance = 100.0f;
-	for (unsigned int i = 0; i < m_vecpPlayers.size(); ++i) {
-		float fRange = glm::length(_AIPosition - m_vecpPlayers[i]->GetPosition());
-		if (fRange < fDistance) {
-			fDistance = fRange;
-			iClosest = i;
-		}
-	}
-
-	return m_vecpPlayers[iClosest];
 }
 
 /***********************

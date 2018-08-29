@@ -43,33 +43,38 @@ private:
 	glm::vec3 m_vfCameraOffset = glm::vec3(0.0f, 75.0f, 20.0f);
 	int m_iPlayerScore = 0;
 	bool m_bGodModeReference = false;
+
 	// Player Variables
 	std::vector<std::unique_ptr<CPlayer>> m_vecpPlayers;
 	std::vector<glm::vec3> m_vecRailLocations = { glm::vec3(250, 750, 0), glm::vec3(750, 750, 0), glm::vec3(250, 250, 0), glm::vec3(750, 250, 0) };
-	// std::vector<glm::vec3> m_vecPlayerSpawnPoints;
+
 	// Entities
 	std::vector <std::unique_ptr<CEntity>> m_vecpEntities;
+
 	// Pickups
 	std::vector <std::unique_ptr<CPickup>> m_vecpPickups;
-	std::vector<glm::vec3> m_vecPickupSpawnPoints;
-	std::vector<bool> m_vecbPickupSpawnPointsValidity;
+	float m_fSpawnNextPickUp = 5.0f;
+
 	// Bullets
 	std::vector<std::unique_ptr<CProjectile>> m_vecpBullets;
+
 	// Base
 	std::unique_ptr<CHomeBase> m_pHomeBase;
+
 	// Enemy variables
 	std::vector<std::unique_ptr<CEnemy>> m_vecpEnemies;
 	std::vector<glm::vec3> m_vecEnemySpawnPoints;
-	//Text
-	std::vector<std::unique_ptr<TextLabel>> m_vecpText;
-	// Spawn timers
+	std::vector<unsigned int> m_veciEnemiesInWave;
 	float m_fEnemySpawnTimer = 0.0f;
 	float m_fEnemySpawnDelay = 2.0f;
-	int m_iEnemyWaveCount = 0;
-	float m_fPickupSpawnTimer = 0.0f;
-	float m_fPickupSpawnDelay = 5.0f;
-	unsigned int m_iPickupCount = 0;
-	float m_fSpawnNextPickUp = 5.0f;
+	float m_fEnemySpawnMin = 0.5f;
+	float m_fEnemySpawnMax = 3.0f;
+	unsigned int m_iEnemyWaveCount = 0;
+
+	//Text
+	std::vector<std::unique_ptr<TextLabel>> m_vecpText;
+
+
 	// Audio
 	FMOD::System* m_pAudioManager;
 	FMOD::Channel* m_pAudioChannel;
@@ -77,7 +82,6 @@ private:
 	std::vector<FMOD::Sound*> m_vecpAudioFire = { nullptr, nullptr, nullptr, nullptr };
 	std::vector<FMOD::Sound*> m_vecpAudioExplosion = { nullptr, nullptr, nullptr };
 	FMOD::Sound* m_pAudioPowerup;
-	// Group scores
 
 	// Helper functions
 	void RemoveExpiredObjects();
@@ -85,12 +89,7 @@ private:
 	void ProcessObjects(float _fDeltaTick);
 	void ProcessPickupSpawn(float _fDeltaTick);
 	void HandleCollisions();
-
-	//Attack
-	//float m_fPlayerOneAttackCoolDown = 0.0f;
-	//const float m_kfPlayerOneAttackCoolDown = 5.0f;
-	//float m_fPlayerTwoAttackCoolDown = 0.0f;
-	//const float m_kfPlayerTwoAttackCoolDown = 5.0f;
+	void ProcessWave(float _fDeltaTick);
 
 
 	public:
@@ -100,18 +99,12 @@ private:
 		virtual void Render();
 		virtual void Process(float _fDeltaTick);
 
-		//bool LoadMap(EMAPNODE _eMap[][11]);
 		bool Initialise(int _iMap);
 
 		glm::vec3 MouseRayToWorldSpace();
-
 		void SpawnBullet(glm::vec3 _vfPosition, glm::vec3 _vfVelocity, bool _bIsEnemy, unsigned int _uiOwner);
-		void SpawnPickup();
-
 		bool CheckForCollision(const CEntity* const _kpMesh1, const CEntity* const _kpMesh2);
 		bool LoadSounds();
-		//std::string GetPlayerPowerText()const;
-		std::unique_ptr<CPlayer>& FindClosestPlayer(glm::vec3 _AIPosition);
 		bool CheckForGameOver()const;
 
 };

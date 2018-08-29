@@ -4,8 +4,8 @@
 #include <vector>
 
 namespace LEVEL_INFO {
-	static std::vector<std::vector<int>> SPAWNS = {
-		// Drone, tank, sprinter, Hunters
+	static std::vector<std::vector<unsigned int>> SPAWNS = {
+	// Drone, tank, sprinter, Hunters
 	{10, 0, 0, 0},
 	{15, 0, 0, 0},
 	{10, 1, 0, 0},
