@@ -84,6 +84,7 @@ private:
 	void RemoveExpiredObjects();
 	void HandlePlayerAttacks();
 	void ProcessObjects(float _fDeltaTick);
+	void ProcessPickupSpawn(float _fDeltaTick);
 	void HandleCollisions();
 
 	//Attack

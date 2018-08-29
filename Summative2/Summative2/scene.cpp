@@ -47,51 +47,33 @@ void CScene::Process(float _fDeltaTick) {
 	// Remove Expired Objects
 	RemoveExpiredObjects();
 
-	m_fSpawnNextPickUp -= _fDeltaTick;
-	if (0.0f >= m_fSpawnNextPickUp)
-	{
-		int iMyPickupLocation = rand() % m_vecpPickups.size();
-		int breakCounter = 20;
-		while (m_vecpPickups[iMyPickupLocation]->CheckIfActive() && 0 < breakCounter)
-		{
-			iMyPickupLocation = rand() % m_vecpPickups.size();
-			breakCounter -= 1;
-		}
+	//m_fSpawnNextPickUp -= _fDeltaTick;
+	//if (0.0f >= m_fSpawnNextPickUp)
+	//{
+	//	int iMyPickupLocation = rand() % m_vecpPickups.size();
+	//	int breakCounter = 20;
+	//	while (m_vecpPickups[iMyPickupLocation]->CheckIfActive() && 0 < breakCounter)
+	//	{
+	//		iMyPickupLocation = rand() % m_vecpPickups.size();
+	//		breakCounter -= 1;
+	//	}
 
-		if (0 < breakCounter)
-		{
-			m_vecpPickups[iMyPickupLocation]->SetActive(true);
-			//Set a type 
-		}
+	//	if (0 < breakCounter)
+	//	{
+	//		m_vecpPickups[iMyPickupLocation]->SetActive(true);
+	//		//Set a type 
+	//	}
 
-		m_fSpawnNextPickUp = (float)(rand() % 30); // Pickus can spawn anywhere from 0-30 seconds after
-	}
+	//	m_fSpawnNextPickUp = (float)(rand() % 30); // Pickus can spawn anywhere from 0-30 seconds after
+	//}
 	//Checking that the base health hasn't changed - If it has, resize the base health scale
 	//if ((int)(m_vecpEntities[1]->GetScale().x / 3.0f) != m_pHomeBase->GetHealth())
 	//{
 	//	m_vecpEntities[1]->SetScale(glm::vec3((float)m_pHomeBase->GetHealth() * 3.0f, 20.0f, 0.0f));
 	//}
 
-	m_fSpawnNextPickUp -= _fDeltaTick;
-	if (0 >= m_fSpawnNextPickUp)
-	{
-		int iMyPickupLocation = rand() % m_vecpPickups.size();
-		int breakCounter = 20;
-		int iRandomType = rand() % 4;
-		while (m_vecpPickups[iMyPickupLocation]->CheckIfActive() && 0 < breakCounter)
-		{
-			iMyPickupLocation = rand() % m_vecpPickups.size();
-			breakCounter -= 1;
-		}
-
-		if (0 < breakCounter)
-		{
-			m_vecpPickups[iMyPickupLocation]->SetType(static_cast<EPICKUP_TYPES>(iRandomType));
-			m_vecpPickups[iMyPickupLocation]->SetActive(true);
-		}
-
-		m_fSpawnNextPickUp = (float)(rand() % 5) + 5; // Pickus can spawn anywhere from 5-20 seconds after
-	}
+	// Spawn pickup if needed
+	ProcessPickupSpawn(_fDeltaTick);
 }
 
 void CScene::ProcessObjects(float _fDeltaTick) {
@@ -264,6 +246,29 @@ void CScene::HandleCollisions() {
 	RemoveExpiredObjects();
 }
 
+void CScene::ProcessPickupSpawn(float _fDeltaTick) {
+	m_fSpawnNextPickUp -= _fDeltaTick;
+	if (0 >= m_fSpawnNextPickUp)
+	{
+		int iMyPickupLocation = rand() % m_vecpPickups.size();
+		int breakCounter = 20;
+		int iRandomType = rand() % 4;
+		while (m_vecpPickups[iMyPickupLocation]->CheckIfActive() && 0 < breakCounter)
+		{
+			iMyPickupLocation = rand() % m_vecpPickups.size();
+			breakCounter -= 1;
+		}
+
+		if (0 < breakCounter)
+		{
+			m_vecpPickups[iMyPickupLocation]->SetType(static_cast<EPICKUP_TYPES>(iRandomType));
+			m_vecpPickups[iMyPickupLocation]->SetActive(true);
+		}
+
+		m_fSpawnNextPickUp = (float)(rand() % 5) + 5; // Pickus can spawn anywhere from 5-20 seconds after
+	}
+}
+
 /***********************
 * Render: Renders the scene
 * @author: Kerry Pellett (2018)
@@ -330,12 +335,12 @@ bool CScene::Initialise(int _iMap) {
 
 
 	// Create Camera
-<<<<<<< HEAD
+//<<<<<<< HEAD
 	m_pGameCamera = std::make_unique<CCamera>(Utility::SCR_WIDTH, Utility::SCR_HEIGHT);
-=======
+//=======
 	m_pGameCamera = std::make_unique<CCamera>((float)Utility::SCR_WIDTH, (float)Utility::SCR_HEIGHT);
 
->>>>>>> 4a1d9ad521c5cd6d7fc59ee5637dafdd901d4c38
+//>>>>>>> 4a1d9ad521c5cd6d7fc59ee5637dafdd901d4c38
 
 	// Create players
 	auto player1 = std::make_unique<CPlayerOne>();
