@@ -148,6 +148,7 @@
     <ClInclude Include="camera.h" />
     <ClInclude Include="clock.h" />
     <ClInclude Include="homebase.h" />
+    <ClInclude Include="levelinfo.h" />
     <ClInclude Include="projectile.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="entity.h" />

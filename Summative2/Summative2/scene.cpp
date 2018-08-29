@@ -23,6 +23,7 @@ Mail        :   kerry.pel7420@mediadesign.school.nz
 #include "camera.h"
 #include "projectile.h"
 #include "enemy.h"
+#include "levelinfo.h"
 
 CScene::CScene() {}
 
@@ -37,43 +38,26 @@ CScene::~CScene(){}
 void CScene::Process(float _fDeltaTick) {
 	ProcessObjects(_fDeltaTick);
 
-	//Score
+	//Score [REFACTOR: Move this to only be changed when the player's score would change
 	m_vecpText[0]->SetText("Score: " + std::to_string(m_iPlayerScore));
-
+	
+	// Check if the players are attacking
 	HandlePlayerAttacks();
-	/// COLLISIONS
+
+	// Check for collisions between game objects
 	HandleCollisions();
 
 	// Remove Expired Objects
 	RemoveExpiredObjects();
 
-	//m_fSpawnNextPickUp -= _fDeltaTick;
-	//if (0.0f >= m_fSpawnNextPickUp)
-	//{
-	//	int iMyPickupLocation = rand() % m_vecpPickups.size();
-	//	int breakCounter = 20;
-	//	while (m_vecpPickups[iMyPickupLocation]->CheckIfActive() && 0 < breakCounter)
-	//	{
-	//		iMyPickupLocation = rand() % m_vecpPickups.size();
-	//		breakCounter -= 1;
-	//	}
-
-	//	if (0 < breakCounter)
-	//	{
-	//		m_vecpPickups[iMyPickupLocation]->SetActive(true);
-	//		//Set a type 
-	//	}
-
-	//	m_fSpawnNextPickUp = (float)(rand() % 30); // Pickus can spawn anywhere from 0-30 seconds after
-	//}
-	//Checking that the base health hasn't changed - If it has, resize the base health scale
-	//if ((int)(m_vecpEntities[1]->GetScale().x / 3.0f) != m_pHomeBase->GetHealth())
-	//{
-	//	m_vecpEntities[1]->SetScale(glm::vec3((float)m_pHomeBase->GetHealth() * 3.0f, 20.0f, 0.0f));
-	//}
-
 	// Spawn pickup if needed
 	ProcessPickupSpawn(_fDeltaTick);
+
+	// Check for Game over
+	if (CheckForGameOver()) {
+		// Implement scene change to game over menu
+		// CSceneManager::GetInstance()->LoadGameMenu(MENU_GAME_OVER);
+	}
 }
 
 void CScene::ProcessObjects(float _fDeltaTick) {
@@ -601,13 +585,38 @@ std::unique_ptr<CPlayer>& CScene::FindClosestPlayer(glm::vec3 _AIPosition) {
 }
 
 /***********************
-* CheckForGameOver: Checks if all active players are dead
+* CheckForGameOver: Checks if the base has been destroyed
 * @author: Kerry Pellett (2018)
 * @parameter: void
-* @return: bool (true if all players are dead, otherwise false)
+* @return: bool (true if the core's health <= 0)
 ********************/
 bool CScene::CheckForGameOver()const {
-	
-
-	return true;
+	return m_pHomeBase->GetHealth() <= 0;
 }
+
+
+
+//m_fSpawnNextPickUp -= _fDeltaTick;
+//if (0.0f >= m_fSpawnNextPickUp)
+//{
+//	int iMyPickupLocation = rand() % m_vecpPickups.size();
+//	int breakCounter = 20;
+//	while (m_vecpPickups[iMyPickupLocation]->CheckIfActive() && 0 < breakCounter)
+//	{
+//		iMyPickupLocation = rand() % m_vecpPickups.size();
+//		breakCounter -= 1;
+//	}
+
+//	if (0 < breakCounter)
+//	{
+//		m_vecpPickups[iMyPickupLocation]->SetActive(true);
+//		//Set a type 
+//	}
+
+//	m_fSpawnNextPickUp = (float)(rand() % 30); // Pickus can spawn anywhere from 0-30 seconds after
+//}
+//Checking that the base health hasn't changed - If it has, resize the base health scale
+//if ((int)(m_vecpEntities[1]->GetScale().x / 3.0f) != m_pHomeBase->GetHealth())
+//{
+//	m_vecpEntities[1]->SetScale(glm::vec3((float)m_pHomeBase->GetHealth() * 3.0f, 20.0f, 0.0f));
+//}

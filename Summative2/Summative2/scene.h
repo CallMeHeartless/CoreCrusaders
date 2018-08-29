@@ -64,9 +64,8 @@ private:
 	std::vector<std::unique_ptr<TextLabel>> m_vecpText;
 	// Spawn timers
 	float m_fEnemySpawnTimer = 0.0f;
-	float m_fEnemySpawnDelay = 30.0f;
+	float m_fEnemySpawnDelay = 2.0f;
 	int m_iEnemyWaveCount = 0;
-	int m_iMaxEnemyWaves = 3;
 	float m_fPickupSpawnTimer = 0.0f;
 	float m_fPickupSpawnDelay = 5.0f;
 	unsigned int m_iPickupCount = 0;
@@ -88,10 +87,10 @@ private:
 	void HandleCollisions();
 
 	//Attack
-	float m_fPlayerOneAttackCoolDown = 0.0f;
-	const float m_kfPlayerOneAttackCoolDown = 5.0f;
-	float m_fPlayerTwoAttackCoolDown = 0.0f;
-	const float m_kfPlayerTwoAttackCoolDown = 5.0f;
+	//float m_fPlayerOneAttackCoolDown = 0.0f;
+	//const float m_kfPlayerOneAttackCoolDown = 5.0f;
+	//float m_fPlayerTwoAttackCoolDown = 0.0f;
+	//const float m_kfPlayerTwoAttackCoolDown = 5.0f;
 
 
 	public:
