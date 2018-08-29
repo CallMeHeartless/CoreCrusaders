@@ -84,7 +84,25 @@ void ProcessKeyDown(unsigned char _cKey, int _iX, int _iY) {
 	CInput::GetInstance()->KeyDown(_cKey, _iX, _iY);
 }
 
+bool CInput::KeyDown(unsigned char _cKey)
+{
+	switch (m_uiKeyState[_cKey]) {
+	case INPUT_FIRST_PRESSED: {
+		return true;
+		break;
+	}
+	case INPUT_PRESSED: {
+		return true;
+		break;
+	}
+	default:
+		break;
+	}
+	return false;
+}
+
 void CInput::KeyDown(unsigned char _cKey, int _iX, int _iY) {
+
 	switch (m_uiKeyState[_cKey]) {
 		case INPUT_FIRST_RELEASED: {
 			// Fall through
@@ -156,9 +174,9 @@ void CInput::SpecialKeyDown(int _iKey, int _iX, int _iY) {
 			break;
 		}
 
-		default:break;
+		default:return;
 	}
-	
+
 	// Process key down
 	switch (m_uiArrowKeyState[iIndex]) {
 		case INPUT_FIRST_RELEASED: {
@@ -255,10 +273,18 @@ void CInput::Initialise() {
 std::vector<unsigned int> CInput::GetPlayerMovement(bool _bIsPlayer1) {
 	std::vector<unsigned int> vecPlayerMovement(4);
 	if (_bIsPlayer1) {
-		vecPlayerMovement[0] = m_uiKeyState['w'];
-		vecPlayerMovement[1] = m_uiKeyState['a'];
-		vecPlayerMovement[2] = m_uiKeyState['s'];
-		vecPlayerMovement[3] = m_uiKeyState['d'];
+		vecPlayerMovement[0] = ((m_uiKeyState['W'] == INPUT_PRESSED || 
+								 m_uiKeyState['w'] == INPUT_PRESSED) 
+								 ? INPUT_PRESSED : INPUT_RELEASED);
+		vecPlayerMovement[1] = ((m_uiKeyState['a'] == INPUT_PRESSED ||
+								m_uiKeyState['A'] == INPUT_PRESSED)
+								? INPUT_PRESSED : INPUT_RELEASED);
+		vecPlayerMovement[2] = ((m_uiKeyState['s'] == INPUT_PRESSED ||
+								m_uiKeyState['S'] == INPUT_PRESSED)
+								? INPUT_PRESSED : INPUT_RELEASED);
+		vecPlayerMovement[3] = ((m_uiKeyState['d'] == INPUT_PRESSED ||
+								m_uiKeyState['D'] == INPUT_PRESSED)
+								? INPUT_PRESSED : INPUT_RELEASED);
 	}
 	else {
 		vecPlayerMovement[0] = m_uiArrowKeyState[0];
@@ -266,9 +292,6 @@ std::vector<unsigned int> CInput::GetPlayerMovement(bool _bIsPlayer1) {
 		vecPlayerMovement[2] = m_uiArrowKeyState[2];
 		vecPlayerMovement[3] = m_uiArrowKeyState[3];
 	}
-
-
-
 	return vecPlayerMovement;
 }
 
@@ -308,6 +331,19 @@ void CInput::MakePressedOrReleased() {
 
 		default:break;
 	}
+	switch (m_uiKeyState['W']) {
+	case INPUT_FIRST_PRESSED: {
+		m_uiKeyState['W'] = INPUT_PRESSED;
+		break;
+	}
+
+	case INPUT_FIRST_RELEASED: {
+		m_uiKeyState['W'] = INPUT_RELEASED;
+		break;
+	}
+
+	default:break;
+	}
 	switch (m_uiKeyState['a']) {
 		case INPUT_FIRST_PRESSED: {
 			m_uiKeyState['a'] = INPUT_PRESSED;
@@ -320,6 +356,19 @@ void CInput::MakePressedOrReleased() {
 		}
 
 		default:break;
+	}
+	switch (m_uiKeyState['A']) {
+	case INPUT_FIRST_PRESSED: {
+		m_uiKeyState['A'] = INPUT_PRESSED;
+		break;
+	}
+
+	case INPUT_FIRST_RELEASED: {
+		m_uiKeyState['A'] = INPUT_RELEASED;
+		break;
+	}
+
+	default:break;
 	}
 	switch (m_uiKeyState['s']) {
 		case INPUT_FIRST_PRESSED: {
@@ -334,6 +383,19 @@ void CInput::MakePressedOrReleased() {
 
 		default:break;
 	}
+	switch (m_uiKeyState['S']) {
+	case INPUT_FIRST_PRESSED: {
+		m_uiKeyState['S'] = INPUT_PRESSED;
+		break;
+	}
+
+	case INPUT_FIRST_RELEASED: {
+		m_uiKeyState['S'] = INPUT_RELEASED;
+		break;
+	}
+
+	default:break;
+	}
 	switch (m_uiKeyState['d']) {
 		case INPUT_FIRST_PRESSED: {
 			m_uiKeyState['d'] = INPUT_PRESSED;
@@ -347,7 +409,19 @@ void CInput::MakePressedOrReleased() {
 
 		default:break;
 	}
+	switch (m_uiKeyState['D']) {
+	case INPUT_FIRST_PRESSED: {
+		m_uiKeyState['D'] = INPUT_PRESSED;
+		break;
+	}
 
+	case INPUT_FIRST_RELEASED: {
+		m_uiKeyState['D'] = INPUT_RELEASED;
+		break;
+	}
+
+	default:break;
+	}
 	// Arrow keys
 	for (unsigned int i = 0; i < 4; ++i) {
 		switch (m_uiArrowKeyState[i]) {

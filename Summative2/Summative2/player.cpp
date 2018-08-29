@@ -19,6 +19,8 @@ CPlayer::CPlayer(){
 	m_pSprite->SetFrameHeight(m_pSprite->GetHeight() / 4.0f);
 
 	m_pSprite->SetIndex(1, 2);*/
+
+	m_fAttackCoolDownTimer = 0;
 }
 
 CPlayer::~CPlayer(){}
@@ -61,4 +63,44 @@ bool CPlayer::IsMoving()const {
 ********************/
 bool CPlayer::GetAlive()const {
 	return m_bIsAlive;
+}
+
+/***********************
+* IncreaseSpeed: Increases the speed temporarily
+* @author: Sally Gillbanks (2018)
+* @parameter: void
+* @return: 
+********************/
+void CPlayer::IncreaseSpeed()
+{
+	m_fMovementSpeed = 2.0f;
+	m_fSpeedCoolDown = 0.0f;
+	m_bSpeeding = true;
+}
+
+/***********************
+* IncreaseAttackSpeed: Increases the attack speed temporarily
+* @author: Sally Gillbanks (2018)
+* @parameter: void
+* @return:
+********************/
+void CPlayer::IncreaseAttackSpeed()
+{
+	m_fRapidFireTimer = 0.5f;
+	m_fRapidFireCooldown = 0.0f;
+	m_bRapidAttack = true;
+}
+
+/***********************
+* IncreaseAttackSpeed: Increases the attack speed temporarily
+* @author: Vivian Ngo (2018)
+* @parameter: void
+* @return:
+********************/
+void CPlayer::InitiateRebalance()
+{
+	m_fRebalanceCurrentPlayer = 2.0f;
+	m_fRebalanceOtherPlayer = 0.5f;
+	m_fRebalanceCoolDown = 0.0f;
+	m_bRebalance = true;
 }

@@ -13,6 +13,9 @@ class CPlayerTwo : public CPlayer {
 		virtual ~CPlayerTwo();
 
 		virtual void Process(float _fDeltaTick);
+		virtual void Attack();
+		virtual bool AttackReady();
+		virtual void SetAttackReady(bool _bValue);
 
 		void SetRailCorners(std::vector<glm::vec3> _vecvfCorners);
 		bool CanMoveHorizontal()const;

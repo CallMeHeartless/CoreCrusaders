@@ -9,7 +9,7 @@ class CProjectile : public CEntity {
 	private:
 		bool m_bHasExpired = false;
 		glm::vec3 m_vfDirection;
-		float m_fSpeed;
+		float m_fSpeed = 400.0f;
 
 	public:
 		CProjectile(glm::vec3 _vfPosition, glm::vec3 _vfDirection);

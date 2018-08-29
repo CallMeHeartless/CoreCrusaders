@@ -10,7 +10,7 @@ Mail        :   kerry.pel7420@mediadesign.school.nz
 
 CPickup::CPickup(){
 	// Initialise
-	Initialise("Resources/Textures/Coins16x16.png");
+	Initialise("Resources/Textures/Coins.png");
 	m_pSprite->SetFrameWidth(m_pSprite->GetWidth() / 5.0f);
 
 	// Select starting animation frame
@@ -28,7 +28,7 @@ CPickup::~CPickup(){}
 ********************/
 void CPickup::Process(float _fDeltaTick) {
 	// Animate
-	m_fAnimationTimer += _fDeltaTick / 1000.0f;
+	m_fAnimationTimer += _fDeltaTick;// / 1000.0f;
 	if (m_fAnimationTimer >= m_fAnimationDelay) {
 		m_fAnimationTimer = 0.0f;
 		++m_iAnimationIndex;
@@ -63,4 +63,26 @@ void CPickup::Process(float _fDeltaTick) {
 ********************/
 int CPickup::GetScore()const {
 	return m_iScore;
+}
+
+/***********************
+* SetType: Returns the pickup's score value
+* @author: Sally & Vivian (2018)
+* @parameter: EPICKUP_TYPES
+* @return: void
+********************/
+void CPickup::SetType(EPICKUP_TYPES _eMyType)
+{
+	m_ePickupType = _eMyType;
+}
+
+/***********************
+* SetType: Returns the pickup's score value
+* @author: Sally & Vivian (2018)
+* @parameter: 
+* @return: EPICKUP_TYPES
+********************/
+EPICKUP_TYPES CPickup::GetType() const
+{
+	return m_ePickupType;
 }

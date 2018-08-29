@@ -5,6 +5,8 @@ CPlayerTwo::CPlayerTwo(){
 	// Initialise sprite
 	m_pSprite = std::make_unique<CSprite>();
 	m_pSprite->Initialise("Resources/Textures/MagicSprite.png");
+
+	m_fRapidFireTimer = 1.0f;
 }
 
 CPlayerTwo::~CPlayerTwo(){}
@@ -36,7 +38,7 @@ void CPlayerTwo::Process(float _fDeltaTick) {
 		m_vfMovementVector = glm::normalize(m_vfMovementVector);
 	}
 
-	m_vfMovementVector *= (m_fSpeed *  _fDeltaTick);
+	m_vfMovementVector *= (m_fSpeed *  _fDeltaTick * m_fMovementSpeed);
 
 	// Move only orthogonaly
 	if (m_vfMovementVector.x != 0.0f && CanMoveHorizontal()) {
@@ -93,6 +95,77 @@ void CPlayerTwo::Process(float _fDeltaTick) {
 		m_vfPosition.y = m_vecvfRailCorners[0].y;
 		SetPosition(m_vfPosition);
 	}
+
+	// Update player's orientation
+	glm::vec3 vfMousePos = glm::vec3(CInput::GetInstance()->GetMousePosition(), 0);
+	vfMousePos.y = (float)Utility::SCR_HEIGHT - vfMousePos.y;
+	glm::vec3 vfAimTarget = vfMousePos - m_vfPosition;
+	if (glm::length(vfAimTarget) != 0) {
+		vfAimTarget = glm::normalize(vfAimTarget);
+	}
+	float fAngle = acosf(glm::dot(glm::vec3(0.0f, 1.0f, 0.0f), vfAimTarget));
+	if (vfAimTarget.x > 0) {
+		fAngle = 2.0f * glm::pi<float>() - fAngle;
+	}
+	m_pSprite->SetAngle(fAngle);
+
+	/* Allows the player to attack each time m_fAttackCoolDownTimer is greater than the cool down timer */
+	m_fAttackCoolDownTimer += _fDeltaTick;
+	if (m_fRapidFireTimer <= m_fAttackCoolDownTimer)
+	{
+		m_bCanAttack = true;
+	}
+
+	if (m_bSpeeding)
+	{
+		m_fSpeedCoolDown += _fDeltaTick;
+		if (3.0f < m_fSpeedCoolDown)
+		{
+			m_fMovementSpeed = 1.0f;
+			m_bSpeeding = false;
+		}
+	}
+
+	if (m_bRapidAttack)
+	{
+		m_fRapidFireCooldown += _fDeltaTick;
+		if (3.0f < m_fRapidFireCooldown)
+		{
+			m_fRapidFireTimer = 1.0f;
+			m_bRapidAttack = false;
+		}
+	}
+
+	if (m_bRebalance)
+	{
+		/*m_fRebalanceCoolDown += _fDeltaTick;
+		if (3.0f < m_fRebalanceCoolDown)
+		{
+			m_fRebalanceCurrentPlayer = 1.0f;
+			m_fRebalanceOtherPlayer = 1.0f;
+			m_bRapidAttack = false;
+		}*/
+	}
+}
+
+void CPlayerTwo::Attack()
+{
+	if (m_bCanAttack)
+	{
+		//Do attack code
+		m_fAttackCoolDownTimer = 0;
+		m_bCanAttack = false;
+	}
+}
+
+bool CPlayerTwo::AttackReady()
+{
+	return(m_bCanAttack);
+}
+
+void CPlayerTwo::SetAttackReady(bool _bValue)
+{
+	m_bCanAttack = _bValue;
 }
 
 void CPlayerTwo::SetRailCorners(std::vector<glm::vec3> _vecvfRailCorners) {
@@ -100,7 +173,7 @@ void CPlayerTwo::SetRailCorners(std::vector<glm::vec3> _vecvfRailCorners) {
 	assert(_vecvfRailCorners.size() == 4);
 	m_vecvfRailCorners = _vecvfRailCorners;
 	// Set player to first position
-	SetPosition(m_vecvfRailCorners[0]);
+	//SetPosition(m_vecvfRailCorners[0]);
 }
 
 // Utility function to check if the player can move left/right

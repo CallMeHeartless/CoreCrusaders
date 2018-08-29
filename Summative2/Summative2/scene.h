@@ -18,12 +18,11 @@ Mail        :   kerry.pel7420@mediadesign.school.nz
 #include "utility.h"
 #include "camera.h"
 
-
-
 // Forward declaration
 class CPlayer;
 class CPlayerOne;
 class CPlayerTwo;
+class CHomeBase;
 class CAIManager;
 class CCubeMap;
 class CCube;
@@ -47,11 +46,22 @@ private:
 	// Player Variables
 	std::vector<std::unique_ptr<CPlayer>> m_vecpPlayers;
 	std::vector<glm::vec3> m_vecRailLocations = { glm::vec3(250, 750, 0), glm::vec3(750, 750, 0), glm::vec3(250, 250, 0), glm::vec3(750, 250, 0) };
-	//std::vector<glm::vec3> m_vecPlayerSpawnPoints;
+	// std::vector<glm::vec3> m_vecPlayerSpawnPoints;
+	// Entities
+	std::vector <std::unique_ptr<CEntity>> m_vecpEntities;
+	// Pickups
+	std::vector <std::unique_ptr<CPickup>> m_vecpPickups;
+	std::vector<glm::vec3> m_vecPickupSpawnPoints;
+	std::vector<bool> m_vecbPickupSpawnPointsValidity;
+	// Bullets
+	std::vector<std::unique_ptr<CProjectile>> m_vecpBullets;
+	// Base
+	std::unique_ptr<CHomeBase> m_pHomeBase;
 	// Enemy variables
 	std::vector<std::unique_ptr<CEnemy>> m_vecpEnemies;
 	std::vector<glm::vec3> m_vecEnemySpawnPoints;
-	std::vector<glm::vec3> m_vecPickupSpawnPoints;
+	//Text
+	std::vector<std::unique_ptr<TextLabel>> m_vecpText;
 	// Spawn timers
 	float m_fEnemySpawnTimer = 0.0f;
 	float m_fEnemySpawnDelay = 30.0f;
@@ -60,6 +70,7 @@ private:
 	float m_fPickupSpawnTimer = 0.0f;
 	float m_fPickupSpawnDelay = 5.0f;
 	unsigned int m_iPickupCount = 0;
+	float m_fSpawnNextPickUp = 5.0f;
 	// Audio
 	FMOD::System* m_pAudioManager;
 	FMOD::Channel* m_pAudioChannel;
@@ -67,11 +78,19 @@ private:
 	std::vector<FMOD::Sound*> m_vecpAudioFire = { nullptr, nullptr, nullptr, nullptr };
 	std::vector<FMOD::Sound*> m_vecpAudioExplosion = { nullptr, nullptr, nullptr };
 	FMOD::Sound* m_pAudioPowerup;
-	// Bullets
-	std::vector<std::unique_ptr<CProjectile>> m_vecpBullets;
-	// Pickups
-	std::vector<std::unique_ptr<CPickup>> m_vecpPickups;
 	// Group scores
+
+	// Helper functions
+	void RemoveExpiredObjects();
+	void HandlePlayerAttacks();
+	void ProcessObjects(float _fDeltaTick);
+	void HandleCollisions();
+
+	//Attack
+	float m_fPlayerOneAttackCoolDown = 0.0f;
+	const float m_kfPlayerOneAttackCoolDown = 5.0f;
+	float m_fPlayerTwoAttackCoolDown = 0.0f;
+	const float m_kfPlayerTwoAttackCoolDown = 5.0f;
 
 
 	public:

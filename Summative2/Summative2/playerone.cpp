@@ -4,7 +4,8 @@
 CPlayerOne::CPlayerOne() {
 	// Initialise sprite
 	m_pSprite = std::make_unique<CSprite>();
-	m_pSprite->Initialise("Resources/Textures/inca_black2-5.png");
+	m_pSprite->Initialise("Resources/Textures/inca_back2-5.png");
+	m_fRapidFireTimer = 1.0f;
 }
 
 CPlayerOne::~CPlayerOne(){}
@@ -34,9 +35,16 @@ void CPlayerOne::Process(float _fDeltaTick) {
 	// Adjust for speed and time
 	if (glm::length(m_vfMovementVector) != 0) {
 		m_vfMovementVector = glm::normalize(m_vfMovementVector);
+		glm::vec3 vDefaultAngle = glm::vec3(0.0f, 1.0f, 0.0f);
+		float fDot = glm::dot(vDefaultAngle, m_vfMovementVector);
+		float fAngle = acosf(fDot);// / (vDefaultAngle.length() * m_vfMovementVector.length());
+		if (m_vfMovementVector.x > 0) {
+			fAngle = glm::radians(360 - glm::degrees(fAngle));
+		}
+		m_pSprite->SetAngle(fAngle);
 	}
 
-	m_vfMovementVector *= (m_fSpeed *  _fDeltaTick);
+	m_vfMovementVector *= (m_fSpeed *  _fDeltaTick * m_fMovementSpeed);
 
 
 	// Move
@@ -88,4 +96,71 @@ void CPlayerOne::Process(float _fDeltaTick) {
 		m_vfPosition.y = (float)(Utility::SCR_HEIGHT - Utility::iBoundary);
 		SetPosition(m_vfPosition);
 	}
+
+	/* Allows the player to attack each time m_fAttackCoolDownTimer is greater than the cool down timer */
+	m_fAttackCoolDownTimer += _fDeltaTick;
+	if (m_fRapidFireTimer < m_fAttackCoolDownTimer)
+	{
+		m_bCanAttack = true;
+	}
+	else if (0.25 < m_fAttackCoolDownTimer && !m_bCanAttack)
+	{
+		m_pSprite->SetTextureIndex(0);
+		m_pSprite->SetScale(m_pSprite->GetOriginalScale());
+	}
+
+	if (m_bSpeeding)
+	{
+		m_fSpeedCoolDown += _fDeltaTick;
+		if (3.0f < m_fSpeedCoolDown)
+		{
+			m_fMovementSpeed = 1.0f;
+			m_bSpeeding = false;
+		}
+	}
+
+	if (m_bRapidAttack)
+	{
+		m_fRapidFireCooldown += _fDeltaTick;
+		if (3.0f < m_fRapidFireCooldown)
+		{
+			m_fRapidFireTimer = 1.0f;
+			m_bRapidAttack = false;
+		}
+	}
+
+	if (m_bRebalance)
+	{
+		/*m_fRebalanceCoolDown += _fDeltaTick;
+		if (3.0f < m_fRebalanceCoolDown)
+		{
+			m_fRebalanceCurrentPlayer = 1.0f;
+			m_fRebalanceOtherPlayer = 1.0f;
+			m_bRapidAttack = false;
+		}*/
+	}
+}
+
+void CPlayerOne::Attack()
+{
+	if (m_bCanAttack)
+	{
+		//Do attack code
+		m_pSprite->AddTexture("Resources/Textures/inca_back2-5 - Copy.png");
+		m_pSprite->SetTextureIndex(1);
+		m_pSprite->SetScale(glm::vec3(m_pSprite->GetScale().x * 2, m_pSprite->GetScale().y * 3, m_pSprite->GetScale().z));
+
+		m_fAttackCoolDownTimer = 0;
+		m_bCanAttack = false;
+	}
+}
+
+bool CPlayerOne::AttackReady()
+{
+	return(m_bCanAttack);
+}
+
+void CPlayerOne::SetAttackReady(bool _bValue)
+{
+	m_bCanAttack = _bValue;
 }

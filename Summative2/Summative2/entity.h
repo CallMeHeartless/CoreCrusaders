@@ -25,6 +25,7 @@ class CEntity {
 	
 	protected:
 		glm::vec3 m_vfPosition;
+		glm::vec3 m_vfScale;
 		std::unique_ptr<CSprite> m_pSprite;
 		bool m_bIsActive;
 
@@ -40,6 +41,8 @@ class CEntity {
 		// Accessors and mutators
 		void SetPosition(glm::vec3 _newPosition);
 		glm::vec3 GetPosition()const;
+		void SetScale(glm::vec3 _newScale);
+		glm::vec3 GetScale()const;
 		const CSprite* GetSprite()const;
 		void UpdatePosition(float _fdX, float _fdY);
 		void SetActive(bool _bState);

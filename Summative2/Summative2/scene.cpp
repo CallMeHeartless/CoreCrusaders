@@ -15,6 +15,7 @@ Mail        :   kerry.pel7420@mediadesign.school.nz
 #include "input.h"
 #include "playerone.h"
 #include "playertwo.h"
+#include "homebase.h"
 #include "pickup.h"
 #include "scenemanager.h"
 #include "particlesystem.h"
@@ -27,7 +28,6 @@ CScene::CScene() {}
 
 CScene::~CScene(){}
 
-
 /***********************
 * Process: Process one frame of game logic for the scene
 * @author: Kerry Pellett (2018)
@@ -35,7 +35,66 @@ CScene::~CScene(){}
 * @return: void
 ********************/
 void CScene::Process(float _fDeltaTick) {
-	
+	ProcessObjects(_fDeltaTick);
+
+	//Score
+	m_vecpText[0]->SetText("Score: " + std::to_string(m_iPlayerScore));
+
+	HandlePlayerAttacks();
+	/// COLLISIONS
+	HandleCollisions();
+
+	// Remove Expired Objects
+	RemoveExpiredObjects();
+
+	m_fSpawnNextPickUp -= _fDeltaTick;
+	if (0.0f >= m_fSpawnNextPickUp)
+	{
+		int iMyPickupLocation = rand() % m_vecpPickups.size();
+		int breakCounter = 20;
+		while (m_vecpPickups[iMyPickupLocation]->CheckIfActive() && 0 < breakCounter)
+		{
+			iMyPickupLocation = rand() % m_vecpPickups.size();
+			breakCounter -= 1;
+		}
+
+		if (0 < breakCounter)
+		{
+			m_vecpPickups[iMyPickupLocation]->SetActive(true);
+			//Set a type 
+		}
+
+		m_fSpawnNextPickUp = (float)(rand() % 30); // Pickus can spawn anywhere from 0-30 seconds after
+	}
+	//Checking that the base health hasn't changed - If it has, resize the base health scale
+	//if ((int)(m_vecpEntities[1]->GetScale().x / 3.0f) != m_pHomeBase->GetHealth())
+	//{
+	//	m_vecpEntities[1]->SetScale(glm::vec3((float)m_pHomeBase->GetHealth() * 3.0f, 20.0f, 0.0f));
+	//}
+
+	m_fSpawnNextPickUp -= _fDeltaTick;
+	if (0 >= m_fSpawnNextPickUp)
+	{
+		int iMyPickupLocation = rand() % m_vecpPickups.size();
+		int breakCounter = 20;
+		int iRandomType = rand() % 4;
+		while (m_vecpPickups[iMyPickupLocation]->CheckIfActive() && 0 < breakCounter)
+		{
+			iMyPickupLocation = rand() % m_vecpPickups.size();
+			breakCounter -= 1;
+		}
+
+		if (0 < breakCounter)
+		{
+			m_vecpPickups[iMyPickupLocation]->SetType(static_cast<EPICKUP_TYPES>(iRandomType));
+			m_vecpPickups[iMyPickupLocation]->SetActive(true);
+		}
+
+		m_fSpawnNextPickUp = (float)(rand() % 5) + 5; // Pickus can spawn anywhere from 5-20 seconds after
+	}
+}
+
+void CScene::ProcessObjects(float _fDeltaTick) {
 	// Process players
 	for (auto& player : m_vecpPlayers) {
 		player->Process(_fDeltaTick);
@@ -46,8 +105,88 @@ void CScene::Process(float _fDeltaTick) {
 		bullet->Process(_fDeltaTick);
 	}
 
-	/// COLLISIONS
+	// Process entities
+	for (auto& entity : m_vecpEntities) {
+		entity->Process(_fDeltaTick);
+	}
+	// Process pickups
+	for (auto& pickup : m_vecpPickups)
+	{
+		pickup->Process(_fDeltaTick);
+	}
+	// Process Enemies
+	for (auto& enemy : m_vecpEnemies) {
+		glm::vec3 vTargetPos;
 
+		switch (enemy->GetTarget())
+		{
+		case ETARGET_PLAYER_ONE:
+		{
+			vTargetPos = m_vecpPlayers[0]->GetPosition();
+			break;
+		}
+		case ETARGET_PLAYER_TWO:
+		{
+			vTargetPos = m_vecpPlayers[1]->GetPosition();
+			break;
+		}
+		default: //Base
+			vTargetPos = glm::vec3(0.0f, 0.0f, 0.0f);
+			break;
+		}
+		enemy->Process(_fDeltaTick, vTargetPos);
+		// Check for collision with base
+		if (CheckForCollision(enemy.get(), m_pHomeBase.get())) {
+			// Damage core
+			m_pHomeBase->SetHealth(m_pHomeBase->GetHealth() - enemy->GetDamage());
+			// Update health bar
+			m_vecpEntities[1]->SetScale(glm::vec3((float)m_pHomeBase->GetHealth() * 3.0f, 20.0f, 0.0f));
+			// Destroy enemy
+			enemy->Kill();
+		}
+	}
+}
+
+void CScene::RemoveExpiredObjects() {
+	// Remove expired bullets
+	if (!m_vecpBullets.empty()) {
+		m_vecpBullets.erase(std::remove_if(m_vecpBullets.begin(), m_vecpBullets.end(),
+			[](const std::unique_ptr<CProjectile>& bullet) {return bullet->CheckIfExpired(); }), m_vecpBullets.end());
+	}
+
+	// Remove expired enemies
+	if (!m_vecpEnemies.empty()) {
+		m_vecpEnemies.erase(std::remove_if(m_vecpEnemies.begin(), m_vecpEnemies.end(),
+			[](const std::unique_ptr<CEnemy>& enemy) {return !enemy->CheckIfAlive(); }), m_vecpEnemies.end());
+	}
+}
+
+void CScene::HandlePlayerAttacks() {
+	// Player One
+	if (m_vecpPlayers[0]->AttackReady() && CInput::GetInstance()->KeyDown(' '))
+	{
+		m_vecpPlayers[0]->Attack();
+	}
+
+	// PlayerTwo attack
+	if (m_vecpPlayers[1]->AttackReady() && CInput::GetInstance()->GetMouseButton(MOUSE_LEFT) == INPUT_FIRST_PRESSED) {
+		m_vecpPlayers[1]->Attack();
+		// Determine bullet direction
+		glm::vec3 vfMousePos = glm::vec3(CInput::GetInstance()->GetMousePosition(), 0);
+		vfMousePos.y = (float)Utility::SCR_HEIGHT - vfMousePos.y;
+		glm::vec3 vfPlayerTwoPosition = m_vecpPlayers[1]->GetPosition();
+		glm::vec3 vfAimTarget = vfMousePos - vfPlayerTwoPosition;
+		if (glm::length(vfAimTarget) != 0) {
+			vfAimTarget = glm::normalize(vfAimTarget);
+		}
+		// Create new bullet
+		auto bullet = std::make_unique<CProjectile>(vfPlayerTwoPosition, vfAimTarget);
+		bullet->SetPosition(vfPlayerTwoPosition);
+		m_vecpBullets.push_back(std::move(bullet));
+	}
+}
+
+void CScene::HandleCollisions() {
 	// Bullet - enemy collision
 	for (auto& bullet : m_vecpBullets) {
 		for (auto& enemy : m_vecpEnemies) {
@@ -56,16 +195,73 @@ void CScene::Process(float _fDeltaTick) {
 				bullet->MarkAsExpired();
 
 				// Damage enemy
+				enemy->Damage(1, false); // Update with damage functionality later
 			}
 		}
 	}
 
+	// Pickup - Player collision
+	for (auto& player : m_vecpPlayers) {
+		for (auto& pickup : m_vecpPickups) {
+			if (CheckForCollision(player.get(), pickup.get())) {
+				if (pickup->CheckIfActive())
+				{
+					pickup->SetActive(false);
 
-	// Remove expired bullets
-	if (!m_vecpBullets.empty()) {
-		m_vecpBullets.erase(std::remove_if(m_vecpBullets.begin(), m_vecpBullets.end(),
-			[](const std::unique_ptr<CProjectile>& bullet) {return bullet->CheckIfExpired(); }), m_vecpBullets.end());
+					switch (pickup->GetType())
+					{
+					case ERAPID_FIRE:
+					{
+						std::cout << "Rapid Fire" << std::endl;
+						player->IncreaseAttackSpeed();
+						break;
+					}
+					case ESPEED:
+					{
+						std::cout << "Spped" << std::endl;
+						player->IncreaseSpeed();
+						break;
+					}
+					case EHIGHER_ENEMY_DAMAGE:
+					{
+						std::cout << "Higher Enemy Damage" << std::endl;
+						//player->InitiateRebalance();
+						break;
+					}
+					default: // ESCORE
+						std::cout << "Score" << std::endl;
+						m_iPlayerScore += 10;
+						m_vecpText[0]->SetText("Score: " + m_iPlayerScore);
+						break;
+					}
+				}
+			}
+		}
 	}
+
+	//Base collision with player
+	if (CheckForCollision(m_pHomeBase.get(), m_vecpPlayers[0].get()))
+	{
+		//pushes player away
+		glm::vec3 desiredVel = m_vecpPlayers[0].get()->GetPosition() - m_pHomeBase.get()->GetPosition();
+
+		if (glm::length(desiredVel) != 0.0f)
+			desiredVel = (glm::normalize(desiredVel) * 4.1f);
+		else
+			desiredVel = glm::vec3();
+
+		m_vecpPlayers[0].get()->SetPosition((m_vecpPlayers[0].get()->GetPosition() + desiredVel));
+
+	}
+
+	//Checking that the base health hasn't changed - If it has, resize the base health scale
+	//if ((int)(m_vecpEntities[1]->GetScale().x / 3.0f) != m_pHomeBase->GetHealth())
+	//{
+	//	m_vecpEntities[1]->SetScale(glm::vec3((float)m_pHomeBase->GetHealth() * 3.0f, 20.0f, 0.0f));
+	//}
+
+	// Remove Expired Objects
+	RemoveExpiredObjects();
 }
 
 /***********************
@@ -75,15 +271,41 @@ void CScene::Process(float _fDeltaTick) {
 * @return: void
 ********************/
 void CScene::Render() {
+	//Render Entities
+	for (auto& entity : m_vecpEntities) {
+		entity->Render(m_pGameCamera.get());
+	}
+
+	// Render Pickups
+	for (auto& pickup : m_vecpPickups) {
+		if (pickup->CheckIfActive()) {
+			pickup->Render(m_pGameCamera.get());
+		}
+	}
+
 	// Render players
 	for (auto& player : m_vecpPlayers) {
 		player->Render(m_pGameCamera.get());
+	}
+
+	// Render Enemies
+	for (auto& enemy : m_vecpEnemies) {
+		enemy->Render(m_pGameCamera.get());
 	}
 
 	// Render projectiles
 	for (auto& bullet : m_vecpBullets) {
 		bullet->Render(m_pGameCamera.get());
 	}
+
+	//Render Text
+	for (auto& text : m_vecpText)
+	{
+		text->Render();
+	}
+
+	// Render Base
+	m_pHomeBase->Render(m_pGameCamera.get());
 }
 
 /***********************
@@ -97,24 +319,86 @@ bool CScene::Initialise(int _iMap) {
 	//COutputLog::GetInstance()->LogMessage("Beginning level intialisation.");
 	// Clear variables and reset timers
 	m_vecpPlayers.clear();
+	m_vecpEntities.clear();
+	m_vecpBullets.clear();
+	m_vecpEnemies.clear();
+	m_vecpPickups.clear();
+
 	m_fEnemySpawnTimer = 0.0f;
 	m_fPickupSpawnTimer = 0.0f;
 	m_iEnemyWaveCount = 0;
 
-	
+
 	// Create Camera
+<<<<<<< HEAD
 	m_pGameCamera = std::make_unique<CCamera>(Utility::SCR_WIDTH, Utility::SCR_HEIGHT);
+=======
+	m_pGameCamera = std::make_unique<CCamera>((float)Utility::SCR_WIDTH, (float)Utility::SCR_HEIGHT);
+
+>>>>>>> 4a1d9ad521c5cd6d7fc59ee5637dafdd901d4c38
 
 	// Create players
 	auto player1 = std::make_unique<CPlayerOne>();
-	player1->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f, 0.0f));
+	player1->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f + 50.0f, 0.0f));
 	m_vecpPlayers.push_back(std::move(player1));
 
 	auto player2 = std::make_unique<CPlayerTwo>();
-	player2->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f + 20.0f, (float)Utility::SCR_HEIGHT / 2.0f + 20.0f, 0.0f));
+	player2->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, m_vecRailLocations[0].y, 0.0f));
 	player2->SetRailCorners(m_vecRailLocations);
 	m_vecpPlayers.push_back(std::move(player2));
+
+	// Test enemy
+	auto enemy = std::make_unique<CEnemy>(DRONE);
+	enemy->SetPosition(m_vecRailLocations[1]);
+	m_vecpEnemies.push_back(std::move(enemy));
+
+	m_pHomeBase = std::make_unique<CHomeBase>();
+	m_pHomeBase->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f, 0.0f));
+
+
+	//Create Entities 
+	//Rails
+	auto rails = std::make_unique<CEntity>();
+	rails->Initialise("Resources/Textures/Rails.png");
+	rails->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f, 0.0f));
+	rails->SetScale(glm::vec3(567.0f, 567.0f, 0.0f));
+	m_vecpEntities.push_back(std::move(rails));
+
+	//BaseHealth
+	auto baseHealth = std::make_unique<CEntity>();
+	baseHealth->Initialise("Resources/Textures/Health.jpg");
+	baseHealth->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f - 75.0f, 0.0f));
+	baseHealth->SetScale(glm::vec3((float)m_pHomeBase->GetHealth() * 3.0f, 20.0f, 0.0f));
+	m_vecpEntities.push_back(std::move(baseHealth));
+
+
+	// PickUps
+	for (unsigned int i{}; i < 4; ++i)
+	{
+		auto pickup = std::make_unique<CPickup>();
+		pickup->SetPosition(m_vecRailLocations[i]);
+		pickup->SetActive(false);
+		m_vecpPickups.push_back(std::move(pickup));
+	}
+
+
+	int iMyPickupLocation = rand() % m_vecpPickups.size();
+	int iRandomType = rand() % 4;
+	while (m_vecpPickups[iMyPickupLocation]->CheckIfActive())
+	{
+		iMyPickupLocation = rand() % m_vecpPickups.size();
+	}
+
+	m_vecpPickups[iMyPickupLocation]->SetActive(true);
+	m_vecpPickups[iMyPickupLocation]->SetType(static_cast<EPICKUP_TYPES>(iRandomType));
 	
+
+	//Create Text
+	auto text = std::make_unique<TextLabel>("Score: 0", "Resources/Fonts/lunchds.ttf", glm::vec2((float)Utility::SCR_WIDTH / 2.0f - 100, (float)Utility::SCR_HEIGHT / 2.0f + 400));
+	text->SetColor(glm::vec3(1.0f, 1.0f, 1.0f));
+	text->SetScale(1.0f);
+	m_vecpText.push_back(std::move(text));
+
 
 	// Create Audio
 	if (Utility::InitFMod(&m_pAudioManager)) {
@@ -226,25 +510,25 @@ void CScene::SpawnPickup() {
 * @parameter: const CMesh* const _kpMesh1, const CMesh* const _kpMesh2
 * @return: bool (true if the meshes overlap)
 ********************/
-bool CScene::CheckForCollision(const CEntity* const _kpMesh1, const CEntity* const _kpMesh2){
+bool CScene::CheckForCollision(const CEntity* const _kpMesh1, const CEntity* const _kpMesh2) {
 
 	// Obtain data for object A
 	float fObjectAX = _kpMesh1->GetPosition().x;
-	float fObjectAY = _kpMesh1->GetPosition().z;
-	float fObjectAW = _kpMesh1->GetSprite()->GetScale().x;			
-	float fObjectAH = _kpMesh1->GetSprite()->GetScale().z;
+	float fObjectAY = _kpMesh1->GetPosition().y;
+	float fObjectAW = _kpMesh1->GetSprite()->GetScale().x;
+	float fObjectAH = _kpMesh1->GetSprite()->GetScale().y;
 
 	// Obtain data for object B
 	float fObjectBX = _kpMesh2->GetPosition().x;
-	float fObjectBY = _kpMesh2->GetPosition().z;
+	float fObjectBY = _kpMesh2->GetPosition().y;
 	float fObjectBW = _kpMesh2->GetSprite()->GetScale().x;
-	float fObjectBH = _kpMesh2->GetSprite()->GetScale().z;
+	float fObjectBH = _kpMesh2->GetSprite()->GetScale().y;
 
 	// Check for overlap
-	if ((fObjectAX + fObjectAW  > fObjectBX - fObjectBW ) &&		// Object's right side > target's left
-		(fObjectAX - fObjectAW  < fObjectBX + fObjectBW ) &&		// Object's left side < target's right
-		(fObjectAY + fObjectAH > fObjectBY - fObjectBH ) &&		// Object's top > target's bottom
-		(fObjectAY - fObjectAH  < fObjectBY + fObjectBH )) {		// Object's bottom < target's top
+	if ((fObjectAX + fObjectAW / 2.0f  > fObjectBX - fObjectBW / 2.0f) &&		// Object's right side > target's left
+		(fObjectAX - fObjectAW / 2.0f  < fObjectBX + fObjectBW / 2.0f) &&		// Object's left side < target's right
+		(fObjectAY + fObjectAH / 2.0f > fObjectBY - fObjectBH / 2.0f) &&		// Object's top > target's bottom
+		(fObjectAY - fObjectAH / 2.0f  < fObjectBY + fObjectBH / 2.0f)) {		// Object's bottom < target's top
 		return true;
 	}
 
@@ -289,7 +573,6 @@ bool CScene::LoadSounds() {
 
 	return bAllLoaded;
 }
-
 
 /***********************
 * FindClosestPlayer: Finds the closest player to the position (of an AI)

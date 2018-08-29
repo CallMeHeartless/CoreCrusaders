@@ -10,7 +10,9 @@ class CPlayerOne : public CPlayer {
 		virtual ~CPlayerOne();
 
 		virtual void Process(float _fDeltaTick);
-
+		virtual void Attack();
+		virtual bool AttackReady();
+		virtual void SetAttackReady(bool _bValue);
 };
 
 
