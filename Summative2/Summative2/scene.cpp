@@ -62,7 +62,7 @@ void CScene::Process(float _fDeltaTick) {
 	// Check if wave has been cleared
 	if (!CheckIfWaveIsCleared()) {
 		// Spawn more enemies if needed
-		ProcessWave(_fDeltaTick);
+		//ProcessWave(_fDeltaTick); [REFACTOR: Enemy spawn positions need defining, this will crash otherwise]
 	}
 	
 }
@@ -288,7 +288,13 @@ void CScene::ProcessWave(float _fDeltaTick) {
 		}
 
 		// Spawn enemy
+		if (uiSpawnIndex < 3) {
+			auto enemy = std::make_unique<CEnemy>(uiSpawnIndex); // indexes correspond to ETYPE enum
+			enemy->SetPosition(m_vecEnemySpawnPoints[uiSpawnPositionIndex]);
+			m_vecpEnemies.push_back(std::move(enemy));
 
+		}
+		--m_veciEnemiesInWave[uiSpawnIndex];
 	}
 }
 
@@ -354,7 +360,7 @@ bool CScene::Initialise() {
 
 	m_fEnemySpawnTimer = 0.0f;
 	m_iEnemyWaveCount = 0;
-	m_veciEnemiesInWave = LEVEL_INFO::SPAWNS[m_iEnemyWaveCount];
+	InitialiseWave();
 
 	// Create Camera
 //<<<<<<< HEAD
