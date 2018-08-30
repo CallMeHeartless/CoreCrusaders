@@ -145,3 +145,7 @@ bool CEnemy::CheckIfAlive()const {
 void CEnemy::Kill() {
 	m_bIsAlive = false;
 }
+
+int CEnemy::GetPoints()const {
+	return m_iPoints;
+}

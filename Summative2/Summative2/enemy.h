@@ -38,6 +38,7 @@ class CEnemy : public CEntity {
 		int m_iDamage = 1;
 		int m_iLife = 1;
 		glm::vec3 m_vfVelocity = glm::vec3(0, 0, 0);
+		int m_iPoints = 10;
 
 	public:
 		CEnemy();
@@ -54,6 +55,7 @@ class CEnemy : public CEntity {
 		void Damage(int _iDamage, bool _bIsPlayerOne);
 		bool CheckIfAlive()const;
 		void Kill();
+		int GetPoints()const;
 };
 
 #endif // !__ENEMY_H__

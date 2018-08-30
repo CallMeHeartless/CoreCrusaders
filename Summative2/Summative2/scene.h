@@ -23,12 +23,7 @@ class CPlayer;
 class CPlayerOne;
 class CPlayerTwo;
 class CHomeBase;
-class CAIManager;
-class CCubeMap;
-class CCube;
 class CPickup;
-class CMesh;
-class CParticleSystem;
 class CEntity;
 class CProjectile;
 class CEnemy;
@@ -40,8 +35,8 @@ protected:
 private:
 	// Game variables
 	std::unique_ptr<CCamera> m_pGameCamera;
-	glm::vec3 m_vfCameraOffset = glm::vec3(0.0f, 75.0f, 20.0f);
 	int m_iPlayerScore = 0;
+	int m_uiPlayerKillCount = 0;
 	bool m_bGodModeReference = false;
 
 	// Player Variables
@@ -65,6 +60,8 @@ private:
 	std::vector<std::unique_ptr<CEnemy>> m_vecpEnemies;
 	std::vector<glm::vec3> m_vecEnemySpawnPoints;
 	std::vector<unsigned int> m_veciEnemiesInWave;
+	unsigned int m_iEnemiesKilledInWave = 0;
+	unsigned int m_iEnemiesInWave = 0;
 	float m_fEnemySpawnTimer = 0.0f;
 	float m_fEnemySpawnDelay = 2.0f;
 	float m_fEnemySpawnMin = 0.5f;
@@ -73,7 +70,6 @@ private:
 
 	//Text
 	std::vector<std::unique_ptr<TextLabel>> m_vecpText;
-
 
 	// Audio
 	FMOD::System* m_pAudioManager;
@@ -89,7 +85,9 @@ private:
 	void ProcessObjects(float _fDeltaTick);
 	void ProcessPickupSpawn(float _fDeltaTick);
 	void HandleCollisions();
+	void InitialiseWave();
 	void ProcessWave(float _fDeltaTick);
+	bool CheckIfWaveIsCleared()const;
 
 
 	public:
@@ -99,7 +97,7 @@ private:
 		virtual void Render();
 		virtual void Process(float _fDeltaTick);
 
-		bool Initialise(int _iMap);
+		bool Initialise();
 
 		glm::vec3 MouseRayToWorldSpace();
 		void SpawnBullet(glm::vec3 _vfPosition, glm::vec3 _vfVelocity, bool _bIsEnemy, unsigned int _uiOwner);

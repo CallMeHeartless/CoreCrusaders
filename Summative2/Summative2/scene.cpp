@@ -53,14 +53,18 @@ void CScene::Process(float _fDeltaTick) {
 	// Spawn pickup if needed
 	ProcessPickupSpawn(_fDeltaTick);
 
-	// Spawn more enemies if needed
-	ProcessWave(_fDeltaTick);
-
 	// Check for Game over
 	if (CheckForGameOver()) {
 		// Implement scene change to game over menu
 		// CSceneManager::GetInstance()->LoadGameMenu(MENU_GAME_OVER);
 	}
+
+	// Check if wave has been cleared
+	if (!CheckIfWaveIsCleared()) {
+		// Spawn more enemies if needed
+		ProcessWave(_fDeltaTick);
+	}
+	
 }
 
 void CScene::ProcessObjects(float _fDeltaTick) {
@@ -112,6 +116,7 @@ void CScene::ProcessObjects(float _fDeltaTick) {
 			m_vecpEntities[1]->SetScale(glm::vec3((float)m_pHomeBase->GetHealth() * 3.0f, 20.0f, 0.0f));
 			// Destroy enemy
 			enemy->Kill();
+			++m_iEnemiesKilledInWave; // Does not count to player's total, only for wave completion
 		}
 	}
 }
@@ -165,6 +170,13 @@ void CScene::HandleCollisions() {
 
 				// Damage enemy
 				enemy->Damage(1, false); // Update with damage functionality later
+				// If killed, add points
+				if (!enemy->CheckIfAlive()) {
+					++m_iEnemiesKilledInWave;
+					// Add score
+					m_iPlayerScore += enemy->GetPoints();
+					++m_uiPlayerKillCount;
+				}
 			}
 		}
 	}
@@ -222,15 +234,6 @@ void CScene::HandleCollisions() {
 		m_vecpPlayers[0].get()->SetPosition((m_vecpPlayers[0].get()->GetPosition() + desiredVel));
 
 	}
-
-	//Checking that the base health hasn't changed - If it has, resize the base health scale
-	//if ((int)(m_vecpEntities[1]->GetScale().x / 3.0f) != m_pHomeBase->GetHealth())
-	//{
-	//	m_vecpEntities[1]->SetScale(glm::vec3((float)m_pHomeBase->GetHealth() * 3.0f, 20.0f, 0.0f));
-	//}
-
-	// Remove Expired Objects
-	RemoveExpiredObjects();
 }
 
 void CScene::ProcessPickupSpawn(float _fDeltaTick) {
@@ -256,10 +259,35 @@ void CScene::ProcessPickupSpawn(float _fDeltaTick) {
 	}
 }
 
+void CScene::InitialiseWave() {
+	// Load the enemies to be spawned this wave
+	m_veciEnemiesInWave = LEVEL_INFO::SPAWNS[m_iEnemyWaveCount];
+	// Iterate through vector to find total number of enemies to be killed this round
+	m_iEnemiesInWave = 0;
+	for (unsigned int i = 0; i < m_veciEnemiesInWave.size(); ++i) {
+		m_iEnemiesInWave += m_veciEnemiesInWave[i];
+	}
+
+}
+
+bool CScene::CheckIfWaveIsCleared()const {
+	return m_iEnemiesInWave == m_iEnemiesKilledInWave;
+}
+
 void CScene::ProcessWave(float _fDeltaTick) {
 	m_fEnemySpawnTimer += _fDeltaTick;
 	if (m_fEnemySpawnTimer > -m_fEnemySpawnDelay) {
+		// Reset timer
 		m_fEnemySpawnTimer = 0.0f;
+		m_fEnemySpawnDelay = static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (m_fEnemySpawnMax - m_fEnemySpawnMin)));
+		// Get random position and type of enemy to spawn
+		unsigned int uiSpawnPositionIndex = rand() % (m_vecEnemySpawnPoints.size());
+		unsigned int uiSpawnIndex = rand() % m_veciEnemiesInWave.size();
+		while (m_veciEnemiesInWave[uiSpawnIndex] == 0) {
+			uiSpawnIndex = rand() % m_veciEnemiesInWave.size();
+		}
+
+		// Spawn enemy
 
 	}
 }
@@ -314,7 +342,7 @@ void CScene::Render() {
 * @parameter: int _iMap (the first map to load)
 * @return: bool (true on success)
 ********************/
-bool CScene::Initialise(int _iMap) {
+bool CScene::Initialise() {
 	// Log
 	//COutputLog::GetInstance()->LogMessage("Beginning level intialisation.");
 	// Clear variables and reset timers
