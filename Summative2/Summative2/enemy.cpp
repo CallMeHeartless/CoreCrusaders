@@ -16,8 +16,10 @@ CEnemy::CEnemy(){}
 * @parameter: ETYPE _eType (enemy type to be instantiated)
 * @return: CEnemy&
 ********************/
-CEnemy::CEnemy(ETYPE _eType):m_eType(_eType) {
+CEnemy::CEnemy(unsigned int _eType) {
 		// Initialise Sprites
+	m_eType = static_cast<ETYPE>(_eType);
+
 	switch (m_eType) {
 		case DRONE: {
 			Initialise("Resources/Textures/Stalker1.png");

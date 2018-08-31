@@ -42,7 +42,7 @@ class CEnemy : public CEntity {
 
 	public:
 		CEnemy();
-		CEnemy(ETYPE _eType);
+		CEnemy(unsigned int _eType);
 		virtual ~CEnemy();
 
 		virtual void Process(float _fDeltaTick, glm::vec3 _vecTargetPosition);

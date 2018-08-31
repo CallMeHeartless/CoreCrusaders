@@ -83,7 +83,7 @@ bool CSceneManager::LoadLevel(int _iMap) {
 	m_iScore = 0;
 	m_pActiveScene = std::make_unique<CScene>();
 
-	return m_pActiveScene->Initialise(_iMap);
+	return m_pActiveScene->Initialise(); // originally passed in _iMap, but that broke - Sally
 }
 
 /***********************

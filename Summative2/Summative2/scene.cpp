@@ -327,11 +327,6 @@ void CScene::Render() {
 		enemy->Render(m_pGameCamera.get());
 	}
 
-	// Render projectiles
-	for (auto& bullet : m_vecpBullets) {
-		bullet->Render(m_pGameCamera.get());
-	}
-
 	//Render Text
 	for (auto& text : m_vecpText)
 	{
@@ -340,6 +335,11 @@ void CScene::Render() {
 
 	// Render Base
 	m_pHomeBase->Render(m_pGameCamera.get());
+
+	// Render projectiles, they will go over everything else
+	for (auto& bullet : m_vecpBullets) {
+		bullet->Render(m_pGameCamera.get());
+	}
 }
 
 /***********************
