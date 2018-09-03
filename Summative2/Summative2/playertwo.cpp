@@ -12,6 +12,10 @@ CPlayerTwo::CPlayerTwo(){
 CPlayerTwo::~CPlayerTwo(){}
 
 void CPlayerTwo::Process(float _fDeltaTick) {
+
+	CPlayer::Process(_fDeltaTick);
+
+
 	// Create movement vector.
 	m_vfMovementVector = glm::vec3(0.0f, 0.0f, 0.0f);
 	std::vector<unsigned int> vecuiInput = CInput::GetInstance()->GetPlayerMovement(false);
@@ -38,7 +42,10 @@ void CPlayerTwo::Process(float _fDeltaTick) {
 		m_vfMovementVector = glm::normalize(m_vfMovementVector);
 	}
 
-	m_vfMovementVector *= (m_fSpeed *  _fDeltaTick * m_fMovementSpeed);
+	if (!m_bStunned)
+	{
+		m_vfMovementVector *= (m_fSpeed *  _fDeltaTick * m_fMovementSpeed);
+	}
 
 	// Move only orthogonaly
 	if (m_vfMovementVector.x != 0.0f && CanMoveHorizontal()) {

@@ -12,9 +12,9 @@ Mail        :   kerry.pel7420@mediadesign.school.nz
 #include "entity.h"
 
 enum ETYPE {
-	DRONE,
-	TANK,
-	SPRINTER
+	EDRONE,
+	ETANK,
+	ESPRINTER,
 };
 
 enum ETARGET {
@@ -26,6 +26,7 @@ enum ETARGET {
 class CEnemy : public CEntity {
 	protected:
 		ETYPE m_eType;
+		ETARGET m_eTarget;
 		float m_fFrameW;
 		float m_fFrameH;
 		float m_fAnimationTimer = 0.0f;
@@ -34,7 +35,6 @@ class CEnemy : public CEntity {
 		bool m_bIsAlive = true;
 		float m_fMoveSpeed = 300.0f;
 		glm::vec3 m_vfTarget;
-		ETARGET m_eTarget;
 		int m_iDamage = 1;
 		int m_iLife = 1;
 		glm::vec3 m_vfVelocity = glm::vec3(0, 0, 0);
@@ -42,15 +42,15 @@ class CEnemy : public CEntity {
 
 	public:
 		CEnemy();
-		CEnemy(unsigned int _eType);
+		CEnemy(unsigned int _eType, unsigned int _eTarget);
 		virtual ~CEnemy();
 
 		virtual void Process(float _fDeltaTick, glm::vec3 _vecTargetPosition);
 
 		float DistanceToTarget(glm::vec3 _vecTartgetPosition);
 
-		void SetTarget(ETARGET _eTarget);
-		ETARGET GetTarget()const;
+		ETYPE GetEnemyType()const;
+		ETARGET GetTargetType() const;
 		int GetDamage()const;
 		void Damage(int _iDamage, bool _bIsPlayerOne);
 		bool CheckIfAlive()const;

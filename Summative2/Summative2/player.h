@@ -43,6 +43,12 @@ class CPlayer : public CEntity {
 		float m_fRebalanceCoolDown = 0.0f;
 		bool m_bRebalance = false;
 
+		//Stun player
+		bool m_bStunned = false;
+		bool m_bInvincible = false;
+		float m_fStunCoolDown = 0.0f;
+		float m_fInvincibleTimer = 0.0f;
+
 	public:
 		CPlayer();
 		virtual ~CPlayer();
@@ -63,6 +69,10 @@ class CPlayer : public CEntity {
 		void IncreaseAttackSpeed();
 		void InitiateRebalance();
 
+		//Stunned
+		void SetStunned(bool _bIsStunned);
+		bool GetStunned();
+		bool GetInvincible();
 };
 
 #endif // !__PLAYER_H__
