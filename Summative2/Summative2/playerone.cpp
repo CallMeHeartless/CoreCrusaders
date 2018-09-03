@@ -155,7 +155,7 @@ void CPlayerOne::Attack()
 		//Do attack code
 		m_pSprite->AddTexture("Resources/Textures/inca_back2-5 - Copy.png");
 		m_pSprite->SetTextureIndex(1);
-		m_pSprite->SetScale(glm::vec3(m_pSprite->GetScale().x * 2, m_pSprite->GetScale().y * 3, m_pSprite->GetScale().z));
+		m_pSprite->SetScale(glm::vec3(m_pSprite->GetScale().x * 2, m_pSprite->GetScale().y * 2, m_pSprite->GetScale().z));
 
 		m_fAttackCoolDownTimer = 0;
 		m_bCanAttack = false;
