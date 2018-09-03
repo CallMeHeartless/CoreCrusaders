@@ -219,7 +219,19 @@ void CScene::HandleCollisions() {
 				bullet->MarkAsExpired();
 
 				// Damage enemy
-				enemy->Damage(1, false); // Update with damage functionality later
+				if (m_vecpPlayers[0]->GetRebalance())
+				{
+					enemy->Damage(0.5, false);
+				}
+				else if (m_vecpPlayers[1]->GetRebalance())
+				{
+					enemy->Damage(2, false);
+				}
+				else
+				{
+					enemy->Damage(1, false);
+				}
+
 				// If killed, add points
 				if (!enemy->CheckIfAlive()) {
 					++m_iEnemiesKilledInWave;
@@ -233,9 +245,22 @@ void CScene::HandleCollisions() {
 
 	for (auto& enemy : m_vecpEnemies) {
 		if (CheckForCollision(m_vecpPlayers[0].get(), enemy.get()) && m_vecpPlayers[0]->GetAttacking()) {
+
 			// Damage enemy
-			enemy->Damage(1, true); // Update with damage functionality later
-									 // If killed, add points
+			if (m_vecpPlayers[0]->GetRebalance())
+			{
+				enemy->Damage(2, false);
+			}
+			else if (m_vecpPlayers[1]->GetRebalance())
+			{
+				enemy->Damage(0.5, false);
+			}
+			else
+			{
+				enemy->Damage(1, false);
+			}
+
+			// If killed, add points
 			if (!enemy->CheckIfAlive()) {
 				++m_iEnemiesKilledInWave;
 				// Add score
@@ -244,7 +269,7 @@ void CScene::HandleCollisions() {
 			}
 		}
 	}
-
+	
 	// Pickup - Player collision
 	for (auto& player : m_vecpPlayers) {
 		for (auto& pickup : m_vecpPickups) {
@@ -270,7 +295,18 @@ void CScene::HandleCollisions() {
 					case EHIGHER_ENEMY_DAMAGE:
 					{
 						std::cout << "Higher Enemy Damage" << std::endl;
-						//player->InitiateRebalance();
+						if (player == m_vecpPlayers[0] && !m_vecpPlayers[1]->GetRebalance())
+						{
+							player->InitiateRebalance();
+						}
+						else if (player == m_vecpPlayers[1] && !m_vecpPlayers[0]->GetRebalance())
+						{
+							player->InitiateRebalance();
+						}
+						else
+						{
+							pickup->SetActive(true);
+						}
 						break;
 					}
 					default: // ESCORE
@@ -491,12 +527,8 @@ bool CScene::Initialise() {
 	InitialiseEnemySpawnPoints();
 
 	// Create Camera
-//<<<<<<< HEAD
 	m_pGameCamera = std::make_unique<CCamera>(Utility::SCR_WIDTH, Utility::SCR_HEIGHT);
-//=======
 	m_pGameCamera = std::make_unique<CCamera>((float)Utility::SCR_WIDTH, (float)Utility::SCR_HEIGHT);
-
-//>>>>>>> 4a1d9ad521c5cd6d7fc59ee5637dafdd901d4c38
 
 	// Create players
 	auto player1 = std::make_unique<CPlayerOne>();

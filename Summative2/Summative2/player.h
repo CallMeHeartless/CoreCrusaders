@@ -39,8 +39,6 @@ class CPlayer : public CEntity {
 		bool m_bSpeeding = false;
 
 		//Rebalance Timer
-		float m_fRebalanceCurrentPlayer = 1.0f;
-		float m_fRebalanceOtherPlayer = 1.0f;
 		float m_fRebalanceCoolDown = 0.0f;
 		bool m_bRebalance = false;
 
@@ -77,6 +75,9 @@ class CPlayer : public CEntity {
 
 		//Attacking
 		bool GetAttacking() const;
+
+		//GetBalance
+		bool GetRebalance() const;
 };
 
 #endif // !__PLAYER_H__

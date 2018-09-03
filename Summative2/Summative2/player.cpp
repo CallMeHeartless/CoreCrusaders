@@ -118,8 +118,6 @@ void CPlayer::IncreaseAttackSpeed()
 ********************/
 void CPlayer::InitiateRebalance()
 {
-	m_fRebalanceCurrentPlayer = 2.0f;
-	m_fRebalanceOtherPlayer = 0.5f;
 	m_fRebalanceCoolDown = 0.0f;
 	m_bRebalance = true;
 }
@@ -149,4 +147,9 @@ bool CPlayer::GetInvincible()
 bool CPlayer::GetAttacking() const
 {
 	return m_bAttacking;
+}
+
+bool CPlayer::GetRebalance() const
+{
+	return m_bRebalance;
 }

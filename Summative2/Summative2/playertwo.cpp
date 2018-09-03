@@ -145,13 +145,11 @@ void CPlayerTwo::Process(float _fDeltaTick) {
 
 	if (m_bRebalance)
 	{
-		/*m_fRebalanceCoolDown += _fDeltaTick;
-		if (3.0f < m_fRebalanceCoolDown)
+		m_fRebalanceCoolDown += _fDeltaTick;
+		if (5.0f < m_fRebalanceCoolDown)
 		{
-			m_fRebalanceCurrentPlayer = 1.0f;
-			m_fRebalanceOtherPlayer = 1.0f;
-			m_bRapidAttack = false;
-		}*/
+			m_bRebalance = false;
+		}
 	}
 }
 

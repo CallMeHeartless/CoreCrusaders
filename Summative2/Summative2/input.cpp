@@ -228,7 +228,9 @@ void CInput::SpecialKeyUp(int _iKey, int _iX, int _iY) {
 			break;
 		}
 
-		default:break;
+		default:
+			return;
+			break;
 	}
 
 	// Process key down
