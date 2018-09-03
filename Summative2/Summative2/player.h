@@ -24,6 +24,7 @@ class CPlayer : public CEntity {
 		glm::vec3 m_vfMovementVector;
 
 		//Attack Timer
+		bool m_bAttacking = false;
 		bool m_bCanAttack = true;
 		float m_fAttackCoolDownTimer;
 
@@ -73,6 +74,9 @@ class CPlayer : public CEntity {
 		void SetStunned(bool _bIsStunned);
 		bool GetStunned();
 		bool GetInvincible();
+
+		//Attacking
+		bool GetAttacking() const;
 };
 
 #endif // !__PLAYER_H__

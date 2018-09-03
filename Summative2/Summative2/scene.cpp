@@ -114,7 +114,7 @@ void CScene::ProcessObjects(float _fDeltaTick) {
 			break;
 		}
 		default: //Base
-			vTargetPos = glm::vec3(0.0f, 0.0f, 0.0f);
+			vTargetPos = m_pHomeBase->GetPosition();
 			break;
 		}
 		enemy->Process(_fDeltaTick, vTargetPos);
@@ -227,6 +227,20 @@ void CScene::HandleCollisions() {
 					m_iPlayerScore += enemy->GetPoints();
 					++m_uiPlayerKillCount;
 				}
+			}
+		}
+	}
+
+	for (auto& enemy : m_vecpEnemies) {
+		if (CheckForCollision(m_vecpPlayers[0].get(), enemy.get()) && m_vecpPlayers[0]->GetAttacking()) {
+			// Damage enemy
+			enemy->Damage(1, true); // Update with damage functionality later
+									 // If killed, add points
+			if (!enemy->CheckIfAlive()) {
+				++m_iEnemiesKilledInWave;
+				// Add score
+				m_iPlayerScore += enemy->GetPoints();
+				++m_uiPlayerKillCount;
 			}
 		}
 	}
