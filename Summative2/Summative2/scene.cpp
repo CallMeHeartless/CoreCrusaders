@@ -371,7 +371,7 @@ void CScene::ProcessWave(float _fDeltaTick) {
 		// Spawn enemy
 		unsigned int uiHunterType = rand() % 3;
 
-		auto enemy = std::make_unique<CEnemy>(uiSpawnIndex, uiHunterType); // ENEMY must be made as a hunter
+		auto enemy = std::make_unique<CEnemy>(uiSpawnIndex, uiHunterType); // ENEMY is hunter if rand is 1+
 		enemy->SetPosition(m_vecEnemySpawnPoints[uiSpawnPositionIndex]);
 		m_vecpEnemies.push_back(std::move(enemy));
 		
