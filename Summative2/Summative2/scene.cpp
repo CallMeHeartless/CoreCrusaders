@@ -427,7 +427,7 @@ void CScene::InitialiseEnemySpawnPoints() {
 		glm::vec3(900, 500, 0),
 		glm::vec3(100, 900, 0),
 		glm::vec3(500, 900, 0),
-		glm::vec3(900, 900, 0)
+		glm::vec3(900, 900, 1)
 	};
 }
 
