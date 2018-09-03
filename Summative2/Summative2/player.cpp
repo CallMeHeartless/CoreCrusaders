@@ -142,3 +142,8 @@ bool CPlayer::GetInvincible()
 {
 	return m_bInvincible;
 }
+
+bool CPlayer::GetAttacking() const
+{
+	return m_bAttacking;
+}

@@ -231,6 +231,20 @@ void CScene::HandleCollisions() {
 		}
 	}
 
+	for (auto& enemy : m_vecpEnemies) {
+		if (CheckForCollision(m_vecpPlayers[0].get(), enemy.get()) && m_vecpPlayers[0]->GetAttacking()) {
+			// Damage enemy
+			enemy->Damage(1, true); // Update with damage functionality later
+									 // If killed, add points
+			if (!enemy->CheckIfAlive()) {
+				++m_iEnemiesKilledInWave;
+				// Add score
+				m_iPlayerScore += enemy->GetPoints();
+				++m_uiPlayerKillCount;
+			}
+		}
+	}
+
 	// Pickup - Player collision
 	for (auto& player : m_vecpPlayers) {
 		for (auto& pickup : m_vecpPickups) {

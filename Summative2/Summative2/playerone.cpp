@@ -113,6 +113,7 @@ void CPlayerOne::Process(float _fDeltaTick) {
 	{
 		m_pSprite->SetTextureIndex(0);
 		m_pSprite->SetScale(m_pSprite->GetOriginalScale());
+		m_bAttacking = false;
 	}
 
 	if (m_bSpeeding)
@@ -158,6 +159,7 @@ void CPlayerOne::Attack()
 
 		m_fAttackCoolDownTimer = 0;
 		m_bCanAttack = false;
+		m_bAttacking = true;
 	}
 }
 
