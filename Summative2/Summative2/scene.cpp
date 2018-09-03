@@ -384,12 +384,10 @@ void CScene::ProcessWave(float _fDeltaTick) {
 
 		// Spawn enemy
 		if (uiSpawnIndex < 3) {
-			
-			
-
-			auto enemy = std::make_unique<CEnemy>(uiSpawnIndex, 0); // ENEMY is hunter if rand is 1+
+			auto enemy = std::make_unique<CEnemy>(uiSpawnIndex, 0); 
 			enemy->SetPosition(m_vecEnemySpawnPoints[uiSpawnPositionIndex]);
 			m_vecpEnemies.push_back(std::move(enemy));
+		}
 		else {
 			// Determine breed of Hunter
 			unsigned int uiEnemyType = rand() % 3;
@@ -399,6 +397,7 @@ void CScene::ProcessWave(float _fDeltaTick) {
 			m_vecpEnemies.push_back(std::move(enemy));
 		}
 		--m_veciEnemiesInWave[uiSpawnIndex];
+		// Debug info
 		for (unsigned int i = 0; i < m_veciEnemiesInWave.size(); ++i) {
 			std::cout << m_veciEnemiesInWave[i] << " ";
 		}

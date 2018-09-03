@@ -20,15 +20,8 @@ enum EBUTTONID {
 	BUTTON_QUIT,
 	BUTTON_PLAY,
 	BUTTON_MAIN_MENU,
-	BUTTON_NETWORK,
-	BUTTON_CLIENT,
-	BUTTON_HOST,
 	BUTTON_INSTRUCTIONS,
-	BUTTON_TOGGLE_GODMODE,
 	BUTTON_TOGGLE_MUSIC,
-	BUTTON_TOGGLE_AI_TEST,
-	BUTTON_REFRESH,
-	BUTTON_CONNECT
 };
 
 // A button has a sprite and an ID
@@ -51,7 +44,7 @@ class CMenu : public CScene {
 		std::vector<std::string> m_vecstrGameOverMenuButtonPaths = { "Resources/Textures/button_play.png",
 																"Resources/Textures/button_main-menu.png",
 																"Resources/Textures/button_exit.png" };
-		std::unique_ptr<TextLabel> m_pTitle = std::make_unique<TextLabel>("'Robotron 64'", "Resources/Fonts/calibri.ttf", glm::vec2((float)Utility::SCR_WIDTH/2.0f - 75.0f, 850));
+		std::unique_ptr<TextLabel> m_pTitle = std::make_unique<TextLabel>("CORE CRUSADERS", "Resources/Fonts/calibri.ttf", glm::vec2((float)Utility::SCR_WIDTH/2.0f - 75.0f, 850));
 		int m_iScore = 0;
 		std::unique_ptr<TextLabel> m_pScoreText = std::make_unique<TextLabel>("", "Resources/Fonts/calibri.ttf", glm::vec2((float)Utility::SCR_WIDTH/2.0f - 50, 800));
 		std::vector<TButton> m_vecOptionsButtons;
@@ -61,21 +54,6 @@ class CMenu : public CScene {
 																"Resources/Textures/button_god-mode-off.png",
 																"Resources/Textures/button_ai-test-on.png",
 																"Resources/Textures/button_ai-test-off.png"};
-		std::vector<std::string> m_vecstrNetworkMenuButtonPaths = { "Resources/Textures/button_join.png",
-			"Resources/Textures/button_host.png",
-			"Resources/Textures/button_main-menu.png" };
-		bool m_bMusicOn = true;
-		bool m_bGodModeOn = false;
-		bool m_bAITestOn = false;
-		unsigned int m_uiPlayerIndex = 0;
-
-		std::vector<TButton> m_vecJoinButtons;
-		std::vector<int> m_veciPlayerReadyState;
-		std::vector<std::string> m_vecstrPlayerReadyButtonPaths = { "Resources/Textures/button_ready.png", "Resources/Textures/button_ready-off.png" };
-		std::vector<std::string> m_vecstrPlayerNames;
-		std::vector<std::unique_ptr<TextLabel>> m_vecpPlayerNames;
-		std::vector<TButton> m_vecReadyButtons;
-
 
 	public:
 		CMenu();

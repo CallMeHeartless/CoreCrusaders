@@ -9,7 +9,6 @@ Mail        :   kerry.pel7420@mediadesign.school.nz
 
 // Library includes
 #include <string>
-//#include <vld.h>
 
 // Local includes
 #include "menu.h"
@@ -27,14 +26,12 @@ CMenu::CMenu(EMENUTYPE _eType):m_eMenuType(_eType) {
 	m_pUICamera = std::make_unique<CCamera>(Utility::SCR_WIDTH, Utility::SCR_HEIGHT);
 	float fMidScreenX = (float)Utility::SCR_WIDTH / 2.0f;
 	float fMidScreenY = (float)Utility::SCR_HEIGHT / 2.0f;
-	//m_pSkybox = std::make_unique<CCubeMap>(m_vecstrCubeMapTextures);
+
 	// Create buttons accordingly
 	switch (_eType) {
-		case MENU_MAIN:{
-			
+		case MENU_MAIN:{	
 			m_vecButtons = {
 				TButton{ new CSprite(), BUTTON_PLAY},
-				TButton{ new CSprite(), BUTTON_NETWORK },
 				TButton{ new CSprite(), BUTTON_QUIT }
 			};
 			// Initialise
@@ -44,26 +41,24 @@ CMenu::CMenu(EMENUTYPE _eType):m_eMenuType(_eType) {
 				m_vecButtons[i].pSprite->SetScale(glm::vec3(200, 50, 1));
 			}
 			// Options buttons
-			m_vecOptionsButtons = {
-				TButton{new CSprite(), BUTTON_TOGGLE_MUSIC},
-				TButton{new CSprite(), BUTTON_TOGGLE_GODMODE},
-				TButton{new CSprite(), BUTTON_TOGGLE_AI_TEST}
-			};
-			// Initialise
-			m_vecOptionsButtons[0].pSprite->Initialise(m_vecstrOptionsButtonPath[0].c_str());
-			m_vecOptionsButtons[0].pSprite->AddTexture(m_vecstrOptionsButtonPath[1].c_str());
-			m_vecOptionsButtons[0].pSprite->SetScale(glm::vec3(250, 50, 0));
-			m_vecOptionsButtons[0].pSprite->SetLocation(glm::vec3(150, 75, 0));
-			m_vecOptionsButtons[1].pSprite->Initialise(m_vecstrOptionsButtonPath[2].c_str());
-			m_vecOptionsButtons[1].pSprite->AddTexture(m_vecstrOptionsButtonPath[3].c_str());
-			m_vecOptionsButtons[1].pSprite->SetTextureIndex(1);
-			m_vecOptionsButtons[1].pSprite->SetScale(glm::vec3(250, 50, 0));
-			m_vecOptionsButtons[1].pSprite->SetLocation(glm::vec3(450, 75, 0));
-			m_vecOptionsButtons[2].pSprite->Initialise(m_vecstrOptionsButtonPath[4].c_str());
-			m_vecOptionsButtons[2].pSprite->AddTexture(m_vecstrOptionsButtonPath[5].c_str());
-			m_vecOptionsButtons[2].pSprite->SetTextureIndex(1);
-			m_vecOptionsButtons[2].pSprite->SetScale(glm::vec3(250, 50, 0));
-			m_vecOptionsButtons[2].pSprite->SetLocation(glm::vec3(750, 75, 0));
+			//m_vecOptionsButtons = {
+			//	TButton{new CSprite(), BUTTON_TOGGLE_MUSIC},
+			//};
+			//// Initialise
+			//m_vecOptionsButtons[0].pSprite->Initialise(m_vecstrOptionsButtonPath[0].c_str());
+			//m_vecOptionsButtons[0].pSprite->AddTexture(m_vecstrOptionsButtonPath[1].c_str());
+			//m_vecOptionsButtons[0].pSprite->SetScale(glm::vec3(250, 50, 0));
+			//m_vecOptionsButtons[0].pSprite->SetLocation(glm::vec3(150, 75, 0));
+			//m_vecOptionsButtons[1].pSprite->Initialise(m_vecstrOptionsButtonPath[2].c_str());
+			//m_vecOptionsButtons[1].pSprite->AddTexture(m_vecstrOptionsButtonPath[3].c_str());
+			//m_vecOptionsButtons[1].pSprite->SetTextureIndex(1);
+			//m_vecOptionsButtons[1].pSprite->SetScale(glm::vec3(250, 50, 0));
+			//m_vecOptionsButtons[1].pSprite->SetLocation(glm::vec3(450, 75, 0));
+			//m_vecOptionsButtons[2].pSprite->Initialise(m_vecstrOptionsButtonPath[4].c_str());
+			//m_vecOptionsButtons[2].pSprite->AddTexture(m_vecstrOptionsButtonPath[5].c_str());
+			//m_vecOptionsButtons[2].pSprite->SetTextureIndex(1);
+			//m_vecOptionsButtons[2].pSprite->SetScale(glm::vec3(250, 50, 0));
+			//m_vecOptionsButtons[2].pSprite->SetLocation(glm::vec3(750, 75, 0));
 
 			break;
 		}
@@ -87,8 +82,6 @@ CMenu::CMenu(EMENUTYPE _eType):m_eMenuType(_eType) {
 			break;
 		}
 
-
-
 		default: {
 			COutputLog::GetInstance()->LogMessage("ERROR: Could not correctly instantiate menu - no menu type given.");
 			break;
@@ -101,17 +94,6 @@ CMenu::~CMenu(){
 		delete button.pSprite;
 	}
 
-	if (!m_vecReadyButtons.empty()) {
-		for (auto& button : m_vecReadyButtons) {
-			delete button.pSprite;
-		}
-	}
-
-	if (!m_vecJoinButtons.empty()) {
-		for (auto& button : m_vecOptionsButtons) {
-			delete button.pSprite;
-		}
-	}
 }
 
 /***********************
@@ -175,40 +157,24 @@ void CMenu::Process(float _fDeltaTick) {
 		}
 
 		case BUTTON_TOGGLE_MUSIC: {
-			CSceneManager::GetInstance()->ToggleMusic();
-			m_bMusicOn = !m_bMusicOn;
-			if (m_bMusicOn) {
-				m_vecOptionsButtons[0].pSprite->SetTextureIndex(0);
-			}
-			else {
-				m_vecOptionsButtons[0].pSprite->SetTextureIndex(1);
-			}
-			COutputLog::GetInstance()->LogMessage("Music toggled.");
-			m_eSelection = BUTTON_NONE;
+			//CSceneManager::GetInstance()->ToggleMusic();
+			//m_bMusicOn = !m_bMusicOn;
+			//if (m_bMusicOn) {
+			//	m_vecOptionsButtons[0].pSprite->SetTextureIndex(0);
+			//}
+			//else {
+			//	m_vecOptionsButtons[0].pSprite->SetTextureIndex(1);
+			//}
+			//COutputLog::GetInstance()->LogMessage("Music toggled.");
+			//m_eSelection = BUTTON_NONE;
 			break;
 
 		}
 
-		case BUTTON_TOGGLE_GODMODE: {
-			CSceneManager::GetInstance()->ToggleGodMode();
-			m_bGodModeOn = !m_bGodModeOn;
-			if (m_bGodModeOn) {
-				m_vecOptionsButtons[1].pSprite->SetTextureIndex(0);
-			}
-			else {
-				m_vecOptionsButtons[1].pSprite->SetTextureIndex(1);
-			}
-			COutputLog::GetInstance()->LogMessage("Godmode toggled.");
-			m_eSelection = BUTTON_NONE;
-			break;
-		}
-
-
-
+		
 
 		default:break;
 	}
-	//glm::vec2 mouse = CInput::GetInstance()->GetMousePosition();
 }
 
 /***********************
@@ -219,40 +185,38 @@ void CMenu::Process(float _fDeltaTick) {
 ********************/
 void CMenu::Render() {
 
-	//// Render buttons
-	//glDisable(GL_DEPTH_TEST);
-	//for (auto& button : m_vecButtons) {
-	//	button.pSprite->Render(m_pUICamera);
-	//}
+	// Render buttons
+	glDisable(GL_DEPTH_TEST);
+	for (auto& button : m_vecButtons) {
+		button.pSprite->Render(m_pUICamera.get());
+	}
 
-	//if (m_eMenuType == MENU_MAIN) {
-	//	for (auto& button : m_vecOptionsButtons) {
-	//		button.pSprite->Render(*m_pUICamera);
-	//	}
-	//	m_pTitle->Render();
-	//}
+	if (m_eMenuType == MENU_MAIN) {
+		for (auto& button : m_vecOptionsButtons) {
+			button.pSprite->Render(m_pUICamera.get());
+		}
+		m_pTitle->Render();
+	}
 
-	//if (m_eMenuType == MENU_GAME_OVER) {
-	//	m_pScoreText->Render();
-	//}
+	if (m_eMenuType == MENU_GAME_OVER) {
+		m_pScoreText->Render();
+	}
 
-	//switch (m_eMenuType) {
-	//	case MENU_MAIN: {
-	//		for (auto& button : m_vecOptionsButtons) {
-	//			button.pSprite->Render(*m_pUICamera);
-	//		}
-	//		m_pTitle->Render();
-	//		break;
-	//	}
+	switch (m_eMenuType) {
+		case MENU_MAIN: {
+			for (auto& button : m_vecOptionsButtons) {
+				button.pSprite->Render(m_pUICamera.get());
+			}
+			m_pTitle->Render();
+			break;
+		}
 
-	//	case MENU_GAME_OVER: {
-	//		m_pScoreText->Render();
-	//		break;
-	//	}
+		case MENU_GAME_OVER: {
+			m_pScoreText->Render();
+			break;
+		}
 
-
-
-	//	default:break;
-	//}
+		default:break;
+	}
 	
 }
