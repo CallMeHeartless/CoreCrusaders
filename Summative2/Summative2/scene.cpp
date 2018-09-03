@@ -419,20 +419,16 @@ void CScene::Render() {
 * @return: void
 ********************/
 void CScene::InitialiseEnemySpawnPoints() {
-	float fQuarterWidth = (float)Utility::SCR_WIDTH / 4.0f;
-	float fQuarterHeight = (float)Utility::SCR_HEIGHT / 4.0f;
-
-	// Iterate around central point at half and quarter marks
-	for (unsigned int i = 1; i < 4; ++i) {
-		for (unsigned int j = 1; j < 4; ++j) {
-			if (i == j) {
-				continue;
-			}
-			glm::vec3 vfPoint = glm::vec3(i * fQuarterWidth, j * fQuarterHeight, 0);
-			m_vecEnemySpawnPoints.push_back(vfPoint);
-		}
-		
-	}
+	m_vecEnemySpawnPoints = {
+		glm::vec3(100, 100, 0),
+		glm::vec3(500, 100, 0),
+		glm::vec3(900, 100, 0),
+		glm::vec3(100, 500, 0),
+		glm::vec3(900, 500, 0),
+		glm::vec3(100, 900, 0),
+		glm::vec3(500, 900, 0),
+		glm::vec3(900, 900, 0)
+	};
 }
 
 /***********************

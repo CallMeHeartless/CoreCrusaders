@@ -64,8 +64,8 @@ private:
 	unsigned int m_iEnemiesInWave = 0;
 	float m_fEnemySpawnTimer = 0.0f;
 	float m_fEnemySpawnDelay = 2.0f;
-	float m_fEnemySpawnMin = 0.5f;
-	float m_fEnemySpawnMax = 3.0f;
+	float m_fEnemySpawnMin = 1.0f;
+	float m_fEnemySpawnMax = 4.0f;
 	unsigned int m_iEnemyWaveCount = 0;
 
 	//Text
