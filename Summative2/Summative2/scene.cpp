@@ -62,7 +62,11 @@ void CScene::Process(float _fDeltaTick) {
 	// Check if wave has been cleared
 	if (!CheckIfWaveIsCleared()) {
 		// Spawn more enemies if needed
-		//ProcessWave(_fDeltaTick); [REFACTOR: Enemy spawn positions need defining, this will crash otherwise]
+		ProcessWave(_fDeltaTick); 
+	}
+	else {
+		++m_iEnemyWaveCount;
+		InitialiseWave();
 	}
 	
 }
@@ -110,7 +114,7 @@ void CScene::ProcessObjects(float _fDeltaTick) {
 			break;
 		}
 		default: //Base
-			vTargetPos = glm::vec3(0.0f, 0.0f, 0.0f);
+			vTargetPos = m_pHomeBase->GetPosition();
 			break;
 		}
 		enemy->Process(_fDeltaTick, vTargetPos);
@@ -298,11 +302,13 @@ void CScene::ProcessPickupSpawn(float _fDeltaTick) {
 void CScene::InitialiseWave() {
 	// Load the enemies to be spawned this wave
 	m_veciEnemiesInWave = LEVEL_INFO::SPAWNS[m_iEnemyWaveCount];
+	m_iEnemiesKilledInWave = 0;
 	// Iterate through vector to find total number of enemies to be killed this round
 	m_iEnemiesInWave = 0;
 	for (unsigned int i = 0; i < m_veciEnemiesInWave.size(); ++i) {
 		m_iEnemiesInWave += m_veciEnemiesInWave[i];
 	}
+	std::cout << "Wave: " << m_iEnemyWaveCount << "\tEnemies: " << m_iEnemiesInWave << std::endl;
 
 }
 
@@ -324,7 +330,12 @@ bool CScene::CheckIfWaveIsCleared()const {
 ********************/
 void CScene::ProcessWave(float _fDeltaTick) {
 	m_fEnemySpawnTimer += _fDeltaTick;
-	if (m_fEnemySpawnTimer > -m_fEnemySpawnDelay) {
+	// Control to stop spawning when all enemies in wave have been spawned:
+	if ((m_veciEnemiesInWave[0] + m_veciEnemiesInWave[1] + m_veciEnemiesInWave[2] + m_veciEnemiesInWave[3]) == 0) {
+		return;
+	}
+
+	if (m_fEnemySpawnTimer > m_fEnemySpawnDelay) {
 		// Reset timer
 		m_fEnemySpawnTimer = 0.0f;
 		m_fEnemySpawnDelay = static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (m_fEnemySpawnMax - m_fEnemySpawnMin)));
@@ -342,7 +353,18 @@ void CScene::ProcessWave(float _fDeltaTick) {
 			m_vecpEnemies.push_back(std::move(enemy));
 
 		}
+		else {
+			// Determine breed of Hunter
+			unsigned int uiHunterType = rand() % 3;
+			auto enemy = std::make_unique<CEnemy>(uiHunterType); // ENEMY must be made as a hunter
+			enemy->SetPosition(m_vecEnemySpawnPoints[uiSpawnPositionIndex]);
+			m_vecpEnemies.push_back(std::move(enemy));
+		}
 		--m_veciEnemiesInWave[uiSpawnIndex];
+		for (unsigned int i = 0; i < m_veciEnemiesInWave.size(); ++i) {
+			std::cout << m_veciEnemiesInWave[i] << " ";
+		}
+		std::cout << std::endl;
 	}
 }
 
@@ -391,6 +413,29 @@ void CScene::Render() {
 }
 
 /***********************
+* InitialiseEnemySpawnFunctions: Helper function that sets up enemy spawn points
+* @author: Kerry Pellett (2018)
+* @parameter: void
+* @return: void
+********************/
+void CScene::InitialiseEnemySpawnPoints() {
+	float fQuarterWidth = (float)Utility::SCR_WIDTH / 4.0f;
+	float fQuarterHeight = (float)Utility::SCR_HEIGHT / 4.0f;
+
+	// Iterate around central point at half and quarter marks
+	for (unsigned int i = 1; i < 4; ++i) {
+		for (unsigned int j = 1; j < 4; ++j) {
+			if (i == j) {
+				continue;
+			}
+			glm::vec3 vfPoint = glm::vec3(i * fQuarterWidth, j * fQuarterHeight, 0);
+			m_vecEnemySpawnPoints.push_back(vfPoint);
+		}
+		
+	}
+}
+
+/***********************
 * Initialise: Initialises the game scene
 * @author: Kerry Pellett (2018)
 * @parameter: int _iMap (the first map to load)
@@ -406,9 +451,11 @@ bool CScene::Initialise() {
 	m_vecpEnemies.clear();
 	m_vecpPickups.clear();
 
+	// Enemy variables
 	m_fEnemySpawnTimer = 0.0f;
 	m_iEnemyWaveCount = 0;
 	InitialiseWave();
+	InitialiseEnemySpawnPoints();
 
 	// Create Camera
 //<<<<<<< HEAD
@@ -429,15 +476,14 @@ bool CScene::Initialise() {
 	m_vecpPlayers.push_back(std::move(player2));
 
 	// Test enemy
-	auto enemy = std::make_unique<CEnemy>(DRONE);
-	enemy->SetPosition(m_vecRailLocations[1]);
-	m_vecpEnemies.push_back(std::move(enemy));
+	//auto enemy = std::make_unique<CEnemy>(DRONE);
+	//enemy->SetPosition(m_vecRailLocations[1]);
+	//m_vecpEnemies.push_back(std::move(enemy));
 
+	// Core
 	m_pHomeBase = std::make_unique<CHomeBase>();
 	m_pHomeBase->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f, 0.0f));
 
-
-	//Create Entities 
 	//Rails
 	auto rails = std::make_unique<CEntity>();
 	rails->Initialise("Resources/Textures/Rails.png");
@@ -451,7 +497,6 @@ bool CScene::Initialise() {
 	baseHealth->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f - 75.0f, 0.0f));
 	baseHealth->SetScale(glm::vec3((float)m_pHomeBase->GetHealth() * 3.0f, 20.0f, 0.0f));
 	m_vecpEntities.push_back(std::move(baseHealth));
-
 
 	// PickUps
 	for (unsigned int i{}; i < 4; ++i)

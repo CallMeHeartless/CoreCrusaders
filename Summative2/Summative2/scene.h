@@ -88,6 +88,7 @@ private:
 	void InitialiseWave();
 	void ProcessWave(float _fDeltaTick);
 	bool CheckIfWaveIsCleared()const;
+	void InitialiseEnemySpawnPoints();
 
 
 	public:
