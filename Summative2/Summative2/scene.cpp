@@ -101,7 +101,7 @@ void CScene::ProcessObjects(float _fDeltaTick) {
 	for (auto& enemy : m_vecpEnemies) {
 		glm::vec3 vTargetPos;
 
-		switch (enemy->GetTarget())
+		switch (enemy->GetTargetType())
 		{
 		case ETARGET_PLAYER_ONE:
 		{
@@ -114,7 +114,7 @@ void CScene::ProcessObjects(float _fDeltaTick) {
 			break;
 		}
 		default: //Base
-			vTargetPos = m_pHomeBase->GetPosition();
+			vTargetPos = glm::vec3(0.0f, 0.0f, 0.0f);
 			break;
 		}
 		enemy->Process(_fDeltaTick, vTargetPos);
@@ -127,6 +127,28 @@ void CScene::ProcessObjects(float _fDeltaTick) {
 			// Destroy enemy
 			enemy->Kill();
 			++m_iEnemiesKilledInWave; // Does not count to player's total, only for wave completion
+		}
+
+		//Enemy Player collision
+		if (CheckForCollision(enemy.get(), m_vecpPlayers[0].get())) {
+			if (ETARGET_PLAYER_ONE == enemy->GetTargetType())
+			{
+				//Stun players
+				if (!m_vecpPlayers[0]->GetInvincible())
+				{
+					m_vecpPlayers[0]->SetStunned(true);
+				}
+			}
+		}
+		if (CheckForCollision(enemy.get(), m_vecpPlayers[1].get())) {
+			if (ETARGET_PLAYER_TWO == enemy->GetTargetType())
+			{
+				//Stun players
+				if (!m_vecpPlayers[1]->GetInvincible())
+				{
+					m_vecpPlayers[1]->SetStunned(true);
+				}
+			}
 		}
 	}
 }
@@ -347,19 +369,12 @@ void CScene::ProcessWave(float _fDeltaTick) {
 		}
 
 		// Spawn enemy
-		if (uiSpawnIndex < 3) {
-			auto enemy = std::make_unique<CEnemy>(uiSpawnIndex); // indexes correspond to ETYPE enum
-			enemy->SetPosition(m_vecEnemySpawnPoints[uiSpawnPositionIndex]);
-			m_vecpEnemies.push_back(std::move(enemy));
+		unsigned int uiHunterType = rand() % 3;
 
-		}
-		else {
-			// Determine breed of Hunter
-			unsigned int uiHunterType = rand() % 3;
-			auto enemy = std::make_unique<CEnemy>(uiHunterType); // ENEMY must be made as a hunter
-			enemy->SetPosition(m_vecEnemySpawnPoints[uiSpawnPositionIndex]);
-			m_vecpEnemies.push_back(std::move(enemy));
-		}
+		auto enemy = std::make_unique<CEnemy>(uiSpawnIndex, uiHunterType); // ENEMY must be made as a hunter
+		enemy->SetPosition(m_vecEnemySpawnPoints[uiSpawnPositionIndex]);
+		m_vecpEnemies.push_back(std::move(enemy));
+		
 		--m_veciEnemiesInWave[uiSpawnIndex];
 		for (unsigned int i = 0; i < m_veciEnemiesInWave.size(); ++i) {
 			std::cout << m_veciEnemiesInWave[i] << " ";
@@ -476,9 +491,9 @@ bool CScene::Initialise() {
 	m_vecpPlayers.push_back(std::move(player2));
 
 	// Test enemy
-	//auto enemy = std::make_unique<CEnemy>(DRONE);
-	//enemy->SetPosition(m_vecRailLocations[1]);
-	//m_vecpEnemies.push_back(std::move(enemy));
+	auto enemy = std::make_unique<CEnemy>(EDRONE, ETARGET_PLAYER_ONE);
+	enemy->SetPosition(m_vecRailLocations[1]);
+	m_vecpEnemies.push_back(std::move(enemy));
 
 	// Core
 	m_pHomeBase = std::make_unique<CHomeBase>();

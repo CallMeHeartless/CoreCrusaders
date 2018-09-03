@@ -11,6 +11,9 @@ CPlayerOne::CPlayerOne() {
 CPlayerOne::~CPlayerOne(){}
 
 void CPlayerOne::Process(float _fDeltaTick) {
+
+	CPlayer::Process(_fDeltaTick);
+
 	// Create movement vector.
 	m_vfMovementVector = glm::vec3(0.0f, 0.0f, 0.0f);
 	std::vector<unsigned int> vecuiInput = CInput::GetInstance()->GetPlayerMovement(true);
@@ -44,7 +47,10 @@ void CPlayerOne::Process(float _fDeltaTick) {
 		m_pSprite->SetAngle(fAngle);
 	}
 
-	m_vfMovementVector *= (m_fSpeed *  _fDeltaTick * m_fMovementSpeed);
+	if (!m_bStunned)
+	{
+		m_vfMovementVector *= (m_fSpeed *  _fDeltaTick * m_fMovementSpeed);
+	}
 
 
 	// Move

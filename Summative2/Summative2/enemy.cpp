@@ -16,24 +16,25 @@ CEnemy::CEnemy(){}
 * @parameter: ETYPE _eType (enemy type to be instantiated)
 * @return: CEnemy&
 ********************/
-CEnemy::CEnemy(unsigned int _eType) {
+CEnemy::CEnemy(unsigned int _eType, unsigned int _eTarget) {
 		// Initialise Sprites
 	m_eType = static_cast<ETYPE>(_eType);
+	m_eTarget = static_cast<ETARGET>(_eTarget);
 
 	switch (m_eType) {
-		case DRONE: {
+		case EDRONE: {
 			Initialise("Resources/Textures/Stalker1.png");
 			break;
 		}
 
-		case TANK: {
+		case ETANK: {
 			Initialise("Resources/Textures/Warper2.png");
 			m_iDamage = 2;
 			m_iLife = 5;
 			break;
 		}
 
-		case SPRINTER: {
+		case ESPRINTER: {
 			Initialise("Resources/Textures/Runner1.png");
 			m_iDamage = 5;
 			m_fMoveSpeed = 600.0f;
@@ -47,7 +48,24 @@ CEnemy::CEnemy(unsigned int _eType) {
 		}
 	}
 
-	m_eTarget = ETARGET_BASE;
+	switch (_eTarget)
+	{
+		case ETARGET_PLAYER_ONE: {
+			//Initialise("Resources/Textures/Warper2.png");	// Make Color of variant
+			m_iDamage = 2 * m_iDamage;
+			m_iLife = 2 * m_iLife;
+			break;
+		}
+
+		case ETARGET_PLAYER_TWO: {
+			//Initialise("Resources/Textures/Runner1.png");	// Make Color of variant
+			m_iDamage = 2 * m_iDamage;
+			m_iLife = 2 * m_iLife;
+			break;
+		}
+		default: // TargetIsBase
+			break;
+	}
 
 	m_fFrameW = m_pSprite->GetWidth() / 3.0f;
 	m_pSprite->SetFrameWidth(m_fFrameW);
@@ -89,26 +107,20 @@ float CEnemy::DistanceToTarget(glm::vec3 _vecTargetPosition) {
 	return glm::distance(_vecTargetPosition, m_vfPosition);
 }
 
-
-/***********************
-* SetTarget: Changes the target of an enemy
-* @author: Sally Gillbanks (2018)
-* @parameter: ETARGET _eTarget // Target to change to
-* @return: void
-********************/
-void CEnemy::SetTarget(ETARGET _eTarget)
-{
-	m_eTarget = _eTarget;
-}
 /***********************
 * GetTarget: Returns the current target type
 * @author: Sally Gillbanks (2018)
 * @parameter: 
 * @return: ETARGET
 ********************/
-ETARGET CEnemy::GetTarget()const
+ETYPE CEnemy::GetEnemyType()const
 {
-	return(m_eTarget);
+	return(m_eType);
+}
+
+ETARGET CEnemy::GetTargetType() const
+{
+	return m_eTarget;
 }
 
 /***********************
@@ -128,7 +140,19 @@ int CEnemy::GetDamage()const {
 * @return: void
 ********************/
 void CEnemy::Damage(int _iDamage, bool _bIsPlayerOne) {
-	m_iLife -= _iDamage;
+	if (ETARGET_PLAYER_ONE == m_eTarget && !_bIsPlayerOne)
+	{
+		m_iLife -= _iDamage * 2;
+	}
+	else if (ETARGET_PLAYER_TWO == m_eTarget && _bIsPlayerOne)
+	{
+		m_iLife -= _iDamage * 2;
+	}
+	else
+	{
+		m_iLife -= _iDamage;
+	}
+
 	if (m_iLife <= 0) {
 		m_bIsAlive = false;
 	}
