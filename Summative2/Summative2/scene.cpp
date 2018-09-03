@@ -67,6 +67,12 @@ void CScene::Process(float _fDeltaTick) {
 	
 }
 
+/***********************
+* ProcessObjects: Helper function to process groups of game objects 
+* @author: Kerry Pellett (2018)
+* @parameter: float _fDeltaTick (time between frames in seconds)
+* @return: void
+********************/
 void CScene::ProcessObjects(float _fDeltaTick) {
 	// Process players
 	for (auto& player : m_vecpPlayers) {
@@ -121,6 +127,12 @@ void CScene::ProcessObjects(float _fDeltaTick) {
 	}
 }
 
+/***********************
+* RemoveExpiredObjects: Helper function that removes objects from the game that are marked as expired.
+* @author: Kerry Pellett (2018)
+* @parameter: void
+* @return: void
+********************/
 void CScene::RemoveExpiredObjects() {
 	// Remove expired bullets
 	if (!m_vecpBullets.empty()) {
@@ -135,6 +147,12 @@ void CScene::RemoveExpiredObjects() {
 	}
 }
 
+/***********************
+* HandlePlayerAttacks: Helper function that checks for player input for attack and resolves it
+* @author: Kerry Pellett (2018)
+* @parameter: void
+* @return: void
+********************/
 void CScene::HandlePlayerAttacks() {
 	// Player One
 	if (m_vecpPlayers[0]->AttackReady() && CInput::GetInstance()->KeyDown(' '))
@@ -160,6 +178,12 @@ void CScene::HandlePlayerAttacks() {
 	}
 }
 
+/***********************
+* HandleCollisions: Helper function that performs collision checking and resultant actions
+* @author: Kerry Pellett (2018)
+* @parameter: void
+* @return: void
+********************/
 void CScene::HandleCollisions() {
 	// Bullet - enemy collision
 	for (auto& bullet : m_vecpBullets) {
@@ -236,6 +260,12 @@ void CScene::HandleCollisions() {
 	}
 }
 
+/***********************
+* ProcessPickupSpawn: Helper function that tracks when to spawn pickups
+* @author: Kerry Pellett (2018)
+* @parameter: float _fDeltaTick (time between frames in seconds)
+* @return: void
+********************/
 void CScene::ProcessPickupSpawn(float _fDeltaTick) {
 	m_fSpawnNextPickUp -= _fDeltaTick;
 	if (0 >= m_fSpawnNextPickUp)
@@ -259,6 +289,12 @@ void CScene::ProcessPickupSpawn(float _fDeltaTick) {
 	}
 }
 
+/***********************
+* InitialiseWave: Readies the scene variables to manage the current (new) wave of enemies
+* @author: Kerry Pellett (2018)
+* @parameter: void
+* @return: void
+********************/
 void CScene::InitialiseWave() {
 	// Load the enemies to be spawned this wave
 	m_veciEnemiesInWave = LEVEL_INFO::SPAWNS[m_iEnemyWaveCount];
@@ -270,10 +306,22 @@ void CScene::InitialiseWave() {
 
 }
 
+/***********************
+* CheckIfWaveIsCleared: Checks if the current wave has been cleared
+* @author: Kerry Pellett (2018)
+* @parameter: void
+* @return: bool (true if the number of enemies destroyed == enemies spawned in wave)
+********************/
 bool CScene::CheckIfWaveIsCleared()const {
 	return m_iEnemiesInWave == m_iEnemiesKilledInWave;
 }
 
+/***********************
+* ProcessWave: Helper function that processes spawning enemies in the current wave
+* @author: Kerry Pellett (2018)
+* @parameter: float _fDeltaTick (time between frames in seconds)
+* @return: void
+********************/
 void CScene::ProcessWave(float _fDeltaTick) {
 	m_fEnemySpawnTimer += _fDeltaTick;
 	if (m_fEnemySpawnTimer > -m_fEnemySpawnDelay) {
