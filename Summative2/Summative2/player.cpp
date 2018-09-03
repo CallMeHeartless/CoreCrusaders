@@ -126,11 +126,14 @@ void CPlayer::InitiateRebalance()
 
 void CPlayer::SetStunned(bool _bIsStunned)
 {
-	m_bStunned = _bIsStunned;
-	m_bInvincible = true;
+	if (!m_bAttacking)
+	{
+		m_bStunned = _bIsStunned;
+		m_bInvincible = true;
 
-	m_fStunCoolDown = 0.0f;
-	m_fInvincibleTimer = 0.0f;
+		m_fStunCoolDown = 0.0f;
+		m_fInvincibleTimer = 0.0f;
+	}
 }
 
 bool CPlayer::GetStunned()
