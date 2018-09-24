@@ -27,7 +27,7 @@ CSound::CSound()
 		//COutputLog::GetInstance()->LogMessage("Audio manager successfully loaded.");
 	}
 	// Create background music
-	result = m_pAudioManager->createSound("Resources/Audio/Closing-In-2_Looping.mp3", FMOD_DEFAULT, 0, &m_pBGMusic);
+	result = m_pAudioManager->createSound("Resources/Audio/bensound-theelevatorbossanova.mp3", FMOD_DEFAULT, 0, &m_pBGMusic);
 	if (result != FMOD_OK) {
 		//COutputLog::GetInstance()->LogMessage("ERROR: Unable to initialise background music.");
 	}
@@ -69,14 +69,14 @@ void CSound::Play(ESOUND _eSound)
 	case EBACKGROUND_MENU:
 	{
 		m_pAudioBackgroundChannel->stop();
-		m_pAudioManager->createSound("Resources/Audio/Closing-In-2_Looping.mp3", FMOD_DEFAULT, 0, &m_pBGMusic);
+		m_pAudioManager->createSound("Resources/Audio/bensound-theelevatorbossanova.mp3", FMOD_DEFAULT, 0, &m_pBGMusic);
 		m_pAudioManager->playSound(m_pBGMusic, 0, false, &m_pAudioBackgroundChannel);
 		break;
 	}
 	case EBACKGROUND_GAMEPLAY:
 	{
 		m_pAudioBackgroundChannel->stop();
-		m_pAudioManager->createSound("Resources/Audio/Closing-In-2_Looping.mp3", FMOD_DEFAULT, 0, &m_pBGMusic);
+		m_pAudioManager->createSound("Resources/Audio/bensound-extremeaction.mp3", FMOD_DEFAULT, 0, &m_pBGMusic);
 		m_pAudioManager->playSound(m_pBGMusic, 0, false, &m_pAudioBackgroundChannel);
 		break;
 	}
