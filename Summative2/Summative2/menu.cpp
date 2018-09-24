@@ -20,6 +20,7 @@ Mail        :   kerry.pel7420@mediadesign.school.nz
 
 CMenu::CMenu() {
 	m_pUICamera = std::make_unique<CCamera>(Utility::SCR_WIDTH, Utility::SCR_HEIGHT);
+	CSound::GetInstance()->Play(EBACKGROUND_MENU);
 }
 
 CMenu::CMenu(EMENUTYPE _eType):m_eMenuType(_eType) {
