@@ -107,7 +107,22 @@ void CMenu::CreateHelpMenu() {
 }
 
 void CMenu::CreateEnemiesMenu() {
+	// Only the back button is needed
+	m_vecButtons = {
+		TButton{ new CSprite(), BUTTON_MAIN_MENU } };
+	m_vecButtons[0].pSprite->Initialise("Resources/Textures/button_back.png");
+	m_vecButtons[0].pSprite->SetLocation(glm::vec3(200, 200, 0));
+	m_vecButtons[0].pSprite->SetScale(glm::vec3(200, 50, 0));
 
+	// Additional menu components
+}
+
+void CMenu::CreateCreditsMenu() {
+	m_vecButtons = {
+		TButton{ new CSprite(), BUTTON_MAIN_MENU } };
+	m_vecButtons[0].pSprite->Initialise("Resources/Textures/button_main-menu.png");
+	m_vecButtons[0].pSprite->SetLocation(glm::vec3(200, 200, 0));
+	m_vecButtons[0].pSprite->SetScale(glm::vec3(200, 50, 0));
 }
 
 void CMenu::ProcessMouseClick() {
