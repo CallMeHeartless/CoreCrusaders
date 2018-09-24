@@ -24,61 +24,26 @@ CMenu::CMenu() {
 
 CMenu::CMenu(EMENUTYPE _eType):m_eMenuType(_eType) {
 	m_pUICamera = std::make_unique<CCamera>(Utility::SCR_WIDTH, Utility::SCR_HEIGHT);
-	float fMidScreenX = (float)Utility::SCR_WIDTH / 2.0f;
-	float fMidScreenY = (float)Utility::SCR_HEIGHT / 2.0f;
 
 	// Create buttons accordingly
 	switch (_eType) {
 		case MENU_MAIN:{	
-			m_vecButtons = {
-				TButton{ new CSprite(), BUTTON_PLAY},
-				TButton{ new CSprite(), BUTTON_QUIT }
-			};
-			// Initialise
-			for (unsigned int i = 0; i < m_vecButtons.size(); ++i) {
-				m_vecButtons[i].pSprite->Initialise(m_vecstrMainMenuButtonPaths[i].c_str());
-				m_vecButtons[i].pSprite->SetLocation(glm::vec3((float)Utility::SCR_WIDTH/2, 650 - i*100, 0));
-				m_vecButtons[i].pSprite->SetScale(glm::vec3(200, 50, 1));
-			}
-			// Options buttons
-			//m_vecOptionsButtons = {
-			//	TButton{new CSprite(), BUTTON_TOGGLE_MUSIC},
-			//};
-			//// Initialise
-			//m_vecOptionsButtons[0].pSprite->Initialise(m_vecstrOptionsButtonPath[0].c_str());
-			//m_vecOptionsButtons[0].pSprite->AddTexture(m_vecstrOptionsButtonPath[1].c_str());
-			//m_vecOptionsButtons[0].pSprite->SetScale(glm::vec3(250, 50, 0));
-			//m_vecOptionsButtons[0].pSprite->SetLocation(glm::vec3(150, 75, 0));
-			//m_vecOptionsButtons[1].pSprite->Initialise(m_vecstrOptionsButtonPath[2].c_str());
-			//m_vecOptionsButtons[1].pSprite->AddTexture(m_vecstrOptionsButtonPath[3].c_str());
-			//m_vecOptionsButtons[1].pSprite->SetTextureIndex(1);
-			//m_vecOptionsButtons[1].pSprite->SetScale(glm::vec3(250, 50, 0));
-			//m_vecOptionsButtons[1].pSprite->SetLocation(glm::vec3(450, 75, 0));
-			//m_vecOptionsButtons[2].pSprite->Initialise(m_vecstrOptionsButtonPath[4].c_str());
-			//m_vecOptionsButtons[2].pSprite->AddTexture(m_vecstrOptionsButtonPath[5].c_str());
-			//m_vecOptionsButtons[2].pSprite->SetTextureIndex(1);
-			//m_vecOptionsButtons[2].pSprite->SetScale(glm::vec3(250, 50, 0));
-			//m_vecOptionsButtons[2].pSprite->SetLocation(glm::vec3(750, 75, 0));
+			CreateMainMenu();
+			break;
+		}
 
+		case MENU_HELP: {
+			CreateHelpMenu();
+			break;
+		}
+
+		case MENU_ENEMIES: {
+			CreateEnemiesMenu();
 			break;
 		}
 
 		case MENU_GAME_OVER: {
-			m_vecButtons = {
-				TButton{ new CSprite(), BUTTON_PLAY },
-				TButton{new CSprite(), BUTTON_MAIN_MENU},
-				TButton{ new CSprite(), BUTTON_QUIT }
-			};
-
-			// Initialise
-			for (unsigned int i = 0; i < m_vecButtons.size(); ++i) {
-				m_vecButtons[i].pSprite->Initialise(m_vecstrGameOverMenuButtonPaths[i].c_str());
-				m_vecButtons[i].pSprite->SetLocation(glm::vec3((float)Utility::SCR_WIDTH / 2, 650 - i * 100, 0));
-				m_vecButtons[i].pSprite->SetScale(glm::vec3(200, 50, 1));
-			}
-
-			// Extract score
-			m_pScoreText->SetText(Utility::ToString("SCORE: " + Utility::ToString(CSceneManager::GetInstance()->GetScore())));
+			CreateGameOverMenu();
 			break;
 		}
 
@@ -90,10 +55,85 @@ CMenu::CMenu(EMENUTYPE _eType):m_eMenuType(_eType) {
 }
 
 CMenu::~CMenu(){
+	// Deallocate sprites in buttons
 	for (auto& button : m_vecButtons) {
 		delete button.pSprite;
 	}
+}
 
+void CMenu::CreateMainMenu() {
+	m_vecButtons = {
+		TButton{ new CSprite(), BUTTON_PLAY },
+		TButton{ new CSprite(), BUTTON_INSTRUCTIONS},
+		TButton{ new CSprite(), BUTTON_SHOW_ENEMIES},
+		TButton{ new CSprite(), BUTTON_QUIT }
+	};
+	// Initialise
+	for (unsigned int i = 0; i < m_vecButtons.size(); ++i) {
+		m_vecButtons[i].pSprite->Initialise(m_vecstrMainMenuButtonPaths[i].c_str());
+		m_vecButtons[i].pSprite->SetLocation(glm::vec3((float)Utility::SCR_WIDTH / 2, 650 - i * 100, 0));
+		m_vecButtons[i].pSprite->SetScale(glm::vec3(200, 50, 1));
+	}
+}
+
+void CMenu::CreateGameOverMenu() {
+	m_vecButtons = {
+		TButton{ new CSprite(), BUTTON_MAIN_MENU },
+		TButton{ new CSprite(), BUTTON_CREDITS },
+		TButton{ new CSprite(), BUTTON_QUIT }
+	};
+
+	// Initialise
+	for (unsigned int i = 0; i < m_vecButtons.size(); ++i) {
+		m_vecButtons[i].pSprite->Initialise(m_vecstrGameOverMenuButtonPaths[i].c_str());
+		m_vecButtons[i].pSprite->SetLocation(glm::vec3((float)Utility::SCR_WIDTH / 2, 650 - i * 100, 0));
+		m_vecButtons[i].pSprite->SetScale(glm::vec3(200, 50, 1));
+	}
+
+	// Extract score
+	m_pScoreText->SetText(Utility::ToString("SCORE: " + Utility::ToString(CSceneManager::GetInstance()->GetScore())));
+}
+
+void CMenu::CreateHelpMenu() {
+	// Only the back button is needed
+	m_vecButtons = {
+		TButton{new CSprite(), BUTTON_MAIN_MENU} };
+	m_vecButtons[0].pSprite->Initialise("Resources/Textures/button_back.png");
+	m_vecButtons[0].pSprite->SetLocation(glm::vec3(200, 200, 0));
+	m_vecButtons[0].pSprite->SetScale(glm::vec3(200, 50, 0));
+
+	// Additional menu components
+}
+
+void CMenu::CreateEnemiesMenu() {
+
+}
+
+void CMenu::ProcessMouseClick() {
+	glm::vec2 vfMouse = CInput::GetInstance()->GetMousePosition();
+	vfMouse.y = Utility::SCR_HEIGHT - vfMouse.y;
+	for (auto& button : m_vecButtons) {
+		glm::vec3 vfPosition = button.pSprite->GetLocation();
+		float fdY = button.pSprite->GetHeight() / 2.0f;
+		float fdX = button.pSprite->GetWidth() / 2.0f;
+		// Determine if mouse click occured on button
+		if (vfMouse.x > vfPosition.x - fdX && vfMouse.x < vfPosition.x + fdX && vfMouse.y < vfPosition.y + fdY && vfMouse.y > vfPosition.y - fdY) {
+			m_eSelection = button.eButtonID;
+			break;
+		}
+	}
+	if (m_eMenuType == MENU_MAIN) {
+		for (auto& button : m_vecOptionsButtons) {
+			glm::vec3 vfPosition = button.pSprite->GetLocation();
+			float fdY = button.pSprite->GetHeight() / 2.0f;
+			float fdX = button.pSprite->GetWidth() / 2.0f;
+			// Determine if mouse click occured on button
+			if (vfMouse.x > vfPosition.x - fdX && vfMouse.x < vfPosition.x + fdX && vfMouse.y < vfPosition.y + fdY && vfMouse.y > vfPosition.y - fdY) {
+				m_eSelection = button.eButtonID;
+				break;
+			}
+		}
+	}
 }
 
 /***********************
@@ -105,30 +145,7 @@ CMenu::~CMenu(){
 void CMenu::Process(float _fDeltaTick) {
 	// Check for mouse click
 	if (CInput::GetInstance()->GetMouseButton(MOUSE_LEFT) == INPUT_FIRST_PRESSED) {
-		glm::vec2 vfMouse = CInput::GetInstance()->GetMousePosition();
-		vfMouse.y = Utility::SCR_HEIGHT - vfMouse.y;
-		for (auto& button : m_vecButtons) {
-			glm::vec3 vfPosition = button.pSprite->GetLocation();
-			float fdY = button.pSprite->GetHeight()/2.0f;
-			float fdX = button.pSprite->GetWidth() / 2.0f;
-			// Determine if mouse click occured on button
-			if (vfMouse.x > vfPosition.x - fdX && vfMouse.x < vfPosition.x + fdX && vfMouse.y < vfPosition.y + fdY && vfMouse.y > vfPosition.y - fdY) {
-				m_eSelection = button.eButtonID;
-				break;
-			}
-		}
-		if (m_eMenuType == MENU_MAIN) {
-			for (auto& button : m_vecOptionsButtons) {
-				glm::vec3 vfPosition = button.pSprite->GetLocation();
-				float fdY = button.pSprite->GetHeight() / 2.0f;
-				float fdX = button.pSprite->GetWidth() / 2.0f;
-				// Determine if mouse click occured on button
-				if (vfMouse.x > vfPosition.x - fdX && vfMouse.x < vfPosition.x + fdX && vfMouse.y < vfPosition.y + fdY && vfMouse.y > vfPosition.y - fdY) {
-					m_eSelection = button.eButtonID;
-					break;
-				}
-			}
-		}	
+		ProcessMouseClick();
 	}
 
 	// Handle button selection
@@ -170,9 +187,6 @@ void CMenu::Process(float _fDeltaTick) {
 			break;
 
 		}
-
-		
-
 		default:break;
 	}
 }
@@ -191,22 +205,9 @@ void CMenu::Render() {
 		button.pSprite->Render(m_pUICamera.get());
 	}
 
-	if (m_eMenuType == MENU_MAIN) {
-		for (auto& button : m_vecOptionsButtons) {
-			button.pSprite->Render(m_pUICamera.get());
-		}
-		m_pTitle->Render();
-	}
-
-	if (m_eMenuType == MENU_GAME_OVER) {
-		m_pScoreText->Render();
-	}
-
+	// Render additional components based on menu
 	switch (m_eMenuType) {
 		case MENU_MAIN: {
-			for (auto& button : m_vecOptionsButtons) {
-				button.pSprite->Render(m_pUICamera.get());
-			}
 			m_pTitle->Render();
 			break;
 		}

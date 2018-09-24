@@ -54,8 +54,8 @@ void CScene::Process(float _fDeltaTick) {
 
 	// Check for Game over
 	if (CheckForGameOver()) {
-		// Implement scene change to game over menu
-		// CSceneManager::GetInstance()->LoadGameMenu(MENU_GAME_OVER);
+		CSceneManager::GetInstance()->SetScore(m_iPlayerScore);
+		CSceneManager::GetInstance()->LoadGameMenu(MENU_GAME_OVER);
 	}
 
 	// Check if wave has been cleared
@@ -372,6 +372,10 @@ void CScene::ProcessPickupSpawn(float _fDeltaTick) {
 * @return: void
 ********************/
 void CScene::InitialiseWave() {
+	// Loop back to the beginning if the end of the wave profiles have been reached
+	if (m_iEnemyWaveCount == LEVEL_INFO::SPAWNS.size()) {
+		m_iEnemyWaveCount = 0;
+	}
 	// Load the enemies to be spawned this wave
 	m_veciEnemiesInWave = LEVEL_INFO::SPAWNS[m_iEnemyWaveCount];
 	m_iEnemiesKilledInWave = 0;
@@ -527,7 +531,7 @@ bool CScene::Initialise() {
 	InitialiseEnemySpawnPoints();
 
 	// Create Camera
-	m_pGameCamera = std::make_unique<CCamera>(Utility::SCR_WIDTH, Utility::SCR_HEIGHT);
+//	m_pGameCamera = std::make_unique<CCamera>(Utility::SCR_WIDTH, Utility::SCR_HEIGHT);
 	m_pGameCamera = std::make_unique<CCamera>((float)Utility::SCR_WIDTH, (float)Utility::SCR_HEIGHT);
 
 	// Sound
@@ -691,30 +695,3 @@ bool CScene::CheckForCollision(const CEntity* const _kpMesh1, const CEntity* con
 bool CScene::CheckForGameOver()const {
 	return m_pHomeBase->GetHealth() <= 0;
 }
-
-
-
-//m_fSpawnNextPickUp -= _fDeltaTick;
-//if (0.0f >= m_fSpawnNextPickUp)
-//{
-//	int iMyPickupLocation = rand() % m_vecpPickups.size();
-//	int breakCounter = 20;
-//	while (m_vecpPickups[iMyPickupLocation]->CheckIfActive() && 0 < breakCounter)
-//	{
-//		iMyPickupLocation = rand() % m_vecpPickups.size();
-//		breakCounter -= 1;
-//	}
-
-//	if (0 < breakCounter)
-//	{
-//		m_vecpPickups[iMyPickupLocation]->SetActive(true);
-//		//Set a type 
-//	}
-
-//	m_fSpawnNextPickUp = (float)(rand() % 30); // Pickus can spawn anywhere from 0-30 seconds after
-//}
-//Checking that the base health hasn't changed - If it has, resize the base health scale
-//if ((int)(m_vecpEntities[1]->GetScale().x / 3.0f) != m_pHomeBase->GetHealth())
-//{
-//	m_vecpEntities[1]->SetScale(glm::vec3((float)m_pHomeBase->GetHealth() * 3.0f, 20.0f, 0.0f));
-//}

@@ -21,6 +21,8 @@ enum EBUTTONID {
 	BUTTON_PLAY,
 	BUTTON_MAIN_MENU,
 	BUTTON_INSTRUCTIONS,
+	BUTTON_SHOW_ENEMIES,
+	BUTTON_CREDITS,
 	BUTTON_TOGGLE_MUSIC,
 };
 
@@ -39,12 +41,13 @@ class CMenu : public CScene {
 		std::vector<TButton> m_vecButtons;
 		EBUTTONID m_eSelection = BUTTON_NONE;
 		std::vector<std::string> m_vecstrMainMenuButtonPaths = { "Resources/Textures/button_play.png", 
-																"Resources/Textures/button_multiplayer.png", 
-																"Resources/Textures/button_exit.png" };
-		std::vector<std::string> m_vecstrGameOverMenuButtonPaths = { "Resources/Textures/button_play.png",
-																"Resources/Textures/button_main-menu.png",
-																"Resources/Textures/button_exit.png" };
-		std::unique_ptr<TextLabel> m_pTitle = std::make_unique<TextLabel>("CORE CRUSADERS", "Resources/Fonts/calibri.ttf", glm::vec2((float)Utility::SCR_WIDTH/2.0f - 75.0f, 850));
+																"Resources/Textures/button_help.png",
+																"Resources/Textures/button_enemies.png",
+																"Resources/Textures/button_quit.png" };
+		std::vector<std::string> m_vecstrGameOverMenuButtonPaths = { "Resources/Textures/button_main-menu.png",
+																"Resources/Textures/button_credits.png",
+																"Resources/Textures/button_quit.png" };
+		std::unique_ptr<TextLabel> m_pTitle = std::make_unique<TextLabel>("CORE CRUSADERS", "Resources/Fonts/calibri.ttf", glm::vec2((float)Utility::SCR_WIDTH/2.0f - 175.0f, 850));
 		int m_iScore = 0;
 		std::unique_ptr<TextLabel> m_pScoreText = std::make_unique<TextLabel>("", "Resources/Fonts/calibri.ttf", glm::vec2((float)Utility::SCR_WIDTH/2.0f - 50, 800));
 		std::vector<TButton> m_vecOptionsButtons;
@@ -54,6 +57,13 @@ class CMenu : public CScene {
 																"Resources/Textures/button_god-mode-off.png",
 																"Resources/Textures/button_ai-test-on.png",
 																"Resources/Textures/button_ai-test-off.png"};
+
+		// Menu creation helper functions
+		inline void CreateMainMenu();
+		inline void CreateGameOverMenu();
+		inline void CreateHelpMenu();
+		inline void CreateEnemiesMenu();
+		inline void ProcessMouseClick();
 
 	public:
 		CMenu();

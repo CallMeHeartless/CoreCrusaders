@@ -54,6 +54,12 @@ void Render() {
 	glutSwapBuffers();
 }
 
+void Exit() {
+	CInput::GetInstance()->DestroyInstance();
+	// Sound
+	CSceneManager::GetInstance()->DestroyInstance();
+}
+
 int main(int argc, char** argv) {
 	// Seed PRNG
 	srand(static_cast<unsigned>(time(0)));
@@ -82,7 +88,8 @@ int main(int argc, char** argv) {
 	
 	// Initialise Scene Manager and launch menu scene
 	//CSceneManager::GetInstance()->SetState(MENU);
-	CSceneManager::GetInstance()->LoadLevel(0);
+	//CSceneManager::GetInstance()->LoadLevel(0);
+	CSceneManager::GetInstance()->LoadGameMenu(MENU_MAIN);
 
 	// Enable face culling
 	glCullFace(GL_BACK);
@@ -94,6 +101,7 @@ int main(int argc, char** argv) {
 
 	glutDisplayFunc(Render);
 	glutIdleFunc(Update);
+	glutCloseFunc(Exit);
 	glutMainLoop();
 
 	return 0;
