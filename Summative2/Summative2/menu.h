@@ -63,6 +63,7 @@ class CMenu : public CScene {
 		inline void CreateGameOverMenu();
 		inline void CreateHelpMenu();
 		inline void CreateEnemiesMenu();
+		inline void CreateCreditsMenu();
 		inline void ProcessMouseClick();
 
 	public:
