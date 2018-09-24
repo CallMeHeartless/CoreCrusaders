@@ -42,11 +42,11 @@ class CMenu : public CScene {
 		std::vector<std::string> m_vecstrMainMenuButtonPaths = { "Resources/Textures/button_play.png", 
 																"Resources/Textures/button_help.png",
 																"Resources/Textures/button_enemies.png",
-																"Resources/Textures/button_exit.png" };
+																"Resources/Textures/button_quit.png" };
 		std::vector<std::string> m_vecstrGameOverMenuButtonPaths = { "Resources/Textures/button_main-menu.png",
 																"Resources/Textures/button_credits.png",
-																"Resources/Textures/button_exit.png" };
-		std::unique_ptr<TextLabel> m_pTitle = std::make_unique<TextLabel>("CORE CRUSADERS", "Resources/Fonts/calibri.ttf", glm::vec2((float)Utility::SCR_WIDTH/2.0f - 75.0f, 850));
+																"Resources/Textures/button_quit.png" };
+		std::unique_ptr<TextLabel> m_pTitle = std::make_unique<TextLabel>("CORE CRUSADERS", "Resources/Fonts/calibri.ttf", glm::vec2((float)Utility::SCR_WIDTH/2.0f - 175.0f, 850));
 		int m_iScore = 0;
 		std::unique_ptr<TextLabel> m_pScoreText = std::make_unique<TextLabel>("", "Resources/Fonts/calibri.ttf", glm::vec2((float)Utility::SCR_WIDTH/2.0f - 50, 800));
 		std::vector<TButton> m_vecOptionsButtons;
@@ -62,6 +62,7 @@ class CMenu : public CScene {
 		inline void CreateGameOverMenu();
 		inline void CreateHelpMenu();
 		inline void CreateEnemiesMenu();
+		inline void ProcessMouseClick();
 
 	public:
 		CMenu();

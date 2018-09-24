@@ -26,6 +26,8 @@ class CMenu;
 
 enum EMENUTYPE {
 	MENU_MAIN,
+	MENU_HELP,
+	MENU_ENEMIES,
 	MENU_GAME_OVER,
 };
 

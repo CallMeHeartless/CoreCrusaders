@@ -55,8 +55,7 @@ void CScene::Process(float _fDeltaTick) {
 
 	// Check for Game over
 	if (CheckForGameOver()) {
-		// Implement scene change to game over menu
-		// CSceneManager::GetInstance()->LoadGameMenu(MENU_GAME_OVER);
+		CSceneManager::GetInstance()->LoadGameMenu(MENU_GAME_OVER);
 	}
 
 	// Check if wave has been cleared
@@ -527,7 +526,7 @@ bool CScene::Initialise() {
 	InitialiseEnemySpawnPoints();
 
 	// Create Camera
-	m_pGameCamera = std::make_unique<CCamera>(Utility::SCR_WIDTH, Utility::SCR_HEIGHT);
+//	m_pGameCamera = std::make_unique<CCamera>(Utility::SCR_WIDTH, Utility::SCR_HEIGHT);
 	m_pGameCamera = std::make_unique<CCamera>((float)Utility::SCR_WIDTH, (float)Utility::SCR_HEIGHT);
 
 	// Create players

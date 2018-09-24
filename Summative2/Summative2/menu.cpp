@@ -24,13 +24,21 @@ CMenu::CMenu() {
 
 CMenu::CMenu(EMENUTYPE _eType):m_eMenuType(_eType) {
 	m_pUICamera = std::make_unique<CCamera>(Utility::SCR_WIDTH, Utility::SCR_HEIGHT);
-	float fMidScreenX = (float)Utility::SCR_WIDTH / 2.0f;
-	float fMidScreenY = (float)Utility::SCR_HEIGHT / 2.0f;
 
 	// Create buttons accordingly
 	switch (_eType) {
 		case MENU_MAIN:{	
 			CreateMainMenu();
+			break;
+		}
+
+		case MENU_HELP: {
+			CreateHelpMenu();
+			break;
+		}
+
+		case MENU_ENEMIES: {
+			CreateEnemiesMenu();
 			break;
 		}
 
@@ -47,10 +55,10 @@ CMenu::CMenu(EMENUTYPE _eType):m_eMenuType(_eType) {
 }
 
 CMenu::~CMenu(){
+	// Deallocate sprites in buttons
 	for (auto& button : m_vecButtons) {
 		delete button.pSprite;
 	}
-
 }
 
 void CMenu::CreateMainMenu() {
@@ -94,6 +102,33 @@ void CMenu::CreateEnemiesMenu() {
 
 }
 
+void CMenu::ProcessMouseClick() {
+	glm::vec2 vfMouse = CInput::GetInstance()->GetMousePosition();
+	vfMouse.y = Utility::SCR_HEIGHT - vfMouse.y;
+	for (auto& button : m_vecButtons) {
+		glm::vec3 vfPosition = button.pSprite->GetLocation();
+		float fdY = button.pSprite->GetHeight() / 2.0f;
+		float fdX = button.pSprite->GetWidth() / 2.0f;
+		// Determine if mouse click occured on button
+		if (vfMouse.x > vfPosition.x - fdX && vfMouse.x < vfPosition.x + fdX && vfMouse.y < vfPosition.y + fdY && vfMouse.y > vfPosition.y - fdY) {
+			m_eSelection = button.eButtonID;
+			break;
+		}
+	}
+	if (m_eMenuType == MENU_MAIN) {
+		for (auto& button : m_vecOptionsButtons) {
+			glm::vec3 vfPosition = button.pSprite->GetLocation();
+			float fdY = button.pSprite->GetHeight() / 2.0f;
+			float fdX = button.pSprite->GetWidth() / 2.0f;
+			// Determine if mouse click occured on button
+			if (vfMouse.x > vfPosition.x - fdX && vfMouse.x < vfPosition.x + fdX && vfMouse.y < vfPosition.y + fdY && vfMouse.y > vfPosition.y - fdY) {
+				m_eSelection = button.eButtonID;
+				break;
+			}
+		}
+	}
+}
+
 /***********************
 * Process: Process one frame of logic
 * @author: Kerry Pellett (2018)
@@ -103,30 +138,7 @@ void CMenu::CreateEnemiesMenu() {
 void CMenu::Process(float _fDeltaTick) {
 	// Check for mouse click
 	if (CInput::GetInstance()->GetMouseButton(MOUSE_LEFT) == INPUT_FIRST_PRESSED) {
-		glm::vec2 vfMouse = CInput::GetInstance()->GetMousePosition();
-		vfMouse.y = Utility::SCR_HEIGHT - vfMouse.y;
-		for (auto& button : m_vecButtons) {
-			glm::vec3 vfPosition = button.pSprite->GetLocation();
-			float fdY = button.pSprite->GetHeight()/2.0f;
-			float fdX = button.pSprite->GetWidth() / 2.0f;
-			// Determine if mouse click occured on button
-			if (vfMouse.x > vfPosition.x - fdX && vfMouse.x < vfPosition.x + fdX && vfMouse.y < vfPosition.y + fdY && vfMouse.y > vfPosition.y - fdY) {
-				m_eSelection = button.eButtonID;
-				break;
-			}
-		}
-		if (m_eMenuType == MENU_MAIN) {
-			for (auto& button : m_vecOptionsButtons) {
-				glm::vec3 vfPosition = button.pSprite->GetLocation();
-				float fdY = button.pSprite->GetHeight() / 2.0f;
-				float fdX = button.pSprite->GetWidth() / 2.0f;
-				// Determine if mouse click occured on button
-				if (vfMouse.x > vfPosition.x - fdX && vfMouse.x < vfPosition.x + fdX && vfMouse.y < vfPosition.y + fdY && vfMouse.y > vfPosition.y - fdY) {
-					m_eSelection = button.eButtonID;
-					break;
-				}
-			}
-		}	
+		ProcessMouseClick();
 	}
 
 	// Handle button selection

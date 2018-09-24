@@ -80,7 +80,8 @@ int main(int argc, char** argv) {
 	
 	// Initialise Scene Manager and launch menu scene
 	//CSceneManager::GetInstance()->SetState(MENU);
-	CSceneManager::GetInstance()->LoadLevel(0);
+	//CSceneManager::GetInstance()->LoadLevel(0);
+	CSceneManager::GetInstance()->LoadGameMenu(MENU_MAIN);
 
 	// Enable face culling
 	glCullFace(GL_BACK);
