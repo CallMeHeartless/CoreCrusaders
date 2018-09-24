@@ -135,6 +135,7 @@ void CMenu::ProcessMouseClick() {
 		// Determine if mouse click occured on button
 		if (vfMouse.x > vfPosition.x - fdX && vfMouse.x < vfPosition.x + fdX && vfMouse.y < vfPosition.y + fdY && vfMouse.y > vfPosition.y - fdY) {
 			m_eSelection = button.eButtonID;
+			CSound::GetInstance()->Play(EBUTTON_PRESSED);
 			break;
 		}
 	}

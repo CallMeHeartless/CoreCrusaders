@@ -19,6 +19,7 @@ enum ESOUND
 	EBACKGROUND_GAMEPLAY,
 	EPLAYER_ONE_ATTACK,
 	EPLAYER_TWO_ATTACK,
+	EPLAYER_STUN,
 	EENEMY_DAMAGED,
 	EBASEDAMAGED,
 	EPICKUP,
@@ -34,7 +35,13 @@ private:
 	FMOD::Channel* m_pAudioChannel;
 	FMOD::Channel* m_pAudioBackgroundChannel;
 	FMOD::Sound* m_pBGMusic;
+	FMOD::Sound* m_pAudioSelect;
 	FMOD::Sound* m_pAudioPowerup;
+	FMOD::Sound* m_pAudioPlayerOneAttack;
+	FMOD::Sound* m_pAudioPlayerTwoAttack;
+	FMOD::Sound* m_pAudioPlayerStun;
+	FMOD::Sound* m_pAudioBaseDamage;
+	FMOD::Sound* m_pAudioEnemyDamage;
 
 	bool LoadSounds();
 

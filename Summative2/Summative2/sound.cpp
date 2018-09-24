@@ -11,7 +11,31 @@ CSound* CSound::m_pInstance = nullptr;
 bool CSound::LoadSounds() {
 	bool bAllLoaded = true;
 
+	if (m_pAudioManager->createSound("Resources/Audio/347167__davidsraba__bleep-sound.wav", FMOD_DEFAULT, 0, &m_pAudioSelect) != FMOD_OK) {
+		bAllLoaded = false;
+	}
+
 	if (m_pAudioManager->createSound("Resources/Audio/pickup.wav", FMOD_DEFAULT, 0, &m_pAudioPowerup) != FMOD_OK) {
+		bAllLoaded = false;
+	}
+	
+	if (m_pAudioManager->createSound("Resources/Audio/420668__sypherzent__basic-melee-swing-miss-whoosh.wav", FMOD_DEFAULT, 0, &m_pAudioPlayerOneAttack) != FMOD_OK) {
+		bAllLoaded = false;
+	}
+
+	if (m_pAudioManager->createSound("Resources/Audio/440661__seansecret__classic-laser-pew.wav", FMOD_LOOP_OFF, 0, &m_pAudioPlayerTwoAttack) != FMOD_OK) {
+		bAllLoaded = false;
+	}
+
+	if (m_pAudioManager->createSound("Resources/Audio/341666__sharesynth__electricity00.wav", FMOD_DEFAULT, 0, &m_pAudioPlayerStun) != FMOD_OK) {
+		bAllLoaded = false;
+	}
+
+	if (m_pAudioManager->createSound("Resources/Audio/404747__owlstorm__retro-video-game-sfx-ouch.wav", FMOD_DEFAULT, 0, &m_pAudioBaseDamage) != FMOD_OK) {
+		bAllLoaded = false;
+	}
+
+	if (m_pAudioManager->createSound("Resources/Audio/210213__augdog__pin-pullout.wav", FMOD_DEFAULT, 0, &m_pAudioEnemyDamage) != FMOD_OK) {
 		bAllLoaded = false;
 	}
 
@@ -82,22 +106,32 @@ void CSound::Play(ESOUND _eSound)
 	}
 	case EBUTTON_PRESSED:
 	{
+		m_pAudioManager->playSound(m_pAudioSelect, 0, false, &m_pAudioChannel);
 		break;
 	}
 	case EPLAYER_ONE_ATTACK:
 	{
+		m_pAudioManager->playSound(m_pAudioPlayerOneAttack, 0, false, &m_pAudioChannel);
 		break;
 	}
 	case EPLAYER_TWO_ATTACK:
 	{
+		m_pAudioManager->playSound(m_pAudioPlayerTwoAttack, 0, false, &m_pAudioChannel);
+		break;
+	}
+	case EPLAYER_STUN:
+	{
+		m_pAudioManager->playSound(m_pAudioPlayerStun, 0, false, &m_pAudioChannel);
 		break;
 	}
 	case EENEMY_DAMAGED:
 	{
+		m_pAudioManager->playSound(m_pAudioEnemyDamage, 0, false, &m_pAudioChannel);
 		break;
 	}
 	case EBASEDAMAGED:
 	{
+		m_pAudioManager->playSound(m_pAudioBaseDamage, 0, false, &m_pAudioChannel);
 		break;
 	}
 	case EPICKUP:

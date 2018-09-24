@@ -126,6 +126,7 @@ void CScene::ProcessObjects(float _fDeltaTick) {
 			// Destroy enemy
 			enemy->Kill();
 			++m_iEnemiesKilledInWave; // Does not count to player's total, only for wave completion
+			m_pSound->Play(EBASEDAMAGED);
 		}
 
 		//Enemy Player collision
@@ -136,6 +137,7 @@ void CScene::ProcessObjects(float _fDeltaTick) {
 				if (!m_vecpPlayers[0]->GetInvincible())
 				{
 					m_vecpPlayers[0]->SetStunned(true);
+					m_pSound->Play(EPLAYER_STUN);
 				}
 			}
 		}
@@ -146,6 +148,7 @@ void CScene::ProcessObjects(float _fDeltaTick) {
 				if (!m_vecpPlayers[1]->GetInvincible())
 				{
 					m_vecpPlayers[1]->SetStunned(true);
+					m_pSound->Play(EPLAYER_STUN);
 				}
 			}
 		}
@@ -183,6 +186,7 @@ void CScene::HandlePlayerAttacks() {
 	if (m_vecpPlayers[0]->AttackReady() && CInput::GetInstance()->KeyDown(' '))
 	{
 		m_vecpPlayers[0]->Attack();
+		m_pSound->Play(EPLAYER_ONE_ATTACK);
 	}
 
 	// PlayerTwo attack
@@ -200,6 +204,8 @@ void CScene::HandlePlayerAttacks() {
 		auto bullet = std::make_unique<CProjectile>(vfPlayerTwoPosition, vfAimTarget);
 		bullet->SetPosition(vfPlayerTwoPosition);
 		m_vecpBullets.push_back(std::move(bullet));
+
+		m_pSound->Play(EPLAYER_TWO_ATTACK);
 	}
 }
 
@@ -238,6 +244,8 @@ void CScene::HandleCollisions() {
 					m_iPlayerScore += enemy->GetPoints();
 					++m_uiPlayerKillCount;
 				}
+
+				m_pSound->Play(EENEMY_DAMAGED);
 			}
 		}
 	}
@@ -266,6 +274,8 @@ void CScene::HandleCollisions() {
 				m_iPlayerScore += enemy->GetPoints();
 				++m_uiPlayerKillCount;
 			}
+
+			m_pSound->Play(EENEMY_DAMAGED);
 		}
 	}
 	
