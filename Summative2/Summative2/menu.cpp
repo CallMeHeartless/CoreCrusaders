@@ -215,7 +215,6 @@ void CMenu::Process(float _fDeltaTick) {
 * @return: void
 ********************/
 void CMenu::Render() {
-
 	// Render buttons
 	glDisable(GL_DEPTH_TEST);
 	for (auto& button : m_vecButtons) {
