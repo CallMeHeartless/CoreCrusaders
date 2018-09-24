@@ -78,8 +78,8 @@ void CMenu::CreateMainMenu() {
 
 void CMenu::CreateGameOverMenu() {
 	m_vecButtons = {
-		TButton{ new CSprite(), BUTTON_PLAY },
 		TButton{ new CSprite(), BUTTON_MAIN_MENU },
+		TButton{ new CSprite(), BUTTON_CREDITS },
 		TButton{ new CSprite(), BUTTON_QUIT }
 	};
 
@@ -95,7 +95,14 @@ void CMenu::CreateGameOverMenu() {
 }
 
 void CMenu::CreateHelpMenu() {
+	// Only the back button is needed
+	m_vecButtons = {
+		TButton{new CSprite(), BUTTON_MAIN_MENU} };
+	m_vecButtons[0].pSprite->Initialise("Resources/Textures/button_back.png");
+	m_vecButtons[0].pSprite->SetLocation(glm::vec3(200, 200, 0));
+	m_vecButtons[0].pSprite->SetScale(glm::vec3(200, 50, 0));
 
+	// Additional menu components
 }
 
 void CMenu::CreateEnemiesMenu() {
@@ -198,22 +205,9 @@ void CMenu::Render() {
 		button.pSprite->Render(m_pUICamera.get());
 	}
 
-	if (m_eMenuType == MENU_MAIN) {
-		for (auto& button : m_vecOptionsButtons) {
-			button.pSprite->Render(m_pUICamera.get());
-		}
-		m_pTitle->Render();
-	}
-
-	if (m_eMenuType == MENU_GAME_OVER) {
-		m_pScoreText->Render();
-	}
-
+	// Render additional components based on menu
 	switch (m_eMenuType) {
 		case MENU_MAIN: {
-			for (auto& button : m_vecOptionsButtons) {
-				button.pSprite->Render(m_pUICamera.get());
-			}
 			m_pTitle->Render();
 			break;
 		}

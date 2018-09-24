@@ -54,6 +54,12 @@ void Render() {
 	glutSwapBuffers();
 }
 
+void Exit() {
+	CInput::GetInstance()->DestroyInstance();
+	// Sound
+	CSceneManager::GetInstance()->DestroyInstance();
+}
+
 int main(int argc, char** argv) {
 	// Seed PRNG
 	srand(static_cast<unsigned>(time(0)));
@@ -93,6 +99,7 @@ int main(int argc, char** argv) {
 
 	glutDisplayFunc(Render);
 	glutIdleFunc(Update);
+	glutCloseFunc(Exit);
 	glutMainLoop();
 
 	return 0;
