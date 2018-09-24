@@ -18,7 +18,6 @@ Mail        :   kerry.pel7420@mediadesign.school.nz
 #include "homebase.h"
 #include "pickup.h"
 #include "scenemanager.h"
-#include "particlesystem.h"
 #include "outputlog.h"
 #include "camera.h"
 #include "projectile.h"
@@ -277,6 +276,7 @@ void CScene::HandleCollisions() {
 				if (pickup->CheckIfActive())
 				{
 					pickup->SetActive(false);
+					m_pSound->Play(EPICKUP);
 
 					switch (pickup->GetType())
 					{
@@ -530,6 +530,10 @@ bool CScene::Initialise() {
 	m_pGameCamera = std::make_unique<CCamera>(Utility::SCR_WIDTH, Utility::SCR_HEIGHT);
 	m_pGameCamera = std::make_unique<CCamera>((float)Utility::SCR_WIDTH, (float)Utility::SCR_HEIGHT);
 
+	// Sound
+	m_pSound = CSound::GetInstance();
+	m_pSound->Play(EBACKGROUND_GAMEPLAY);
+
 	// Create players
 	auto player1 = std::make_unique<CPlayerOne>();
 	player1->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f + 50.0f, 0.0f));
@@ -539,8 +543,6 @@ bool CScene::Initialise() {
 	player2->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, m_vecRailLocations[0].y, 0.0f));
 	player2->SetRailCorners(m_vecRailLocations);
 	m_vecpPlayers.push_back(std::move(player2));
-
-
 
 	// Core
 	m_pHomeBase = std::make_unique<CHomeBase>();
@@ -588,32 +590,7 @@ bool CScene::Initialise() {
 	m_vecpText.push_back(std::move(text));
 
 
-	// Create Audio
-	if (Utility::InitFMod(&m_pAudioManager)) {
-		COutputLog::GetInstance()->LogMessage("Audio manager successfully loaded.");
-	}
-	// Create background music
-	if (CSceneManager::GetInstance()->CheckForMusic()) {
-		FMOD_RESULT result = m_pAudioManager->createSound("Resources/Audio/Sky-Runner_Looping.mp3", FMOD_DEFAULT, 0, &m_pBGMusic);
-		if (result != FMOD_OK) {
-			COutputLog::GetInstance()->LogMessage("ERROR: Unable to initialise background music.");
-		}
-		else {
-			m_pBGMusic->setMode(FMOD_LOOP_NORMAL);
-			m_pAudioManager->playSound(m_pBGMusic, 0, false, &m_pAudioChannel);
-		}
-	}
-	else {
-		COutputLog::GetInstance()->LogMessage("Music was not loaded as an option.");
-	}
-
-	// Create sound effects
-	if (LoadSounds()) {
-		COutputLog::GetInstance()->LogMessage("All sound effects loaded successfully.");
-	}
-	else {
-		COutputLog::GetInstance()->LogMessage("ERROR: Some sound effects were uninitialised.");
-	}
+	//CreateAudio
 
 	return true;
 }
@@ -703,45 +680,6 @@ bool CScene::CheckForCollision(const CEntity* const _kpMesh1, const CEntity* con
 	}
 
 	return false;
-}
-
-/***********************
-* LoadSounds: Loads sound effects
-* @author: Kerry Pellett (2018)
-* @parameter: void
-* @return: bool (true if all sounds loaded correctly)
-********************/
-bool CScene::LoadSounds() {
-	bool bAllLoaded = true;
-	// Load fire audio
-	if (m_pAudioManager->createSound("Resources/Audio/laser1.wav", FMOD_DEFAULT, 0, &m_vecpAudioFire[0]) != FMOD_OK) {
-		bAllLoaded = false;
-	}
-	if (m_pAudioManager->createSound("Resources/Audio/laser2.wav", FMOD_DEFAULT, 0, &m_vecpAudioFire[1]) != FMOD_OK) {
-		bAllLoaded = false;
-	}
-	if (m_pAudioManager->createSound("Resources/Audio/laser3.wav", FMOD_DEFAULT, 0, &m_vecpAudioFire[2]) != FMOD_OK) {
-		bAllLoaded = false;
-	}
-	if (m_pAudioManager->createSound("Resources/Audio/laser4.wav", FMOD_DEFAULT, 0, &m_vecpAudioFire[3]) != FMOD_OK) {
-		bAllLoaded = false;
-	}
-	// Load explosion audio
-	if (m_pAudioManager->createSound("Resources/Audio/explosion1.wav", FMOD_DEFAULT, 0, &m_vecpAudioExplosion[0]) != FMOD_OK) {
-		bAllLoaded = false;
-	}
-	if (m_pAudioManager->createSound("Resources/Audio/explosion2.wav", FMOD_DEFAULT, 0, &m_vecpAudioExplosion[1]) != FMOD_OK) {
-		bAllLoaded = false;
-	}
-	if (m_pAudioManager->createSound("Resources/Audio/explosion3.wav", FMOD_DEFAULT, 0, &m_vecpAudioExplosion[2]) != FMOD_OK) {
-		bAllLoaded = false;
-	}
-	if (m_pAudioManager->createSound("Resources/Audio/powerup.wav", FMOD_DEFAULT, 0, &m_pAudioPowerup) != FMOD_OK) {
-		bAllLoaded = false;
-	}
-
-
-	return bAllLoaded;
 }
 
 /***********************
