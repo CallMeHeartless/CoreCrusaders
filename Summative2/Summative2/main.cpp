@@ -17,7 +17,7 @@ Mail        :   kerry.pel7420@mediadesign.school.nz
 
 // Global variables
 std::unique_ptr<CClock> g_pClock;
-
+CSound* g_pSound;
 
 /***********************
 * Update: Handles processing for all elements for each frame
@@ -76,6 +76,8 @@ int main(int argc, char** argv) {
 	// Initialise Clock
 	g_pClock = std::make_unique<CClock>();
 	g_pClock->Initialise();
+
+	g_pSound = CSound::GetInstance();
 
 	// Initialise bgm
 	//Utility::InitFMod(&g_pAudioManager);

@@ -131,8 +131,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menu.cpp" />
     <ClCompile Include="outputlog.cpp" />
-    <ClCompile Include="particle.cpp" />
-    <ClCompile Include="particlesystem.cpp" />
     <ClCompile Include="pickup.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="playerone.cpp" />
@@ -141,10 +139,12 @@
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="scenemanager.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
+    <ClCompile Include="sound.cpp" />
     <ClCompile Include="sprite.cpp" />
     <ClCompile Include="TextLabel.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="sound.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="clock.h" />
     <ClInclude Include="homebase.h" />
@@ -155,8 +155,6 @@
     <ClInclude Include="input.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="outputlog.h" />
-    <ClInclude Include="particle.h" />
-    <ClInclude Include="particlesystem.h" />
     <ClInclude Include="pickup.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="playerone.h" />

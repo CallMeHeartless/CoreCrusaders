@@ -48,12 +48,6 @@
     <ClCompile Include="entity.cpp">
       <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="particle.cpp">
-      <Filter>Source Files\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="particlesystem.cpp">
-      <Filter>Source Files\GameObjects</Filter>
-    </ClCompile>
     <ClCompile Include="player.cpp">
       <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
@@ -102,6 +96,9 @@
     <ClCompile Include="homebase.cpp">
       <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="sound.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="enemy.h">
@@ -130,12 +127,6 @@
     </ClInclude>
     <ClInclude Include="TextLabel.h">
       <Filter>Header Files\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="particlesystem.h">
-      <Filter>Header Files\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="particle.h">
-      <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="utility.h">
       <Filter>Header Files\Utilities</Filter>
@@ -169,6 +160,9 @@
     </ClInclude>
     <ClInclude Include="levelinfo.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sound.h">
+      <Filter>Header Files\Utilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

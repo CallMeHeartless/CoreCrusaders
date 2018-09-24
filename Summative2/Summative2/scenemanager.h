@@ -18,7 +18,7 @@ Mail        :   kerry.pel7420@mediadesign.school.nz
 
 // Local includes
 #include "utility.h"
-
+#include "sound.h"
 
 // Forward declaration
 class CScene;

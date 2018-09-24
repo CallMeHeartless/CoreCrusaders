@@ -27,6 +27,7 @@ class CPickup;
 class CEntity;
 class CProjectile;
 class CEnemy;
+class CSound;
 
 class CScene {
 protected:
@@ -38,6 +39,9 @@ private:
 	int m_iPlayerScore = 0;
 	int m_uiPlayerKillCount = 0;
 	bool m_bGodModeReference = false;
+
+	// Sound
+	CSound* m_pSound;
 
 	// Player Variables
 	std::vector<std::unique_ptr<CPlayer>> m_vecpPlayers;
@@ -70,14 +74,6 @@ private:
 
 	//Text
 	std::vector<std::unique_ptr<TextLabel>> m_vecpText;
-
-	// Audio
-	FMOD::System* m_pAudioManager;
-	FMOD::Channel* m_pAudioChannel;
-	FMOD::Sound* m_pBGMusic;
-	std::vector<FMOD::Sound*> m_vecpAudioFire = { nullptr, nullptr, nullptr, nullptr };
-	std::vector<FMOD::Sound*> m_vecpAudioExplosion = { nullptr, nullptr, nullptr };
-	FMOD::Sound* m_pAudioPowerup;
 
 	// Helper functions
 	void RemoveExpiredObjects();
