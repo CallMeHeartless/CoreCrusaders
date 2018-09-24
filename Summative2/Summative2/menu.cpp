@@ -30,55 +30,12 @@ CMenu::CMenu(EMENUTYPE _eType):m_eMenuType(_eType) {
 	// Create buttons accordingly
 	switch (_eType) {
 		case MENU_MAIN:{	
-			m_vecButtons = {
-				TButton{ new CSprite(), BUTTON_PLAY},
-				TButton{ new CSprite(), BUTTON_QUIT }
-			};
-			// Initialise
-			for (unsigned int i = 0; i < m_vecButtons.size(); ++i) {
-				m_vecButtons[i].pSprite->Initialise(m_vecstrMainMenuButtonPaths[i].c_str());
-				m_vecButtons[i].pSprite->SetLocation(glm::vec3((float)Utility::SCR_WIDTH/2, 650 - i*100, 0));
-				m_vecButtons[i].pSprite->SetScale(glm::vec3(200, 50, 1));
-			}
-			// Options buttons
-			//m_vecOptionsButtons = {
-			//	TButton{new CSprite(), BUTTON_TOGGLE_MUSIC},
-			//};
-			//// Initialise
-			//m_vecOptionsButtons[0].pSprite->Initialise(m_vecstrOptionsButtonPath[0].c_str());
-			//m_vecOptionsButtons[0].pSprite->AddTexture(m_vecstrOptionsButtonPath[1].c_str());
-			//m_vecOptionsButtons[0].pSprite->SetScale(glm::vec3(250, 50, 0));
-			//m_vecOptionsButtons[0].pSprite->SetLocation(glm::vec3(150, 75, 0));
-			//m_vecOptionsButtons[1].pSprite->Initialise(m_vecstrOptionsButtonPath[2].c_str());
-			//m_vecOptionsButtons[1].pSprite->AddTexture(m_vecstrOptionsButtonPath[3].c_str());
-			//m_vecOptionsButtons[1].pSprite->SetTextureIndex(1);
-			//m_vecOptionsButtons[1].pSprite->SetScale(glm::vec3(250, 50, 0));
-			//m_vecOptionsButtons[1].pSprite->SetLocation(glm::vec3(450, 75, 0));
-			//m_vecOptionsButtons[2].pSprite->Initialise(m_vecstrOptionsButtonPath[4].c_str());
-			//m_vecOptionsButtons[2].pSprite->AddTexture(m_vecstrOptionsButtonPath[5].c_str());
-			//m_vecOptionsButtons[2].pSprite->SetTextureIndex(1);
-			//m_vecOptionsButtons[2].pSprite->SetScale(glm::vec3(250, 50, 0));
-			//m_vecOptionsButtons[2].pSprite->SetLocation(glm::vec3(750, 75, 0));
-
+			CreateMainMenu();
 			break;
 		}
 
 		case MENU_GAME_OVER: {
-			m_vecButtons = {
-				TButton{ new CSprite(), BUTTON_PLAY },
-				TButton{new CSprite(), BUTTON_MAIN_MENU},
-				TButton{ new CSprite(), BUTTON_QUIT }
-			};
-
-			// Initialise
-			for (unsigned int i = 0; i < m_vecButtons.size(); ++i) {
-				m_vecButtons[i].pSprite->Initialise(m_vecstrGameOverMenuButtonPaths[i].c_str());
-				m_vecButtons[i].pSprite->SetLocation(glm::vec3((float)Utility::SCR_WIDTH / 2, 650 - i * 100, 0));
-				m_vecButtons[i].pSprite->SetScale(glm::vec3(200, 50, 1));
-			}
-
-			// Extract score
-			m_pScoreText->SetText(Utility::ToString("SCORE: " + Utility::ToString(CSceneManager::GetInstance()->GetScore())));
+			CreateGameOverMenu();
 			break;
 		}
 
@@ -93,6 +50,47 @@ CMenu::~CMenu(){
 	for (auto& button : m_vecButtons) {
 		delete button.pSprite;
 	}
+
+}
+
+void CMenu::CreateMainMenu() {
+	m_vecButtons = {
+		TButton{ new CSprite(), BUTTON_PLAY },
+		TButton{ new CSprite(), BUTTON_INSTRUCTIONS},
+		TButton{ new CSprite(), BUTTON_SHOW_ENEMIES},
+		TButton{ new CSprite(), BUTTON_QUIT }
+	};
+	// Initialise
+	for (unsigned int i = 0; i < m_vecButtons.size(); ++i) {
+		m_vecButtons[i].pSprite->Initialise(m_vecstrMainMenuButtonPaths[i].c_str());
+		m_vecButtons[i].pSprite->SetLocation(glm::vec3((float)Utility::SCR_WIDTH / 2, 650 - i * 100, 0));
+		m_vecButtons[i].pSprite->SetScale(glm::vec3(200, 50, 1));
+	}
+}
+
+void CMenu::CreateGameOverMenu() {
+	m_vecButtons = {
+		TButton{ new CSprite(), BUTTON_PLAY },
+		TButton{ new CSprite(), BUTTON_MAIN_MENU },
+		TButton{ new CSprite(), BUTTON_QUIT }
+	};
+
+	// Initialise
+	for (unsigned int i = 0; i < m_vecButtons.size(); ++i) {
+		m_vecButtons[i].pSprite->Initialise(m_vecstrGameOverMenuButtonPaths[i].c_str());
+		m_vecButtons[i].pSprite->SetLocation(glm::vec3((float)Utility::SCR_WIDTH / 2, 650 - i * 100, 0));
+		m_vecButtons[i].pSprite->SetScale(glm::vec3(200, 50, 1));
+	}
+
+	// Extract score
+	m_pScoreText->SetText(Utility::ToString("SCORE: " + Utility::ToString(CSceneManager::GetInstance()->GetScore())));
+}
+
+void CMenu::CreateHelpMenu() {
+
+}
+
+void CMenu::CreateEnemiesMenu() {
 
 }
 
@@ -170,9 +168,6 @@ void CMenu::Process(float _fDeltaTick) {
 			break;
 
 		}
-
-		
-
 		default:break;
 	}
 }
