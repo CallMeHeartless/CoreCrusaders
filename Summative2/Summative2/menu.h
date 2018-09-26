@@ -40,6 +40,7 @@ class CMenu : public CScene {
 		EMENUTYPE m_eMenuType;
 		std::vector<TButton> m_vecButtons;
 		EBUTTONID m_eSelection = BUTTON_NONE;
+		std::unique_ptr<CSprite> m_pBackground;
 		std::vector<std::string> m_vecstrMainMenuButtonPaths = { "Resources/Textures/button_play.png", 
 																"Resources/Textures/button_help.png",
 																"Resources/Textures/button_enemies.png",

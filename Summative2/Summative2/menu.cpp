@@ -26,6 +26,12 @@ CMenu::CMenu() {
 CMenu::CMenu(EMENUTYPE _eType):m_eMenuType(_eType) {
 	m_pUICamera = std::make_unique<CCamera>(Utility::SCR_WIDTH, Utility::SCR_HEIGHT);
 
+	m_pBackground = std::make_unique<CSprite>();
+	m_pBackground->Initialise("Resources/Textures/Background.png");
+	m_pBackground->SetLocation(glm::vec3(float(Utility::SCR_WIDTH)/2.0f, float(Utility::SCR_HEIGHT)/2.0f, 0));
+	//m_pBackground->SetLocation(glm::vec3(900, 900, 0));
+	m_pBackground->SetScale(glm::vec3(Utility::SCR_WIDTH, Utility::SCR_HEIGHT, 0));
+
 	// Create buttons accordingly
 	switch (_eType) {
 		case MENU_MAIN:{	
@@ -215,8 +221,12 @@ void CMenu::Process(float _fDeltaTick) {
 * @return: void
 ********************/
 void CMenu::Render() {
-	// Render buttons
 	glDisable(GL_DEPTH_TEST);
+
+	// Background
+	m_pBackground->Render(m_pUICamera.get());
+
+	// Render buttons
 	for (auto& button : m_vecButtons) {
 		button.pSprite->Render(m_pUICamera.get());
 	}

@@ -55,6 +55,7 @@ void CScene::Process(float _fDeltaTick) {
 	// Check for Game over
 	if (CheckForGameOver()) {
 		CSceneManager::GetInstance()->SetScore(m_iPlayerScore);
+		CSound::GetInstance()->Play(EBACKGROUND_MENU);
 		CSceneManager::GetInstance()->LoadGameMenu(MENU_GAME_OVER);
 	}
 
@@ -385,6 +386,9 @@ void CScene::InitialiseWave() {
 	// Loop back to the beginning if the end of the wave profiles have been reached
 	if (m_iEnemyWaveCount == LEVEL_INFO::SPAWNS.size()) {
 		m_iEnemyWaveCount = 0;
+		if (m_fEnemySpawnDelay > 0.5f) {
+			m_fEnemySpawnDelay -= 0.5f;
+		}
 	}
 	// Load the enemies to be spawned this wave
 	m_veciEnemiesInWave = LEVEL_INFO::SPAWNS[m_iEnemyWaveCount];

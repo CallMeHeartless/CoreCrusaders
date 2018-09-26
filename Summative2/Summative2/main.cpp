@@ -56,7 +56,7 @@ void Render() {
 
 void Exit() {
 	CInput::GetInstance()->DestroyInstance();
-	// Sound
+	CSound::GetInstance()->Destoy();
 	CSceneManager::GetInstance()->DestroyInstance();
 }
 
@@ -87,8 +87,7 @@ int main(int argc, char** argv) {
 	//g_pAudioManager->playSound(g_pBGMusic, 0, false, &pChannel);
 	
 	// Initialise Scene Manager and launch menu scene
-	//CSceneManager::GetInstance()->SetState(MENU);
-	//CSceneManager::GetInstance()->LoadLevel(0);
+	CSound::GetInstance()->Play(EBACKGROUND_MENU);
 	CSceneManager::GetInstance()->LoadGameMenu(MENU_MAIN);
 
 	// Enable face culling
