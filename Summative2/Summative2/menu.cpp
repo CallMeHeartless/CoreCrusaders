@@ -101,26 +101,35 @@ void CMenu::CreateGameOverMenu() {
 	m_pScoreText->SetText(Utility::ToString("SCORE: " + Utility::ToString(CSceneManager::GetInstance()->GetScore())));
 }
 
+void CMenu::CreateBackButton() {
+	m_vecButtons = {TButton{new CSprite(), BUTTON_MAIN_MENU} };
+	m_vecButtons[0].pSprite->Initialise("Resources/Textures/button_back.png");
+	m_vecButtons[0].pSprite->SetLocation(glm::vec3(100, 200, 0));
+	m_vecButtons[0].pSprite->SetScale(glm::vec3(200, 50, 0));
+}
+
 void CMenu::CreateHelpMenu() {
 	// Only the back button is needed
-	m_vecButtons = {
-		TButton{new CSprite(), BUTTON_MAIN_MENU} };
-	m_vecButtons[0].pSprite->Initialise("Resources/Textures/button_back.png");
-	m_vecButtons[0].pSprite->SetLocation(glm::vec3(200, 200, 0));
-	m_vecButtons[0].pSprite->SetScale(glm::vec3(200, 50, 0));
+	CreateBackButton();
 
 	// Additional menu components
+	auto help = std::make_unique<CSprite>();
+	help->Initialise("Resources/Textures/Instructions.png");
+	help->SetLocation(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f, 0.0f));
+	help->SetScale(glm::vec3(1000, 1000, 0));
+	m_vecpExtra.push_back(std::move(help));
 }
 
 void CMenu::CreateEnemiesMenu() {
 	// Only the back button is needed
-	m_vecButtons = {
-		TButton{ new CSprite(), BUTTON_MAIN_MENU } };
-	m_vecButtons[0].pSprite->Initialise("Resources/Textures/button_back.png");
-	m_vecButtons[0].pSprite->SetLocation(glm::vec3(200, 200, 0));
-	m_vecButtons[0].pSprite->SetScale(glm::vec3(200, 50, 0));
+	CreateBackButton();
 
 	// Additional menu components
+	auto enemies = std::make_unique<CSprite>();
+	enemies->Initialise("Resources/Textures/EnemyGuide.png");
+	enemies->SetLocation(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f, 0.0f));
+	enemies->SetScale(glm::vec3(1000, 1000, 0));
+	m_vecpExtra.push_back(std::move(enemies));
 }
 
 void CMenu::CreateCreditsMenu() {
@@ -190,6 +199,18 @@ void CMenu::Process(float _fDeltaTick) {
 			break;
 		}
 
+		case BUTTON_INSTRUCTIONS: {
+			// Go to help menu
+			CSceneManager::GetInstance()->LoadGameMenu(MENU_HELP);
+			break;
+		}
+
+		case BUTTON_SHOW_ENEMIES: {
+			// Show enemies menu
+			CSceneManager::GetInstance()->LoadGameMenu(MENU_ENEMIES);
+			break;
+		}
+
 		case BUTTON_QUIT: {
 			glutDestroyWindow(glutGetWindow());
 			exit(0);
@@ -240,6 +261,17 @@ void CMenu::Render() {
 
 		case MENU_GAME_OVER: {
 			m_pScoreText->Render();
+			break;
+		}
+
+		case MENU_ENEMIES: {
+			// Fall through
+		}
+
+		case MENU_HELP: {
+			for (auto& sprite : m_vecpExtra) {
+				sprite->Render(m_pUICamera.get());
+			}
 			break;
 		}
 

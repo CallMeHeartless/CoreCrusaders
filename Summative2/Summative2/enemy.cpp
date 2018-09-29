@@ -23,22 +23,22 @@ CEnemy::CEnemy(unsigned int _eType, unsigned int _eTarget) {
 
 	switch (m_eType) {
 		case EDRONE: {
-			Initialise("Resources/Textures/Stalker1.png");
+			Initialise("Resources/Textures/greenDrone.png");
 			break;
 		}
 
 		case ETANK: {
-			Initialise("Resources/Textures/Warper2.png");
+			Initialise("Resources/Textures/greenTank.png");
 			m_iDamage = 2;
-			m_iLife = 5;
+			m_iLife = 10;
 			break;
 		}
 
 		case ESPRINTER: {
-			Initialise("Resources/Textures/Runner1.png");
+			Initialise("Resources/Textures/greenSprinter.png");
 			m_iDamage = 5;
 			m_fMoveSpeed = 600.0f;
-			m_iLife = 2;
+			m_iLife = 4;
 			break;
 		}
 
@@ -51,28 +51,66 @@ CEnemy::CEnemy(unsigned int _eType, unsigned int _eTarget) {
 	switch (_eTarget)
 	{
 		case ETARGET_PLAYER_ONE: {
-			//Initialise("Resources/Textures/Warper2.png");	// Make Color of variant
-			m_iDamage = 2 * m_iDamage;
-			m_iLife = 2 * m_iLife;
+			// Update sprite to hunt the blue player
+			switch (m_eType) {
+				case EDRONE: {
+					m_pSprite->AddTexture("Resources/Textures/orangeDrone.png");
+					m_pSprite->SetTextureIndex(1);
+					break;
+				}
+
+				case ETANK: {
+					m_pSprite->AddTexture("Resources/Textures/orangeTank.png");
+					m_pSprite->SetTextureIndex(1);
+					break;
+				}
+
+				case ESPRINTER: {
+					m_pSprite->AddTexture("Resources/Textures/orangeSprinter.png");
+					m_pSprite->SetTextureIndex(1);
+					break;
+				}
+
+				default:break;
+			}
+
 			break;
 		}
 
 		case ETARGET_PLAYER_TWO: {
-			//Initialise("Resources/Textures/Runner1.png");	// Make Color of variant
-			m_iDamage = 2 * m_iDamage;
-			m_iLife = 2 * m_iLife;
-			break;
+			switch (m_eType) {
+				case EDRONE: {
+					m_pSprite->AddTexture("Resources/Textures/blueDrone.png");
+					m_pSprite->SetTextureIndex(1);
+					break;
+				}
+
+				case ETANK: {
+					m_pSprite->AddTexture("Resources/Textures/blueTank.png");
+					m_pSprite->SetTextureIndex(1);
+					break;
+				}
+
+				case ESPRINTER: {
+					m_pSprite->AddTexture("Resources/Textures/blueSprinter.png");
+					m_pSprite->SetTextureIndex(1);
+					break;
+				}
+
+				default:break;
+				}
+				break;
 		}
 		default: // TargetIsBase
 			break;
 	}
 
-	m_fFrameW = m_pSprite->GetWidth() / 3.0f;
+	/*m_fFrameW = m_pSprite->GetWidth() / 3.0f;
 	m_pSprite->SetFrameWidth(m_fFrameW);
 	m_fFrameH = m_pSprite->GetHeight() / 4.0f;
 	m_pSprite->SetFrameHeight(m_fFrameH);
 
-	m_pSprite->SetIndex(1, 2);
+	m_pSprite->SetIndex(1, 2);*/
 }
 
 CEnemy::~CEnemy(){}

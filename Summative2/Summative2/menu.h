@@ -58,6 +58,7 @@ class CMenu : public CScene {
 																"Resources/Textures/button_god-mode-off.png",
 																"Resources/Textures/button_ai-test-on.png",
 																"Resources/Textures/button_ai-test-off.png"};
+		std::vector<std::unique_ptr<CSprite>> m_vecpExtra;
 
 		// Menu creation helper functions
 		inline void CreateMainMenu();
@@ -66,6 +67,7 @@ class CMenu : public CScene {
 		inline void CreateEnemiesMenu();
 		inline void CreateCreditsMenu();
 		inline void ProcessMouseClick();
+		inline void CreateBackButton();
 
 	public:
 		CMenu();

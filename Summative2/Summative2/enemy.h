@@ -36,7 +36,7 @@ class CEnemy : public CEntity {
 		float m_fMoveSpeed = 300.0f;
 		glm::vec3 m_vfTarget;
 		int m_iDamage = 1;
-		int m_iLife = 1;
+		int m_iLife = 2;
 		glm::vec3 m_vfVelocity = glm::vec3(0, 0, 0);
 		int m_iPoints = 10;
 
