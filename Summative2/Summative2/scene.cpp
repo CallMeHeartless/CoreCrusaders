@@ -235,7 +235,7 @@ void CScene::HandleCollisions() {
 				}
 				else
 				{
-					enemy->Damage(1, false);
+					enemy->Damage(2, false);
 				}
 
 				// If killed, add points

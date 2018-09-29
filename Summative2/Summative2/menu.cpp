@@ -108,16 +108,20 @@ void CMenu::CreateBackButton() {
 	m_vecButtons[0].pSprite->SetScale(glm::vec3(200, 50, 0));
 }
 
+void CMenu::CreateBackgroundSprite(const char* _kcPathName) {
+	auto info = std::make_unique<CSprite>();
+	info->Initialise(_kcPathName);
+	info->SetLocation(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f, 0.0f));
+	info->SetScale(glm::vec3(1000, 1000, 0));
+	m_vecpExtra.push_back(std::move(info));
+}
+
 void CMenu::CreateHelpMenu() {
 	// Only the back button is needed
 	CreateBackButton();
 
 	// Additional menu components
-	auto help = std::make_unique<CSprite>();
-	help->Initialise("Resources/Textures/Instructions.png");
-	help->SetLocation(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f, 0.0f));
-	help->SetScale(glm::vec3(1000, 1000, 0));
-	m_vecpExtra.push_back(std::move(help));
+	CreateBackgroundSprite("Resources/Textures/Instructions.png");
 }
 
 void CMenu::CreateEnemiesMenu() {
@@ -125,19 +129,11 @@ void CMenu::CreateEnemiesMenu() {
 	CreateBackButton();
 
 	// Additional menu components
-	auto enemies = std::make_unique<CSprite>();
-	enemies->Initialise("Resources/Textures/EnemyGuide.png");
-	enemies->SetLocation(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f, 0.0f));
-	enemies->SetScale(glm::vec3(1000, 1000, 0));
-	m_vecpExtra.push_back(std::move(enemies));
+	CreateBackgroundSprite("Resources/Textures/EnemyGuide.png");
 }
 
 void CMenu::CreateCreditsMenu() {
-	m_vecButtons = {
-		TButton{ new CSprite(), BUTTON_MAIN_MENU } };
-	m_vecButtons[0].pSprite->Initialise("Resources/Textures/button_main-menu.png");
-	m_vecButtons[0].pSprite->SetLocation(glm::vec3(200, 200, 0));
-	m_vecButtons[0].pSprite->SetScale(glm::vec3(200, 50, 0));
+	CreateBackButton();
 }
 
 void CMenu::ProcessMouseClick() {

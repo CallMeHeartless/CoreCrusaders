@@ -105,6 +105,8 @@ CEnemy::CEnemy(unsigned int _eType, unsigned int _eTarget) {
 			break;
 	}
 
+	m_pSprite->SetScale(glm::vec3(72, 108, 0));
+
 	/*m_fFrameW = m_pSprite->GetWidth() / 3.0f;
 	m_pSprite->SetFrameWidth(m_fFrameW);
 	m_fFrameH = m_pSprite->GetHeight() / 4.0f;

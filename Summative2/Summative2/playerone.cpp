@@ -4,7 +4,7 @@
 CPlayerOne::CPlayerOne() {
 	// Initialise sprite
 	m_pSprite = std::make_unique<CSprite>();
-	m_pSprite->Initialise("Resources/Textures/inca_back2-5.png");
+	m_pSprite->Initialise("Resources/Textures/playerOne.png");
 	m_fRapidFireTimer = 1.0f;
 }
 

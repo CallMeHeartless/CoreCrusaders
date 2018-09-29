@@ -4,7 +4,7 @@
 CPlayerTwo::CPlayerTwo(){
 	// Initialise sprite
 	m_pSprite = std::make_unique<CSprite>();
-	m_pSprite->Initialise("Resources/Textures/MagicSprite.png");
+	m_pSprite->Initialise("Resources/Textures/playerTwo.png");
 
 	m_fRapidFireTimer = 1.0f;
 }

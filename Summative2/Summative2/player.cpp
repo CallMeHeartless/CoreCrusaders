@@ -10,16 +10,7 @@ Mail        :   kerry.pel7420@mediadesign.school.nz
 #include "input.h"
 
 CPlayer::CPlayer(){
-	// Create sprite
-	/*m_pSprite = std::make_unique<CSprite>();
-	m_pSprite->Initialise("Resources/Textures/Player.png");
-
-	m_pSprite->SetFrameWidth(m_pSprite->GetWidth() / 3.0f);
-
-	m_pSprite->SetFrameHeight(m_pSprite->GetHeight() / 4.0f);
-
-	m_pSprite->SetIndex(1, 2);*/
-
+	// Create sprit
 	m_fAttackCoolDownTimer = 0;
 }
 

@@ -68,6 +68,7 @@ class CMenu : public CScene {
 		inline void CreateCreditsMenu();
 		inline void ProcessMouseClick();
 		inline void CreateBackButton();
+		inline void CreateBackgroundSprite(const char* _kcPathName);
 
 	public:
 		CMenu();
