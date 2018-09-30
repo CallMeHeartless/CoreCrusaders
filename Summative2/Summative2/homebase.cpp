@@ -3,7 +3,9 @@
 CHomeBase::CHomeBase()
 {
 	m_pSprite = std::make_unique<CSprite>();
-	m_pSprite->Initialise("Resources/Textures/inca_front-10.png");
+	m_pSprite->Initialise("Resources/Textures/base.png");
+	m_pSprite->SetScale(glm::vec3(128, 128, 0));
+
 }
 
 CHomeBase::~CHomeBase(){}

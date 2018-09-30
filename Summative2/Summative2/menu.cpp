@@ -104,7 +104,7 @@ void CMenu::CreateGameOverMenu() {
 void CMenu::CreateBackButton() {
 	m_vecButtons = {TButton{new CSprite(), BUTTON_MAIN_MENU} };
 	m_vecButtons[0].pSprite->Initialise("Resources/Textures/button_back.png");
-	m_vecButtons[0].pSprite->SetLocation(glm::vec3(100, 200, 0));
+	m_vecButtons[0].pSprite->SetLocation(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, 50.0f, 0.0f));
 	m_vecButtons[0].pSprite->SetScale(glm::vec3(200, 50, 0));
 }
 
@@ -119,7 +119,6 @@ void CMenu::CreateBackgroundSprite(const char* _kcPathName) {
 void CMenu::CreateHelpMenu() {
 	// Only the back button is needed
 	CreateBackButton();
-
 	// Additional menu components
 	CreateBackgroundSprite("Resources/Textures/Instructions.png");
 }
