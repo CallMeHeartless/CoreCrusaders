@@ -5,7 +5,7 @@
 class CHomeBase : public CEntity {
 
 private:
-	int m_iHealth = 100;
+	int m_iHealth = 1;
 	bool m_bIsAlive = true;
 	float m_fAnimationTimer = 0.0f;
 	float m_fAnimationSwitchCue = 1.0f;

@@ -57,6 +57,7 @@ void CScene::Process(float _fDeltaTick) {
 		CSceneManager::GetInstance()->SetScore(m_iPlayerScore);
 		CSound::GetInstance()->Play(EBACKGROUND_MENU);
 		CSceneManager::GetInstance()->LoadGameMenu(MENU_GAME_OVER);
+		return;
 	}
 
 	// Check if wave has been cleared

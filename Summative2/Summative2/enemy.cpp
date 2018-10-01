@@ -188,9 +188,17 @@ void CEnemy::Damage(int _iDamage, bool _bIsPlayerOne) {
 		{
 			m_iLife -= _iDamage * 2;
 		}
+		else if (ETARGET_PLAYER_ONE == m_eTarget)
+		{
+			m_iLife -= _iDamage / 2;
+		}
 		else if (ETARGET_PLAYER_TWO == m_eTarget && _bIsPlayerOne)
 		{
 			m_iLife -= _iDamage * 2;
+		}
+		else if (ETARGET_PLAYER_TWO == m_eTarget)
+		{
+			m_iLife -= _iDamage / 2;
 		}
 		else
 		{
