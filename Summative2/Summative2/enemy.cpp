@@ -135,6 +135,8 @@ void CEnemy::Process(float _fDeltaTick, glm::vec3 _vecTargetPosition){
 
 		UpdatePosition(vfSteering.x, vfSteering.y);
 	}
+
+	m_fInvulnrable += _fDeltaTick;
 }
 
 /***********************
@@ -180,17 +182,30 @@ int CEnemy::GetDamage()const {
 * @return: void
 ********************/
 void CEnemy::Damage(int _iDamage, bool _bIsPlayerOne) {
-	if (ETARGET_PLAYER_ONE == m_eTarget && !_bIsPlayerOne)
+	if (1.0f < m_fInvulnrable)
 	{
-		m_iLife -= _iDamage * 2;
-	}
-	else if (ETARGET_PLAYER_TWO == m_eTarget && _bIsPlayerOne)
-	{
-		m_iLife -= _iDamage * 2;
-	}
-	else
-	{
-		m_iLife -= _iDamage;
+		if (ETARGET_PLAYER_ONE == m_eTarget && !_bIsPlayerOne)
+		{
+			m_iLife -= _iDamage * 2;
+		}
+		else if (ETARGET_PLAYER_ONE == m_eTarget)
+		{
+			m_iLife -= _iDamage / 2;
+		}
+		else if (ETARGET_PLAYER_TWO == m_eTarget && _bIsPlayerOne)
+		{
+			m_iLife -= _iDamage * 2;
+		}
+		else if (ETARGET_PLAYER_TWO == m_eTarget)
+		{
+			m_iLife -= _iDamage / 2;
+		}
+		else
+		{
+			m_iLife -= _iDamage;
+		}
+
+		m_fInvulnrable = 0.0f;
 	}
 
 	if (m_iLife <= 0) {
