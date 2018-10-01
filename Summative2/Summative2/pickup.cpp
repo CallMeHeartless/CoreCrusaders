@@ -10,7 +10,7 @@ Mail        :   kerry.pel7420@mediadesign.school.nz
 
 CPickup::CPickup(){
 	// Initialise
-	Initialise("Resources/Textures/Coins.png");
+	Initialise("Resources/Textures/CoinsTest.png");
 	m_pSprite->SetFrameWidth(m_pSprite->GetWidth() / 5.0f);
 
 	// Select starting animation frame
@@ -74,6 +74,27 @@ int CPickup::GetScore()const {
 void CPickup::SetType(EPICKUP_TYPES _eMyType)
 {
 	m_ePickupType = _eMyType;
+	switch (m_ePickupType)
+	{
+	case ERAPID_FIRE: // Silver Correct
+		//m_iYIndex = 181;
+		m_iYIndex = 20;
+		break;
+	case ESPEED://Blue // Correct
+		//m_iYIndex = 317;
+		m_iYIndex = 15;
+		break;
+	case EHIGHER_ENEMY_DAMAGE: // Red Correct
+		//m_iYIndex = 226;
+		m_iYIndex = 5;
+		break;
+	case ESCORE: // Yellow Correct
+		//m_iYIndex = 272;
+		m_iYIndex = 30;
+		break;
+	default:
+		break;
+	}
 }
 
 /***********************

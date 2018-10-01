@@ -4,7 +4,7 @@ CHomeBase::CHomeBase()
 {
 	m_pSprite = std::make_unique<CSprite>();
 	m_pSprite->Initialise("Resources/Textures/base.png");
-	m_pSprite->SetScale(glm::vec3(128, 128, 0));
+	m_pSprite->SetScale(glm::vec3(150, 150, 0));
 
 }
 

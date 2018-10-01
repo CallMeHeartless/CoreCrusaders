@@ -60,6 +60,10 @@ private:
 	// Base
 	std::unique_ptr<CHomeBase> m_pHomeBase;
 
+	//Background
+	std::unique_ptr<CEntity> m_pBackground;
+
+
 	// Enemy variables
 	std::vector<std::unique_ptr<CEnemy>> m_vecpEnemies;
 	std::vector<glm::vec3> m_vecEnemySpawnPoints;

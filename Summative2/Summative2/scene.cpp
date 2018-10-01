@@ -466,6 +466,9 @@ void CScene::ProcessWave(float _fDeltaTick) {
 * @return: void
 ********************/
 void CScene::Render() {
+
+	m_pBackground->Render(m_pGameCamera.get());
+
 	//Render Entities
 	for (auto& entity : m_vecpEntities) {
 		entity->Render(m_pGameCamera.get());
@@ -564,7 +567,13 @@ bool CScene::Initialise() {
 
 	// Core
 	m_pHomeBase = std::make_unique<CHomeBase>();
-	m_pHomeBase->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f, 0.0f));
+	m_pHomeBase->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f + 50.0f, 0.0f));
+
+	m_pBackground = std::make_unique<CEntity>();
+	m_pBackground->Initialise("Resources/Textures/bg.png");
+	m_pBackground->SetScale(glm::vec3(m_pBackground->GetSprite()->GetWidth(), m_pBackground->GetSprite()->GetHeight(), 0.0f));
+	m_pBackground->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f, 0.0f));
+
 
 	//Rails
 	auto rails = std::make_unique<CEntity>();
