@@ -52,6 +52,9 @@ void CScene::Process(float _fDeltaTick) {
 	// Spawn pickup if needed
 	ProcessPickupSpawn(_fDeltaTick);
 
+	// Process power up text
+	ProcessPowerUpText(_fDeltaTick);
+
 	// Check for Game over
 	if (CheckForGameOver()) {
 		CSceneManager::GetInstance()->SetScore(m_iPlayerScore);
@@ -327,6 +330,7 @@ void CScene::HandleCollisions() {
 						m_vecpText[0]->SetText("Score: " + m_iPlayerScore);
 						break;
 					}
+					CreatePowerUpText(pickup->GetType());
 				}
 			}
 		}
@@ -493,6 +497,11 @@ void CScene::Render() {
 	for (auto& text : m_vecpText)
 	{
 		text->Render();
+	}
+
+	// Render power up text
+	if (m_pPowerUpTextLabel) {
+		m_pPowerUpTextLabel->Render();
 	}
 
 	// Render Base
@@ -709,4 +718,43 @@ bool CScene::CheckForCollision(const CEntity* const _kpMesh1, const CEntity* con
 ********************/
 bool CScene::CheckForGameOver()const {
 	return m_pHomeBase->GetHealth() <= 0;
+}
+
+void CScene::CreatePowerUpText(EPICKUP_TYPES _eType) {
+	std::string strText;
+
+	switch (_eType) {
+		case ERAPID_FIRE: {
+			strText = "RAPID FIRE";
+			break;
+		}
+
+		case ESPEED: {
+			strText = "SPEED BOOST";
+			break;
+		}
+
+		case EHIGHER_ENEMY_DAMAGE: {
+			strText = "REBALANCED POWER";
+			break;
+		}
+
+		case ESCORE: {
+			strText = "BONUS SCORE";
+			break;
+		}
+
+		default:return;
+	}
+
+	m_pPowerUpTextLabel = std::make_unique<TextLabel>(strText, "Resources/Fonts/lunchds.ttf", glm::vec2((float)Utility::SCR_WIDTH / 2.0f - 100.0f, 100.0f));
+	// Reset text timer
+	m_fPowerUpTextCounter = 0.0f;
+}
+
+void CScene::ProcessPowerUpText(float _fDeltaTick) {
+	m_fPowerUpTextCounter += _fDeltaTick;
+	if (m_fPowerUpTextCounter >= m_fPowerUpTextDuration && m_pPowerUpTextLabel) {
+		m_pPowerUpTextLabel.reset();
+	}
 }

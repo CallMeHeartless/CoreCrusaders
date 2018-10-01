@@ -29,6 +29,8 @@ class CProjectile;
 class CEnemy;
 class CSound;
 
+enum EPICKUP_TYPES;
+
 class CScene {
 protected:
 	std::unique_ptr<CCamera> m_pUICamera;
@@ -74,6 +76,9 @@ private:
 
 	//Text
 	std::vector<std::unique_ptr<TextLabel>> m_vecpText;
+	float m_fPowerUpTextCounter = 0.0f;
+	float m_fPowerUpTextDuration = 2.0f;
+	std::unique_ptr<TextLabel> m_pPowerUpTextLabel;
 
 	// Helper functions
 	void RemoveExpiredObjects();
@@ -85,6 +90,8 @@ private:
 	void ProcessWave(float _fDeltaTick);
 	bool CheckIfWaveIsCleared()const;
 	void InitialiseEnemySpawnPoints();
+	void CreatePowerUpText(EPICKUP_TYPES _eType);
+	void ProcessPowerUpText(float _fDeltaTick);
 
 
 	public:
