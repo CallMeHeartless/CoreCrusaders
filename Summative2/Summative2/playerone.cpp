@@ -151,9 +151,9 @@ void CPlayerOne::Attack()
 	if (m_bCanAttack)
 	{
 		//Do attack code
-		m_pSprite->AddTexture("Resources/Textures/inca_back2-5 - Copy.png");
+		m_pSprite->AddTexture("Resources/Textures/electricOrbedPlayer.png");
 		m_pSprite->SetTextureIndex(1);
-		m_pSprite->SetScale(glm::vec3(m_pSprite->GetScale().x * 2, m_pSprite->GetScale().y * 2, m_pSprite->GetScale().z));
+		m_pSprite->SetScale(glm::vec3(135, 135, m_pSprite->GetScale().z));
 
 		m_fAttackCoolDownTimer = 0;
 		m_bCanAttack = false;
