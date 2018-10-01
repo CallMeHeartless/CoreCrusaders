@@ -39,6 +39,7 @@ class CEnemy : public CEntity {
 		int m_iLife = 2;
 		glm::vec3 m_vfVelocity = glm::vec3(0, 0, 0);
 		int m_iPoints = 10;
+		float m_fInvulnrable = 0.0f;
 
 	public:
 		CEnemy();
