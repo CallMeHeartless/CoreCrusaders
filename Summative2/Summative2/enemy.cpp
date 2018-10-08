@@ -29,17 +29,17 @@ CEnemy::CEnemy(unsigned int _eType, unsigned int _eTarget) {
 
 		case ETANK: {
 			Initialise("Resources/Textures/greenTank.png");
-			m_iDamage = m_iDamage * 2.0f;
+			m_iDamage = m_iDamage * 3;
 			m_fMoveSpeed = m_fMoveSpeed / 2.0f;
-			m_iLife = m_iLife * 2.0f;
+			m_iLife = 10;
 			break;
 		}
 
 		case ESPRINTER: {
 			Initialise("Resources/Textures/greenSprinter.png");
-			m_iDamage = m_iDamage / 2.0f;
+			m_iDamage = m_iDamage * 2;
 			m_fMoveSpeed = m_fMoveSpeed * 2.0f;
-			m_iLife = m_iLife / 2.0f;
+			m_iLife = 1;
 			break;
 		}
 
@@ -190,7 +190,13 @@ int CEnemy::GetDamage()const {
 * @return: void
 ********************/
 void CEnemy::Damage(int _iDamage, bool _bIsPlayerOne) {
-	if (1.0f < m_fInvulnrable)
+
+	if (ETANK == m_eType)
+	{
+		std::cout << "Testing" << std::endl;
+	}
+
+	if (1.0f < m_fInvulnrable || !_bIsPlayerOne) // Invulnrable timer or player 2
 	{
 		if (ETARGET_PLAYER_ONE == m_eTarget && !_bIsPlayerOne)
 		{

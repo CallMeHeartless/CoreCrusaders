@@ -73,7 +73,7 @@ void CScene::Process(float _fDeltaTick) {
 		InitialiseWave();
 	}
 
-	Debug();
+	//Debug();
 	
 }
 
