@@ -97,6 +97,8 @@ private:
 	void CreatePowerUpText(EPICKUP_TYPES _eType);
 	void ProcessPowerUpText(float _fDeltaTick);
 
+	void Debug();
+
 
 	public:
 		CScene();

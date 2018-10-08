@@ -49,24 +49,25 @@ CSound::CSound()
 	// Create Audio
 	if (Utility::InitFMod(&m_pAudioManager)) {
 		//COutputLog::GetInstance()->LogMessage("Audio manager successfully loaded.");
+		LoadSounds();
 	}
-	// Create background music
-	result = m_pAudioManager->createSound("Resources/Audio/bensound-theelevatorbossanova.mp3", FMOD_DEFAULT, 0, &m_pBGMusic);
-	if (result != FMOD_OK) {
-		//COutputLog::GetInstance()->LogMessage("ERROR: Unable to initialise background music.");
-	}
-	else {
-		m_pBGMusic->setMode(FMOD_LOOP_NORMAL);
-		m_pAudioManager->playSound(m_pBGMusic, 0, false, &m_pAudioBackgroundChannel);
-	}
+	//// Create background music
+	//result = m_pAudioManager->createSound("Resources/Audio/bensound-theelevatorbossanova.mp3", FMOD_DEFAULT, 0, &m_pBGMusic);
+	//if (result != FMOD_OK) {
+	//	//COutputLog::GetInstance()->LogMessage("ERROR: Unable to initialise background music.");
+	//}
+	//else {
+	//	m_pBGMusic->setMode(FMOD_LOOP_NORMAL);
+	//	m_pAudioManager->playSound(m_pBGMusic, 0, false, &m_pAudioBackgroundChannel);
+	//}
 
-	// Create sound effects
-	if (LoadSounds()) {
-		//COutputLog::GetInstance()->LogMessage("All sound effects loaded successfully.");
-	}
-	else {
-		//COutputLog::GetInstance()->LogMessage("ERROR: Some sound effects were uninitialised.");
-	}
+	//// Create sound effects
+	//if () {
+	//	//COutputLog::GetInstance()->LogMessage("All sound effects loaded successfully.");
+	//}
+	//else {
+	//	//COutputLog::GetInstance()->LogMessage("ERROR: Some sound effects were uninitialised.");
+	//}
 }
 
 CSound* CSound::GetInstance()

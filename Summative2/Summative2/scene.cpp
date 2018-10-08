@@ -72,6 +72,8 @@ void CScene::Process(float _fDeltaTick) {
 		++m_iEnemyWaveCount;
 		InitialiseWave();
 	}
+
+	Debug();
 	
 }
 
@@ -765,5 +767,11 @@ void CScene::ProcessPowerUpText(float _fDeltaTick) {
 	m_fPowerUpTextCounter += _fDeltaTick;
 	if (m_fPowerUpTextCounter >= m_fPowerUpTextDuration && m_pPowerUpTextLabel) {
 		m_pPowerUpTextLabel.reset();
+	}
+}
+
+void CScene::Debug() {
+	if (CInput::GetInstance()->GetKeyState('k') == INPUT_FIRST_PRESSED) {
+		m_pHomeBase->SetHealth(0);
 	}
 }
