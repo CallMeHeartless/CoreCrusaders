@@ -567,7 +567,7 @@ bool CScene::Initialise() {
 
 	// Create players
 	auto player1 = std::make_unique<CPlayerOne>();
-	player1->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f + 50.0f, 0.0f));
+	player1->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f - 100.0f, 0.0f));
 	m_vecpPlayers.push_back(std::move(player1));
 
 	auto player2 = std::make_unique<CPlayerTwo>();
