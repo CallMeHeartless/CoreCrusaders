@@ -140,6 +140,11 @@ bool CPlayer::GetAttacking() const
 	return m_bAttacking;
 }
 
+float CPlayer::GetAttackCooldownTimeLeft() const
+{
+	return (m_fRapidFireTimer - m_fAttackCoolDownTimer);
+}
+
 bool CPlayer::GetRebalance() const
 {
 	return m_bRebalance;

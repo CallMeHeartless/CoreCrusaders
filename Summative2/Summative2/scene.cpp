@@ -233,15 +233,15 @@ void CScene::HandleCollisions() {
 				// Damage enemy
 				if (m_vecpPlayers[0]->GetRebalance())
 				{
-					enemy->Damage(1, false);
+					enemy->Damage(1, false, 0.0f);
 				}
 				else if (m_vecpPlayers[1]->GetRebalance())
 				{
-					enemy->Damage(4, false);
+					enemy->Damage(4, false, 0.0f);
 				}
 				else
 				{
-					enemy->Damage(2, false);
+					enemy->Damage(2, false, 0.0f);
 				}
 
 				// If killed, add points
@@ -263,15 +263,15 @@ void CScene::HandleCollisions() {
 			// Damage enemy
 			if (m_vecpPlayers[0]->GetRebalance())
 			{
-				enemy->Damage(4, false);
+				enemy->Damage(4, true, m_vecpPlayers[0]->GetAttackCooldownTimeLeft());
 			}
 			else if (m_vecpPlayers[1]->GetRebalance())
 			{
-				enemy->Damage(1, false);
+				enemy->Damage(1, true, m_vecpPlayers[0]->GetAttackCooldownTimeLeft());
 			}
 			else
 			{
-				enemy->Damage(2, false);
+				enemy->Damage(2, true, m_vecpPlayers[0]->GetAttackCooldownTimeLeft());
 			}
 
 			// If killed, add points

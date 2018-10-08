@@ -143,8 +143,6 @@ void CEnemy::Process(float _fDeltaTick, glm::vec3 _vecTargetPosition){
 		}
 		m_pSprite->SetAngle(fAngle);
 	}
-
-	m_fInvulnrable += _fDeltaTick;
 }
 
 /***********************
@@ -189,14 +187,9 @@ int CEnemy::GetDamage()const {
 * @parameter: int _iDamage (damage to be done), bool _bIsPlayerOne (was the source of the damage from PlayerOne)
 * @return: void
 ********************/
-void CEnemy::Damage(int _iDamage, bool _bIsPlayerOne) {
+void CEnemy::Damage(int _iDamage, bool _bIsPlayerOne, float m_fAttackCoolDown) {
 
-	if (ETANK == m_eType)
-	{
-		std::cout << "Testing" << std::endl;
-	}
-
-	if (1.0f < m_fInvulnrable || !_bIsPlayerOne) // Invulnrable timer or player 2
+	if (m_fAttackCoolDown < m_fInvulnrable || !_bIsPlayerOne) // Invulnrable timer or player 2
 	{
 		if (ETARGET_PLAYER_ONE == m_eTarget && !_bIsPlayerOne)
 		{

@@ -75,6 +75,7 @@ class CPlayer : public CEntity {
 
 		//Attacking
 		bool GetAttacking() const;
+		float GetAttackCooldownTimeLeft() const;
 
 		//GetBalance
 		bool GetRebalance() const;

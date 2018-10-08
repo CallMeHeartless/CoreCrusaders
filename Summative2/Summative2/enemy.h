@@ -41,7 +41,7 @@ class CEnemy : public CEntity {
 
 		glm::vec3 m_vfVelocity = glm::vec3(0, 0, 0);
 		int m_iPoints = 10;
-		float m_fInvulnrable = 0.0f;
+		float m_fInvulnrable = 1.1f; // So player can attack as soon a spawns
 
 	public:
 		CEnemy();
@@ -55,7 +55,7 @@ class CEnemy : public CEntity {
 		ETYPE GetEnemyType()const;
 		ETARGET GetTargetType() const;
 		int GetDamage()const;
-		void Damage(int _iDamage, bool _bIsPlayerOne);
+		void Damage(int _iDamage, bool _bIsPlayerOne, float m_fAttackCoolDown);
 		bool CheckIfAlive()const;
 		void Kill();
 		int GetPoints()const;
