@@ -29,16 +29,17 @@ CEnemy::CEnemy(unsigned int _eType, unsigned int _eTarget) {
 
 		case ETANK: {
 			Initialise("Resources/Textures/greenTank.png");
-			m_iDamage = 2;
-			m_iLife = 10;
+			m_iDamage = m_iDamage * 2.0f;
+			m_fMoveSpeed = m_fMoveSpeed / 2.0f;
+			m_iLife = m_iLife * 2.0f;
 			break;
 		}
 
 		case ESPRINTER: {
 			Initialise("Resources/Textures/greenSprinter.png");
-			m_iDamage = 5;
-			m_fMoveSpeed = 600.0f;
-			m_iLife = 4;
+			m_iDamage = m_iDamage / 2.0f;
+			m_fMoveSpeed = m_fMoveSpeed * 2.0f;
+			m_iLife = m_iLife / 2.0f;
 			break;
 		}
 
@@ -130,10 +131,10 @@ void CEnemy::Process(float _fDeltaTick, glm::vec3 _vecTargetPosition){
 	// Seek behaviour
 	glm::vec3 vfToTarget = _vecTargetPosition - m_vfPosition;
 	if (glm::length(vfToTarget) != 0.0f) {		// No further work done if the object has arrived at their target
-		glm::vec3 vfDesired = glm::normalize(vfToTarget) * m_fMoveSpeed;
+		glm::vec3 vfDesired = glm::normalize(vfToTarget) * m_fMoveSpeed * _fDeltaTick;
 		glm::vec3 vfSteering = glm::normalize(vfDesired - m_vfVelocity) * 100.0f * _fDeltaTick;
 
-		UpdatePosition(vfSteering.x, vfSteering.y);
+		UpdatePosition(vfDesired.x, vfDesired.y);
 		// Rotate enemy towards base
 		float fDot = glm::dot(glm::normalize(vfToTarget), glm::vec3(0, 1, 0));
 		float fAngle = acosf(fDot);

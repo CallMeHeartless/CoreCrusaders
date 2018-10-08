@@ -33,10 +33,12 @@ class CEnemy : public CEntity {
 		float m_fAnimationSwitchCue = 1.0f;
 		int m_iAnimationIndex = 0;
 		bool m_bIsAlive = true;
-		float m_fMoveSpeed = 300.0f;
+
+		float m_fMoveSpeed = 100.0f;
 		glm::vec3 m_vfTarget;
 		int m_iDamage = 1;
 		int m_iLife = 2;
+
 		glm::vec3 m_vfVelocity = glm::vec3(0, 0, 0);
 		int m_iPoints = 10;
 		float m_fInvulnrable = 0.0f;
