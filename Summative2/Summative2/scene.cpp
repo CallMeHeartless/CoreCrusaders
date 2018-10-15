@@ -86,7 +86,6 @@ void CScene::Process(float _fDeltaTick) {
 
 	m_vecpEntities[3]->SetPosition(glm::vec3(m_vecpPlayers[1]->GetPosition().x, m_vecpPlayers[1]->GetPosition().y - 50.0f, m_vecpPlayers[1]->GetPosition().z));
 	float temp = (1.0f - (m_vecpPlayers[1]->GetRapidAttack() - m_vecpPlayers[1]->GetAttackCooldownTimeLeft()));
-	std::cout << temp << std::endl;
 	if (0 > temp)
 	{
 		m_vecpEntities[3]->SetScale(glm::vec3(0.0f, 5.0f, 0.0f));
@@ -440,7 +439,7 @@ void CScene::InitialiseWave() {
 * @return: bool (true if the number of enemies destroyed == enemies spawned in wave)
 ********************/
 bool CScene::CheckIfWaveIsCleared()const {
-	//std::cout << "In wave: " << m_iEnemiesInWave << " Killed:" << m_iEnemiesKilledInWave << std::endl;
+	std::cout << "In wave: " << m_iEnemiesInWave << " Killed:" << m_iEnemiesKilledInWave << std::endl;
 	return m_iEnemiesInWave == m_iEnemiesKilledInWave;
 }
 
