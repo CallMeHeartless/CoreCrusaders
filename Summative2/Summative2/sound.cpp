@@ -51,23 +51,13 @@ CSound::CSound()
 		//COutputLog::GetInstance()->LogMessage("Audio manager successfully loaded.");
 		LoadSounds();
 	}
-	//// Create background music
-	//result = m_pAudioManager->createSound("Resources/Audio/bensound-theelevatorbossanova.mp3", FMOD_DEFAULT, 0, &m_pBGMusic);
-	//if (result != FMOD_OK) {
-	//	//COutputLog::GetInstance()->LogMessage("ERROR: Unable to initialise background music.");
-	//}
-	//else {
-	//	m_pBGMusic->setMode(FMOD_LOOP_NORMAL);
-	//	m_pAudioManager->playSound(m_pBGMusic, 0, false, &m_pAudioBackgroundChannel);
-	//}
+	
+	// Create background music
+	m_pAudioManager->createSound("Resources/Audio/bensound-theelevatorbossanova.mp3", FMOD_DEFAULT, 0, &m_pBGMusic);
+	m_pBGMusic->setMode(FMOD_LOOP_OFF);
 
-	//// Create sound effects
-	//if () {
-	//	//COutputLog::GetInstance()->LogMessage("All sound effects loaded successfully.");
-	//}
-	//else {
-	//	//COutputLog::GetInstance()->LogMessage("ERROR: Some sound effects were uninitialised.");
-	//}
+	m_pAudioManager->createSound("Resources/Audio/bensound-extremeaction.mp3", FMOD_DEFAULT, 0, &m_pBGMusic1);
+	m_pBGMusic1->setMode(FMOD_LOOP_NORMAL);
 }
 
 CSound* CSound::GetInstance()
@@ -93,18 +83,16 @@ void CSound::Play(ESOUND _eSound)
 	{
 	case EBACKGROUND_MENU:
 	{
+		m_MainMenu = true;
 		m_pAudioBackgroundChannel->stop();
-		m_pAudioManager->createSound("Resources/Audio/bensound-theelevatorbossanova.mp3", FMOD_DEFAULT, 0, &m_pBGMusic);
-		m_pBGMusic->setMode(FMOD_LOOP_NORMAL);
 		m_pAudioManager->playSound(m_pBGMusic, 0, false, &m_pAudioBackgroundChannel);
 		break;
 	}
 	case EBACKGROUND_GAMEPLAY:
 	{
+		m_MainMenu = false;
 		m_pAudioBackgroundChannel->stop();
-		m_pAudioManager->createSound("Resources/Audio/bensound-extremeaction.mp3", FMOD_DEFAULT, 0, &m_pBGMusic);
-		m_pBGMusic->setMode(FMOD_LOOP_NORMAL);
-		m_pAudioManager->playSound(m_pBGMusic, 0, false, &m_pAudioBackgroundChannel);
+		m_pAudioManager->playSound(m_pBGMusic1, 0, false, &m_pAudioBackgroundChannel);
 		break;
 	}
 	case EBUTTON_PRESSED:
@@ -149,4 +137,9 @@ void CSound::Play(ESOUND _eSound)
 	default:
 		break;
 	}
+}
+
+void CSound::update()
+{
+	m_pAudioManager->update();
 }

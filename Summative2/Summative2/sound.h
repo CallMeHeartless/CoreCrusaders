@@ -29,12 +29,14 @@ enum ESOUND
 class CSound {
 private:
 	static CSound* m_pInstance;
+	bool m_MainMenu = true;
 
 	// Audio
 	FMOD::System* m_pAudioManager;
 	FMOD::Channel* m_pAudioChannel;
 	FMOD::Channel* m_pAudioBackgroundChannel;
 	FMOD::Sound* m_pBGMusic;
+	FMOD::Sound* m_pBGMusic1;
 	FMOD::Sound* m_pAudioSelect;
 	FMOD::Sound* m_pAudioPowerup;
 	FMOD::Sound* m_pAudioPlayerOneAttack;
@@ -53,6 +55,8 @@ public:
 	void Destoy();
 
 	void Play(ESOUND _eSound);
+	
+	void update();
 };
 
 #endif // !__PARTICLE_H__

@@ -69,6 +69,7 @@ void CSceneManager::Render() {
 * @return: void
 ********************/
 void CSceneManager::Process(float _fDeltaTick){
+	CSound::GetInstance()->update();
 	m_pActiveScene->Process(_fDeltaTick);
 }
 
