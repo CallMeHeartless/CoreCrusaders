@@ -100,6 +100,8 @@ void CMenu::CreateGameOverMenu() {
 
 	// Extract score
 	m_pScoreText->SetText(Utility::ToString("SCORE: " + Utility::ToString(CSceneManager::GetInstance()->GetScore())));
+	m_pScoreText->SetPosition(glm::vec2((float)Utility::SCR_WIDTH / 2 - 100, (float)Utility::SCR_HEIGHT - 200));
+
 }
 
 void CMenu::CreateBackButton() {

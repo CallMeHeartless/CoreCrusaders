@@ -18,12 +18,12 @@ bool CSound::LoadSounds() {
 	if (m_pAudioManager->createSound("Resources/Audio/pickup.wav", FMOD_DEFAULT, 0, &m_pAudioPowerup) != FMOD_OK) {
 		bAllLoaded = false;
 	}
-	
-	if (m_pAudioManager->createSound("Resources/Audio/420668__sypherzent__basic-melee-swing-miss-whoosh.wav", FMOD_DEFAULT, 0, &m_pAudioPlayerOneAttack) != FMOD_OK) {
+
+	if (m_pAudioManager->createSound("Resources/Audio/beam2.wav", FMOD_DEFAULT, 0, &m_pAudioPlayerOneAttack) != FMOD_OK) {
 		bAllLoaded = false;
 	}
 
-	if (m_pAudioManager->createSound("Resources/Audio/440661__seansecret__classic-laser-pew.wav", FMOD_LOOP_OFF, 0, &m_pAudioPlayerTwoAttack) != FMOD_OK) {
+	if (m_pAudioManager->createSound("Resources/Audio/beam3.wav", FMOD_DEFAULT, 0, &m_pAudioPlayerTwoAttack) != FMOD_OK) {
 		bAllLoaded = false;
 	}
 
@@ -31,11 +31,11 @@ bool CSound::LoadSounds() {
 		bAllLoaded = false;
 	}
 
-	if (m_pAudioManager->createSound("Resources/Audio/404747__owlstorm__retro-video-game-sfx-ouch.wav", FMOD_DEFAULT, 0, &m_pAudioBaseDamage) != FMOD_OK) {
+	if (m_pAudioManager->createSound("Resources/Audio/explode2.wav", FMOD_DEFAULT, 0, &m_pAudioBaseDamage) != FMOD_OK) {
 		bAllLoaded = false;
 	}
 
-	if (m_pAudioManager->createSound("Resources/Audio/210213__augdog__pin-pullout.wav", FMOD_DEFAULT, 0, &m_pAudioEnemyDamage) != FMOD_OK) {
+	if (m_pAudioManager->createSound("Resources/Audio/explode1.wav", FMOD_DEFAULT, 0, &m_pAudioEnemyDamage) != FMOD_OK) {
 		bAllLoaded = false;
 	}
 
