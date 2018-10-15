@@ -112,7 +112,7 @@ void CSound::Play(ESOUND _eSound)
 		m_pAudioBackgroundChannel->stop();
 		//m_pAudioManager->createSound("Resources/Audio/bensound-theelevatorbossanova.mp3", FMOD_DEFAULT, 0, &m_pBGMusic);
 		//m_pBGMusic->setMode(FMOD_LOOP_NORMAL);
-		m_pAudioManager->playSound(m_pBGMusic, 0, false, &m_pAudioBackgroundChannel);
+		m_pAudioManager->playSound(m_pMenuMusic, 0, false, &m_pAudioBackgroundChannel);
 		break;
 	}
 	case EBACKGROUND_GAMEPLAY:
