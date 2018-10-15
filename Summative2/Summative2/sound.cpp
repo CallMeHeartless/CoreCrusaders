@@ -39,6 +39,21 @@ bool CSound::LoadSounds() {
 		bAllLoaded = false;
 	}
 
+	if (m_pAudioManager->createSound("Resources/Audio/bensound-extremeaction.mp3", FMOD_DEFAULT, 0, &m_pBGMusic) != FMOD_OK) {
+		bAllLoaded = false;
+	}
+	else {
+		m_pBGMusic->setMode(FMOD_LOOP_NORMAL);
+	}
+
+	if (m_pAudioManager->createSound("Resources/Audio/bensound-theelevatorbossanova.mp3", FMOD_DEFAULT, 0, &m_pMenuMusic) != FMOD_OK) {
+		bAllLoaded = false;
+	}
+	else {
+		m_pMenuMusic->setMode(FMOD_LOOP_NORMAL);
+	}
+	
+
 	return bAllLoaded;
 }
 
@@ -81,6 +96,7 @@ CSound* CSound::GetInstance()
 
 void CSound::Destoy()
 {
+	std::cout << "DESTROYING SOUND INSTANCE" << std::endl;
 	delete m_pInstance;
 	m_pInstance = 0;
 }
@@ -94,16 +110,16 @@ void CSound::Play(ESOUND _eSound)
 	case EBACKGROUND_MENU:
 	{
 		m_pAudioBackgroundChannel->stop();
-		m_pAudioManager->createSound("Resources/Audio/bensound-theelevatorbossanova.mp3", FMOD_DEFAULT, 0, &m_pBGMusic);
-		m_pBGMusic->setMode(FMOD_LOOP_NORMAL);
+		//m_pAudioManager->createSound("Resources/Audio/bensound-theelevatorbossanova.mp3", FMOD_DEFAULT, 0, &m_pBGMusic);
+		//m_pBGMusic->setMode(FMOD_LOOP_NORMAL);
 		m_pAudioManager->playSound(m_pBGMusic, 0, false, &m_pAudioBackgroundChannel);
 		break;
 	}
 	case EBACKGROUND_GAMEPLAY:
 	{
 		m_pAudioBackgroundChannel->stop();
-		m_pAudioManager->createSound("Resources/Audio/bensound-extremeaction.mp3", FMOD_DEFAULT, 0, &m_pBGMusic);
-		m_pBGMusic->setMode(FMOD_LOOP_NORMAL);
+		//m_pAudioManager->createSound("Resources/Audio/bensound-extremeaction.mp3", FMOD_DEFAULT, 0, &m_pBGMusic);
+		//m_pBGMusic->setMode(FMOD_LOOP_NORMAL);
 		m_pAudioManager->playSound(m_pBGMusic, 0, false, &m_pAudioBackgroundChannel);
 		break;
 	}
