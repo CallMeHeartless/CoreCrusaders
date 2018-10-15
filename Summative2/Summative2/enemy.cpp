@@ -136,7 +136,7 @@ void CEnemy::Process(float _fDeltaTick, glm::vec3 _vecTargetPosition){
 		glm::vec3 vfDesired = glm::normalize(vfToTarget) * m_fMoveSpeed * _fDeltaTick;
 		glm::vec3 vfSteering = glm::normalize(vfDesired - m_vfVelocity) * 100.0f * _fDeltaTick;
 
-		UpdatePosition(vfSteering.x, vfSteering.y);
+		UpdatePosition(vfDesired.x, vfDesired.y);
 		// Rotate enemy towards base
 		float fDot = glm::dot(glm::normalize(vfSteering), glm::vec3(0, 1, 0));
 		float fAngle = acosf(fDot);
