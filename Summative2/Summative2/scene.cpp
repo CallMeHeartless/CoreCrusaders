@@ -73,6 +73,12 @@ void CScene::Process(float _fDeltaTick) {
 		InitialiseWave();
 	}
 
+	m_fBackdopChangeTime += _fDeltaTick;
+	if (m_fBackdopChangeTime > 1.0f)
+	{
+		m_vecpEntities[1]->SetScale(glm::vec3((float)m_pHomeBase->GetHealth() * 3.0f, 20.0f, 0.0f));
+	}
+
 	//Debug();
 	
 }
@@ -129,11 +135,13 @@ void CScene::ProcessObjects(float _fDeltaTick) {
 			// Damage core
 			m_pHomeBase->SetHealth(m_pHomeBase->GetHealth() - enemy->GetDamage());
 			// Update health bar
-			m_vecpEntities[1]->SetScale(glm::vec3((float)m_pHomeBase->GetHealth() * 3.0f, 20.0f, 0.0f));
+			m_vecpEntities[2]->SetScale(glm::vec3((float)m_pHomeBase->GetHealth() * 3.0f, 20.0f, 0.0f));
 			// Destroy enemy
 			enemy->Kill();
 			++m_iEnemiesKilledInWave; // Does not count to player's total, only for wave completion
 			m_pSound->Play(EBASEDAMAGED);
+
+			m_fBackdopChangeTime = 0.0f;
 		}
 
 		//Enemy Player collision
@@ -596,6 +604,12 @@ bool CScene::Initialise() {
 
 	//BaseHealth
 	auto baseHealth = std::make_unique<CEntity>();
+	baseHealth->Initialise("Resources/Textures/HealthBackdrop.jpg");
+	baseHealth->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f - 75.0f, 0.0f));
+	baseHealth->SetScale(glm::vec3((float)m_pHomeBase->GetHealth() * 3.0f, 20.0f, 0.0f));
+	m_vecpEntities.push_back(std::move(baseHealth));
+
+	baseHealth = std::make_unique<CEntity>();
 	baseHealth->Initialise("Resources/Textures/Health.jpg");
 	baseHealth->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f - 75.0f, 0.0f));
 	baseHealth->SetScale(glm::vec3((float)m_pHomeBase->GetHealth() * 3.0f, 20.0f, 0.0f));

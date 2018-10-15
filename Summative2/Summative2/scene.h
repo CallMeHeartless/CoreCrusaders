@@ -60,6 +60,7 @@ private:
 	std::vector<std::unique_ptr<CProjectile>> m_vecpBullets;
 
 	// Base
+	float m_fBackdopChangeTime = 0.0f;
 	std::unique_ptr<CHomeBase> m_pHomeBase;
 
 	//Background
