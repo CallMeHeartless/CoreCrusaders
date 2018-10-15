@@ -116,7 +116,9 @@ CEnemy::CEnemy(unsigned int _eType, unsigned int _eTarget) {
 	m_pSprite->SetIndex(1, 2);*/
 }
 
-CEnemy::~CEnemy(){}
+CEnemy::~CEnemy(){
+	std::cout << "Enemy destroyed." << std::endl;
+}
 
 /***********************
 * Process: Processes the enemy for the current frame
@@ -134,14 +136,16 @@ void CEnemy::Process(float _fDeltaTick, glm::vec3 _vecTargetPosition){
 		glm::vec3 vfDesired = glm::normalize(vfToTarget) * m_fMoveSpeed * _fDeltaTick;
 		glm::vec3 vfSteering = glm::normalize(vfDesired - m_vfVelocity) * 100.0f * _fDeltaTick;
 
-		UpdatePosition(vfDesired.x, vfDesired.y);
+		UpdatePosition(vfSteering.x, vfSteering.y);
 		// Rotate enemy towards base
-		float fDot = glm::dot(glm::normalize(vfToTarget), glm::vec3(0, 1, 0));
+		float fDot = glm::dot(glm::normalize(vfSteering), glm::vec3(0, 1, 0));
 		float fAngle = acosf(fDot);
-		if (fDot > 0) {
-			fAngle = glm::pi<float>() + ((2 * glm::pi<float>()) - fAngle + glm::pi<float>());
+		if (vfSteering.x > 0) {
+			//fAngle = glm::pi<float>() + ((2 * glm::pi<float>()) - fAngle + glm::pi<float>());
+			fAngle = 2.0f * glm::pi<float>() - fAngle;
 		}
 		m_pSprite->SetAngle(fAngle);
+
 	}
 }
 

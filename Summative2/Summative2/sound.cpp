@@ -45,7 +45,7 @@ bool CSound::LoadSounds() {
 CSound::CSound()
 {
 	FMOD_RESULT result;
-
+	std::cout << "SOUND INSTANCE CREATED" << std::endl;
 	// Create Audio
 	if (Utility::InitFMod(&m_pAudioManager)) {
 		//COutputLog::GetInstance()->LogMessage("Audio manager successfully loaded.");
