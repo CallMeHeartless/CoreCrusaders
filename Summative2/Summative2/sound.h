@@ -36,7 +36,7 @@ private:
 	FMOD::Channel* m_pAudioChannel;
 	FMOD::Channel* m_pAudioBackgroundChannel;
 	FMOD::Sound* m_pBGMusic;
-	FMOD::Sound* m_pBGMusic1;
+	FMOD::Sound* m_pMenuMusic;
 	FMOD::Sound* m_pAudioSelect;
 	FMOD::Sound* m_pAudioPowerup;
 	FMOD::Sound* m_pAudioPlayerOneAttack;

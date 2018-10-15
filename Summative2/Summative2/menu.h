@@ -50,7 +50,7 @@ class CMenu : public CScene {
 																"Resources/Textures/button_quit.png" };
 		std::unique_ptr<TextLabel> m_pTitle = std::make_unique<TextLabel>("CORE CRUSADERS", "Resources/Fonts/calibri.ttf", glm::vec2((float)Utility::SCR_WIDTH/2.0f - 175.0f, 850));
 		int m_iScore = 0;
-		std::unique_ptr<TextLabel> m_pScoreText = std::make_unique<TextLabel>("", "Resources/Fonts/calibri.ttf", glm::vec2((float)Utility::SCR_WIDTH/2.0f - 50, 800));
+		std::unique_ptr<TextLabel> m_pScoreText = std::make_unique<TextLabel>("", "Resources/Fonts/calibri.ttf", glm::vec2((float)Utility::SCR_WIDTH/2.0f - 150, 800));
 		std::vector<TButton> m_vecOptionsButtons;
 		std::vector<std::string> m_vecstrOptionsButtonPath = { "Resources/Textures/button_music-on.png", 
 																"Resources/Textures/button_music-off.png", 

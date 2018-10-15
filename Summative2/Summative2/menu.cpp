@@ -35,6 +35,7 @@ CMenu::CMenu(EMENUTYPE _eType):m_eMenuType(_eType) {
 	// Create buttons accordingly
 	switch (_eType) {
 		case MENU_MAIN:{	
+			CSound::GetInstance()->Play(EBACKGROUND_MENU);
 			CreateMainMenu();
 			break;
 		}

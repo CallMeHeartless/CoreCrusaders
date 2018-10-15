@@ -87,7 +87,7 @@ int main(int argc, char** argv) {
 	//g_pAudioManager->playSound(g_pBGMusic, 0, false, &pChannel);
 	
 	// Initialise Scene Manager and launch menu scene
-	CSound::GetInstance()->Play(EBACKGROUND_MENU);
+	//CSound::GetInstance()->Play(EBACKGROUND_MENU);
 	CSceneManager::GetInstance()->LoadGameMenu(MENU_MAIN);
 
 	// Enable face culling

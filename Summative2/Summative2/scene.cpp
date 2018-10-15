@@ -424,6 +424,7 @@ void CScene::InitialiseWave() {
 * @return: bool (true if the number of enemies destroyed == enemies spawned in wave)
 ********************/
 bool CScene::CheckIfWaveIsCleared()const {
+	std::cout << "In wave: " << m_iEnemiesInWave << " Killed:" << m_iEnemiesKilledInWave << std::endl;
 	return m_iEnemiesInWave == m_iEnemiesKilledInWave;
 }
 
