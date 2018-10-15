@@ -1,0 +1,34 @@
+Audio:
+		-  Background Music
+				- The Elevator Bossa-Nova by Bensound 
+					https://www.bensound.com/royalty-free-music/track/the-elevator-bossa-nova 
+				- Extreme Action by Bensound
+					https://www.bensound.com/royalty-free-music/track/extreme-action
+		-  Menu Navigation
+				- Bleep sound by Davidsraba
+					https://freesound.org/people/Davidsraba/sounds/347167/
+		-  Gameplay Music
+				- Power-up - Coins 1 by ProjectsU012
+					https://freesound.org/people/ProjectsU012/sounds/341695/
+				- The rest of the in-game sound effects are generated through ‘sfxr’ by DrPetter
+					http://www.drpetter.se/project_sfxr.html
+		
+Sprites:
+		-  Power-ups
+				- Coins16x16 by Anna [cabochongames.net] (Modified by Sally and Vivian)
+					https://cabochongames.itch.io/pixel-coins
+		-  Background
+				- Dirt/Ground Texture by FabooGuy
+					https://www.deviantart.com/fabooguy/art/Dirt-Ground-Texture-Tileable-2048x2048-441212191
+		-  Enemy Sprites + Player Sprites
+				- Tanks by irmirx (Modified by Vivian)
+					https://opengameart.org/content/top-down-painted-tanks
+		-  Player One Attack
+				- Anime Effects - 6 
+					https://mbtskoudsalg.com/images/anime-effects-png-6.png
+		-  Player Two Attack
+					Made by Sally
+		-  Base Sprite
+					Made by Vivian
+
+				
