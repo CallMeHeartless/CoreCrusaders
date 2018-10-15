@@ -79,6 +79,22 @@ void CScene::Process(float _fDeltaTick) {
 		m_vecpEntities[1]->SetScale(glm::vec3((float)m_pHomeBase->GetHealth() * 3.0f, 20.0f, 0.0f));
 	}
 
+	if (m_vecpPlayers[1]->GetAttackCooldownTimeLeft() < m_vecpPlayers[1]->GetRapidAttack())
+	{
+
+	}
+
+	m_vecpEntities[3]->SetPosition(glm::vec3(m_vecpPlayers[1]->GetPosition().x, m_vecpPlayers[1]->GetPosition().y - 50.0f, m_vecpPlayers[1]->GetPosition().z));
+	float temp = (1.0f - (m_vecpPlayers[1]->GetRapidAttack() - m_vecpPlayers[1]->GetAttackCooldownTimeLeft()));
+	std::cout << temp << std::endl;
+	if (0 > temp)
+	{
+		m_vecpEntities[3]->SetScale(glm::vec3(0.0f, 5.0f, 0.0f));
+	}
+	else
+	{
+		m_vecpEntities[3]->SetScale(glm::vec3((1.0f - (m_vecpPlayers[1]->GetRapidAttack() - m_vecpPlayers[1]->GetAttackCooldownTimeLeft())) * 50, 5.0f, 0.0f));
+	}
 	//Debug();
 	
 }
@@ -424,7 +440,7 @@ void CScene::InitialiseWave() {
 * @return: bool (true if the number of enemies destroyed == enemies spawned in wave)
 ********************/
 bool CScene::CheckIfWaveIsCleared()const {
-	std::cout << "In wave: " << m_iEnemiesInWave << " Killed:" << m_iEnemiesKilledInWave << std::endl;
+	//std::cout << "In wave: " << m_iEnemiesInWave << " Killed:" << m_iEnemiesKilledInWave << std::endl;
 	return m_iEnemiesInWave == m_iEnemiesKilledInWave;
 }
 
@@ -615,6 +631,19 @@ bool CScene::Initialise() {
 	baseHealth->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f - 75.0f, 0.0f));
 	baseHealth->SetScale(glm::vec3((float)m_pHomeBase->GetHealth() * 3.0f, 20.0f, 0.0f));
 	m_vecpEntities.push_back(std::move(baseHealth));
+
+	//P2Health
+	auto p2Health = std::make_unique<CEntity>();
+	p2Health->Initialise("Resources/Textures/AttackCoolDown.jpg");
+	p2Health->SetPosition(glm::vec3(m_vecpPlayers[1]->GetPosition().x, m_vecpPlayers[1]->GetPosition().y - 100, m_vecpPlayers[1]->GetPosition().z));
+	p2Health->SetScale(glm::vec3((float)m_vecpPlayers[1]->GetRapidAttack() * 3.0f, 5.0f, 0.0f));
+	m_vecpEntities.push_back(std::move(p2Health));
+
+	/*p2Health = std::make_unique<CEntity>();
+	p2Health->Initialise("Resources/Textures/Health.jpg");
+	p2Health->SetPosition(glm::vec3((float)Utility::SCR_WIDTH / 2.0f, (float)Utility::SCR_HEIGHT / 2.0f - 75.0f, 0.0f));
+	p2Health->SetScale(glm::vec3((float)player2->GetAttackCooldownTimeLeft() * 3.0f, 20.0f, 0.0f));
+	m_vecpEntities.push_back(std::move(p2Health));*/
 
 	// PickUps
 	for (unsigned int i{}; i < 4; ++i)

@@ -145,7 +145,17 @@ float CPlayer::GetAttackCooldownTimeLeft() const
 	return (m_fRapidFireTimer - m_fAttackCoolDownTimer);
 }
 
+float CPlayer::GetAttackCooldown() const
+{
+	return m_fAttackCoolDownTimer;
+}
+
 bool CPlayer::GetRebalance() const
 {
 	return m_bRebalance;
+}
+
+float CPlayer::GetRapidAttack()
+{
+	return m_fRapidFireTimer;
 }

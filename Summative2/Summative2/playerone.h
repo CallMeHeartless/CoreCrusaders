@@ -13,6 +13,7 @@ class CPlayerOne : public CPlayer {
 		virtual void Attack();
 		virtual bool AttackReady();
 		virtual void SetAttackReady(bool _bValue);
+
 };
 
 
