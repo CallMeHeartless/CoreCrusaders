@@ -55,6 +55,11 @@ CMenu::CMenu(EMENUTYPE _eType):m_eMenuType(_eType) {
 			break;
 		}
 
+		case MENU_CREDITS: {
+			CreateCreditsMenu();
+			break;
+		}
+
 		default: {
 			COutputLog::GetInstance()->LogMessage("ERROR: Could not correctly instantiate menu - no menu type given.");
 			break;
@@ -136,6 +141,7 @@ void CMenu::CreateEnemiesMenu() {
 
 void CMenu::CreateCreditsMenu() {
 	CreateBackButton();
+	CreateBackgroundSprite("Resources/Textures/Credits.png");
 }
 
 void CMenu::ProcessMouseClick() {
@@ -209,6 +215,12 @@ void CMenu::Process(float _fDeltaTick) {
 			break;
 		}
 
+		case BUTTON_CREDITS: {
+			// Show credits
+			CSceneManager::GetInstance()->LoadGameMenu(MENU_CREDITS);
+			break;
+		}
+
 		case BUTTON_QUIT: {
 			glutDestroyWindow(glutGetWindow());
 			exit(0);
@@ -263,6 +275,10 @@ void CMenu::Render() {
 		}
 
 		case MENU_ENEMIES: {
+			// Fall through
+		}
+
+		case MENU_CREDITS: {
 			// Fall through
 		}
 
