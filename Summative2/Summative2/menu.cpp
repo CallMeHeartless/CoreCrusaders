@@ -140,8 +140,9 @@ void CMenu::CreateEnemiesMenu() {
 }
 
 void CMenu::CreateCreditsMenu() {
+	CreateBackgroundSprite("Resources/Textures/Creditstest.png");
 	CreateBackButton();
-	CreateBackgroundSprite("Resources/Textures/Credits.png");
+
 }
 
 void CMenu::ProcessMouseClick() {
@@ -257,11 +258,7 @@ void CMenu::Render() {
 	// Background
 	m_pBackground->Render(m_pUICamera.get());
 
-	// Render buttons
-	for (auto& button : m_vecButtons) {
-		button.pSprite->Render(m_pUICamera.get());
-	}
-
+	
 	// Render additional components based on menu
 	switch (m_eMenuType) {
 		case MENU_MAIN: {
@@ -291,5 +288,10 @@ void CMenu::Render() {
 
 		default:break;
 	}
-	
+
+	// Render buttons
+	for (auto& button : m_vecButtons) {
+		button.pSprite->Render(m_pUICamera.get());
+	}
+
 }
