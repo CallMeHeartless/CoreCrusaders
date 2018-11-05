@@ -440,7 +440,8 @@ void CScene::InitialiseWave() {
 ********************/
 bool CScene::CheckIfWaveIsCleared()const {
 	//std::cout << "In wave: " << m_iEnemiesInWave << " Killed:" << m_iEnemiesKilledInWave << std::endl;
-	return m_iEnemiesInWave == m_iEnemiesKilledInWave;
+	//return m_iEnemiesInWave == m_iEnemiesKilledInWave;
+	return (m_veciEnemiesInWave[0] + m_veciEnemiesInWave[1] + m_veciEnemiesInWave[2] + m_veciEnemiesInWave[3]) == 0;
 }
 
 /***********************
